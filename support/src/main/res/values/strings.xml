@@ -1,0 +1,14 @@
+<!DOCTYPE resources [
+    <!ENTITY appname "PeakRinger">
+    ]>
+<resources>
+    <string name="app_name">&appname;</string>
+    <string name="tips">Prompt</string>
+    <string name="cancel">Cancel</string>
+    <string name="sure">Confirm</string>
+    <string name="yes">Yes</string>
+    <string name="no_prompting">Don\'t show again</string>
+    <string name="err_pr_content">Error:Not set content!</string>
+    <string name="need_follow_permissions">Require permissions as followed</string>
+    <string name="authorize">Authorize</string>
+</resources>

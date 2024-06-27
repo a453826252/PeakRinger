@@ -1,0 +1,16 @@
+<!DOCTYPE resources [
+    <!ENTITY appname "PeakRinger">
+    ]>
+
+<resources>
+    <string name="app_name">&appname;</string>
+    <string name="action_settings">设置</string>
+    <string name="title_contacts">联系人</string>
+    <string name="request_call_screen_permission">将&appname;设置为默认来电过滤应用才能更好的为您服务</string>
+    <string name="request_call_screen_permission_dialog">需要将&appname;设置为默认来电过滤应用以对来电进行拦截或调整音量</string>
+    <string name="device_not_support">抱歉，暂不支持您的设备</string>
+    <string name="add_from_phonebook">从电话簿添加</string>
+    <string name="add_by_hand">手动添加</string>
+    <string name="read_contacts">读取联系人</string>
+    <string name="pick_contact_from_phonebook">从电话簿中选择联系人</string>
+</resources>

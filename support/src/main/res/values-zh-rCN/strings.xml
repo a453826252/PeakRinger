@@ -1,0 +1,15 @@
+<!DOCTYPE resources [
+    <!ENTITY appname "PeakRinger">
+    ]>
+
+<resources>
+    <string name="app_name">&appname;</string>
+    <string name="tips">提示</string>
+    <string name="cancel">取消</string>
+    <string name="sure">确定</string>
+    <string name="yes">确定</string>
+    <string name="no_prompting">不在提示</string>
+    <string name="err_pr_content">错误，未设置内容</string>
+    <string name="need_follow_permissions">需要以下权限</string>
+    <string name="authorize">去授权</string>
+</resources>
