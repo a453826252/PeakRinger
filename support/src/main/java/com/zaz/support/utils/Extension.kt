@@ -3,6 +3,7 @@ package com.zaz.support.utils
 import android.content.Context
 import android.content.res.Resources
 import android.util.TypedValue
+import androidx.annotation.DrawableRes
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -23,3 +24,6 @@ val Float.dp
     )
 val Int.dp
     get() = this.toFloat().dp
+
+fun Int.string(context: Context,vararg obj:Any):String = context.getString(this,obj)
+

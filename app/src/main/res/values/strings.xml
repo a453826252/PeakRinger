@@ -12,4 +12,6 @@
     <string name="add_by_hand">Add manually </string>
     <string name="read_contacts">Read Contacts</string>
     <string name="pick_contact_from_phonebook">Pick a contact from phonebook</string>
+    <string name="request_contacts_permission_failed">Failed to get permission to read contacts. Please try again(%d).</string>
+    <string name="pick_contacts_failed">Failed to add contact. Please try again.</string>
 </resources>

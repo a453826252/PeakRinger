@@ -58,6 +58,7 @@ object CallScreenRoleManager {
                             launcher.launch(intent)
                         }
                     }
+                    it.dismiss()
                 }
                 .show(activity.supportFragmentManager)
 

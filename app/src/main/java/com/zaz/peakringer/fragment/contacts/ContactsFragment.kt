@@ -1,10 +1,15 @@
 package com.zaz.peakringer.fragment.contacts
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -12,16 +17,30 @@ import androidx.fragment.app.viewModels
 import com.zaz.peakringer.CallScreenRoleManager
 import com.zaz.peakringer.R
 import com.zaz.peakringer.databinding.FragmentContactsListBinding
+import com.zaz.support.dialog.PRDialog
+import com.zaz.support.dialog.permission.PermissionDialog
+import com.zaz.support.dialog.permission.PermissionItem
+import com.zaz.support.utils.PRToast
+import com.zaz.support.utils.string
 
 /**
  * A fragment representing a list of Items.
  */
 class ContactsFragment : Fragment() {
+    private val TAG = "ContactsFragment"
     private lateinit var binding: FragmentContactsListBinding
     private val viewModel: ContactsFragmentVM by viewModels()
+    private lateinit var pickContactLauncher: ActivityResultLauncher<Void?>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentContactsListBinding.inflate(layoutInflater)
+        pickContactLauncher = registerForActivityResult(ActivityResultContracts.PickContact()){
+            if(it == null){
+                PRToast.show(requireContext(),R.string.pick_contacts_failed.string(requireContext()))
+                return@registerForActivityResult
+            }
+            viewModel.addContacts(requireContext(),it)
+        }
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,11 +79,31 @@ class ContactsFragment : Fragment() {
         //check permission
         if(ActivityCompat.checkSelfPermission(requireContext(),android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
             // no permission,request
-            TODO("Not yet implemented")
+            PermissionDialog.show(childFragmentManager, ArrayList<PermissionItem>().apply {
+                add(PermissionItem(android.Manifest.permission.READ_CONTACTS,R.string.read_contacts.string(requireContext()),R.mipmap.ic_phonebook))
+            }){
+                it?.forEach { (permission, granted) ->
+                    Log.d(TAG, "request permission result,permission=$permission,granted=$granted")
+                }
+                it?.let {
+                    if(it[android.Manifest.permission.READ_CONTACTS] == true){
+                        Log.d(TAG, "addFromPhonebook: grant read_contacts permission")
+                        pickContacts()
+                    }else{
+                        PRToast.show(requireContext(),R.string.request_contacts_permission_failed.string(requireContext(),-1))
+                    }
+                }?:PRToast.show(requireContext(),R.string.request_contacts_permission_failed.string(requireContext(),-2))
+            }
         }else{
             // have permission,pick contacts
-            TODO("Not yet implemented")
+            pickContacts()
         }
+    }
+
+
+    private fun pickContacts(){
+        Log.d(TAG, "pickContacts")
+        pickContactLauncher.launch(null)
     }
 
     private fun addByHand(){

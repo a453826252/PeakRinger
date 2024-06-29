@@ -12,4 +12,5 @@
     <string name="err_pr_content">错误，未设置内容</string>
     <string name="need_follow_permissions">需要以下权限</string>
     <string name="authorize">去授权</string>
+    <string name="authorize_already">已授权</string>
 </resources>

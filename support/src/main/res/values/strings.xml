@@ -10,5 +10,6 @@
     <string name="no_prompting">Don\'t show again</string>
     <string name="err_pr_content">Error:Not set content!</string>
     <string name="need_follow_permissions">Require permissions as followed</string>
-    <string name="authorize">Authorize</string>
+    <string name="authorize">Go Authorize</string>
+    <string name="authorize_already">Authorized</string>
 </resources>

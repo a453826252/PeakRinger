@@ -5,6 +5,7 @@ import android.os.Parcelable
 import androidx.annotation.DrawableRes
 
 data class PermissionItem(val permission:String,val title:String,@DrawableRes val icon:Int,val subTitle:String?=null):Parcelable {
+    var granted = false //是否已有该权限
     constructor(parcel: Parcel) : this(
         parcel.readString() ?:"",
         parcel.readString()?: "",
