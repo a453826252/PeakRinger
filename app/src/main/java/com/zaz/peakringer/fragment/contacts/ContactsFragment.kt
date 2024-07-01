@@ -52,7 +52,14 @@ class ContactsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         CallScreenRoleManager.register(this)
+        viewModel.contacts.observe(this){
+            showContacts(it?: mutableListOf())
+        }
         setEvent()
+    }
+
+    private fun showContacts(contacts:List<ContactsBean>){
+
     }
 
     private fun setEvent(){

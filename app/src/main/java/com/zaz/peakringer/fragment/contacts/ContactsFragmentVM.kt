@@ -3,17 +3,19 @@ package com.zaz.peakringer.fragment.contacts
 import android.content.Context
 import android.net.Uri
 import android.provider.ContactsContract
+import android.text.TextUtils
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zaz.peakringer.repository.db.PRDbRepository
 import kotlinx.coroutines.launch
 
 class ContactsFragmentVM: ViewModel() {
     private val TAG = "ContactsFragmentVM"
-    private val _contacts = MutableLiveData<List<ContactsBean>>()
-    val contacts:LiveData<List<ContactsBean>> = MutableLiveData<List<ContactsBean>>()
+    private val _contacts = MutableLiveData<List<ContactsBean>?>()
+    val contacts:LiveData<List<ContactsBean>?> = MutableLiveData<List<ContactsBean>>()
 
     fun addContacts(context: Context,uri:Uri){
         viewModelScope.launch {
@@ -38,7 +40,13 @@ class ContactsFragmentVM: ViewModel() {
                             }
                         }?:Log.e(TAG, "get contacts phoneNum from uri($uri) failed")
                     }
-                    Log.e(TAG, "姓名:$displayName  手机号:$phoneNumber")
+                    Log.d(TAG, "name:$displayName  phoneNum:$phoneNumber")
+                    if(!TextUtils.isEmpty(phoneNumber) && !TextUtils.isEmpty(displayName)){
+                        PRDbRepository.addContact(ContactsBean(phoneNumber, displayName))
+                    }
+                    PRDbRepository.getContacts().collect{
+                        _contacts.postValue(it)
+                    }
                 }
             }?:Log.e(TAG, "add contacts from uri($uri) failed")
         }

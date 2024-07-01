@@ -44,6 +44,7 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.recyclerview)
+    implementation(libs.bundles.room)
     api(project(":support"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

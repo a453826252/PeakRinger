@@ -1,7 +1,18 @@
 package com.zaz.peakringer.fragment.contacts
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "contacts")
 data class ContactsBean(
-    val icon:String,
+    @PrimaryKey
+    @ColumnInfo(name = "phone_number")
+    val phoneNumber:String,
+
+    @ColumnInfo(name = "name")
     val name:String,
-    val phoneNumber:String
+
+    @ColumnInfo(name = "icon")
+    val icon:String?=null
 )
