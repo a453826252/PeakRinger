@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 class ContactsFragmentVM: ViewModel() {
     private val TAG = "ContactsFragmentVM"
     private val _contacts = MutableLiveData<List<ContactsBean>?>()
-    val contacts:LiveData<List<ContactsBean>?> = MutableLiveData<List<ContactsBean>>()
+    val contacts:LiveData<List<ContactsBean>?> = _contacts
 
     fun addContacts(context: Context,uri:Uri){
         viewModelScope.launch {
@@ -49,6 +49,14 @@ class ContactsFragmentVM: ViewModel() {
                     }
                 }
             }?:Log.e(TAG, "add contacts from uri($uri) failed")
+        }
+    }
+
+    fun getContacts(){
+        viewModelScope.launch {
+            PRDbRepository.getContacts().collect{
+                _contacts.postValue(it)
+            }
         }
     }
 

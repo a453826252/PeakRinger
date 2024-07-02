@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.jetbrains.kotlin.kapt)
 }
 
 android {
@@ -44,7 +45,9 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.recyclerview)
+    implementation(libs.glide)
     implementation(libs.bundles.room)
+    kapt(libs.androidx.room.compiler)
     api(project(":support"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

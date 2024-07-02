@@ -18,6 +18,7 @@ interface ContactsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addContact(contact:ContactsBean)
+
     @Delete
     fun delete(contact:ContactsBean)
 }

@@ -15,7 +15,7 @@ abstract class BaseRecyclerAdapter<T,R:ViewBinding>(private val dataList:Mutable
     abstract fun getView(layoutInflater: LayoutInflater,parent: ViewGroup,viewType: Int):R
     abstract fun bindData(position: Int,data:T,vh:VH<R>)
 
-    open fun areItemsTheSame(oldItem: T, newItem: T):Boolean = false
+    open fun areItemsTheSame(oldItem: T, newItem: T):Boolean = true
     open fun areContentsTheSame(oldItem: T, newItem: T):Boolean = false
     fun submitData(data:List<T>){
         DiffUtil.calculateDiff(object : DiffUtil.Callback() {
@@ -31,7 +31,7 @@ abstract class BaseRecyclerAdapter<T,R:ViewBinding>(private val dataList:Mutable
                 return areContentsTheSame(dataList[oldItemPosition],data[newItemPosition])
             }
 
-        }).dispatchUpdatesTo(this)
+        }).apply { dataList.clear();dataList.addAll(data) }.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH<R> {

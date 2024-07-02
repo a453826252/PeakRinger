@@ -1,6 +1,5 @@
 package com.zaz.peakringer.fragment.contacts
 
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -8,16 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.zaz.peakringer.CallScreenRoleManager
 import com.zaz.peakringer.R
 import com.zaz.peakringer.databinding.FragmentContactsListBinding
-import com.zaz.support.dialog.PRDialog
 import com.zaz.support.dialog.permission.PermissionDialog
 import com.zaz.support.dialog.permission.PermissionItem
 import com.zaz.support.utils.PRToast
@@ -31,6 +30,7 @@ class ContactsFragment : Fragment() {
     private lateinit var binding: FragmentContactsListBinding
     private val viewModel: ContactsFragmentVM by viewModels()
     private lateinit var pickContactLauncher: ActivityResultLauncher<Void?>
+    private lateinit var contactsAdapter: ContactsAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentContactsListBinding.inflate(layoutInflater)
@@ -52,14 +52,23 @@ class ContactsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         CallScreenRoleManager.register(this)
-        viewModel.contacts.observe(this){
+        contactsAdapter = ContactsAdapter()
+        binding.contactsList.layoutManager = LinearLayoutManager(requireContext())
+        binding.contactsList.adapter = contactsAdapter
+        viewModel.contacts.observe(viewLifecycleOwner){
             showContacts(it?: mutableListOf())
         }
         setEvent()
     }
 
     private fun showContacts(contacts:List<ContactsBean>){
+        Log.d(TAG, "showContacts: count=${contacts.size}")
+        contactsAdapter.submitData(contacts)
+    }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getContacts()
     }
 
     private fun setEvent(){

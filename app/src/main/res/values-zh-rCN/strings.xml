@@ -6,6 +6,7 @@
     <string name="app_name">&appname;</string>
     <string name="action_settings">设置</string>
     <string name="title_contacts">联系人</string>
+    <string name="add_contacts">添加联系人</string>
     <string name="request_call_screen_permission">将&appname;设置为默认来电过滤应用才能更好的为您服务</string>
     <string name="request_call_screen_permission_dialog">需要将&appname;设置为默认来电过滤应用以对来电进行拦截或调整音量</string>
     <string name="device_not_support">抱歉，暂不支持您的设备</string>

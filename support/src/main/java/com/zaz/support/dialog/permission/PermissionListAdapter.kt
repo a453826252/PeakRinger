@@ -18,10 +18,6 @@ class PermissionListAdapter(data:MutableList<PermissionItem>,val authorizeBtnCli
         return oldItem.permission == newItem.permission && oldItem.title == newItem.title && oldItem.granted == newItem.granted
     }
 
-    override fun areItemsTheSame(oldItem: PermissionItem, newItem: PermissionItem): Boolean {
-        return oldItem.permission == newItem.permission
-    }
-
     override fun bindData(position:Int, data: PermissionItem, vh: VH<ItemPermissionBinding>) {
         vh.viewBinding.itemPermissionIcon.setImageResource(data.icon)
         vh.viewBinding.itemPermissionTitle.text = data.title
