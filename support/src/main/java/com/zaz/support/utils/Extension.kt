@@ -27,3 +27,6 @@ val Int.dp
 
 fun Int.string(context: Context,vararg obj:Any):String = context.getString(this,obj)
 
+
+val String.pickPhoneNum
+    get() =this.filter { it.isDigit() || it == '+' }

@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zaz.peakringer.repository.db.PRDbRepository
+import com.zaz.support.utils.pickPhoneNum
 import kotlinx.coroutines.launch
 
 class ContactsFragmentVM: ViewModel() {
@@ -40,9 +41,8 @@ class ContactsFragmentVM: ViewModel() {
                             }
                         }?:Log.e(TAG, "get contacts phoneNum from uri($uri) failed")
                     }
-                    Log.d(TAG, "name:$displayName  phoneNum:$phoneNumber")
                     if(!TextUtils.isEmpty(phoneNumber) && !TextUtils.isEmpty(displayName)){
-                        PRDbRepository.addContact(ContactsBean(phoneNumber, displayName))
+                        PRDbRepository.addContact(ContactsBean(phoneNumber.pickPhoneNum,phoneNumber, displayName))
                     }
                     PRDbRepository.getContacts().collect{
                         _contacts.postValue(it)

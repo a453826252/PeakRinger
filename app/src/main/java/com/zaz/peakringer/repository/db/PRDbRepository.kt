@@ -16,4 +16,8 @@ object PRDbRepository {
     fun getContacts(): Flow<List<ContactsBean>> {
         return db.contactsDao().getAllContacts()
     }
+
+    fun findContact(phoneNum:String):ContactsBean?{
+        return db.contactsDao().getContact(phoneNum)
+    }
 }

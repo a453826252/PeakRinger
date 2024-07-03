@@ -10,6 +10,9 @@ data class ContactsBean(
     @ColumnInfo(name = "phone_number")
     val phoneNumber:String,
 
+    @ColumnInfo(name = "display_phone_number")
+    val displayPhoneNumber:String,
+
     @ColumnInfo(name = "name")
     val name:String,
 

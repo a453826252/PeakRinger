@@ -13,6 +13,9 @@ interface ContactsDao {
     @Query("select * from contacts")
     fun getAllContacts(): Flow<List<ContactsBean>>
 
+    @Query("select * from contacts where phone_number=:phoneNum")
+    fun getContact(phoneNum:String):ContactsBean?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addContacts(contacts:List<ContactsBean>)
 

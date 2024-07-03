@@ -12,7 +12,7 @@ class ContactsAdapter: BaseRecyclerAdapter<ContactsBean, ItemContactsBinding>() 
 
     override fun bindData(position: Int, data: ContactsBean, vh: VH<ItemContactsBinding>) {
         vh.viewBinding.itemContactName.text = data.name
-        vh.viewBinding.itemContactNumber.text = data.phoneNumber
+        vh.viewBinding.itemContactNumber.text = data.displayPhoneNumber
     }
 
     override fun areContentsTheSame(oldItem: ContactsBean, newItem: ContactsBean): Boolean {
