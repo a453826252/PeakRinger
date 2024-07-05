@@ -23,5 +23,5 @@ interface ContactsDao {
     fun addContact(contact:ContactsBean)
 
     @Delete
-    fun delete(contact:ContactsBean)
+    fun delete(contact:ContactsBean):Int
 }

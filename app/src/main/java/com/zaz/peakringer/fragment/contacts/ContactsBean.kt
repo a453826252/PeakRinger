@@ -17,5 +17,8 @@ data class ContactsBean(
     val name:String,
 
     @ColumnInfo(name = "icon")
-    val icon:String?=null
-)
+    val icon:String?=null,
+){
+    @ColumnInfo(name = "add_time", defaultValue = "CURRENT_TIMESTAMP")
+    var addTime:Long = 0
+}

@@ -12,7 +12,6 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zaz.peakringer.CallScreenRoleManager
 import com.zaz.peakringer.R
@@ -52,7 +51,7 @@ class ContactsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         CallScreenRoleManager.register(this)
-        contactsAdapter = ContactsAdapter()
+        contactsAdapter = ContactsAdapter(this::editContact)
         binding.contactsList.layoutManager = LinearLayoutManager(requireContext())
         binding.contactsList.adapter = contactsAdapter
         viewModel.contacts.observe(viewLifecycleOwner){
@@ -66,9 +65,25 @@ class ContactsFragment : Fragment() {
         contactsAdapter.submitData(contacts)
     }
 
+    private fun editContact(type:Int,contactsBean: ContactsBean){
+        Log.d(TAG, "editContact: type=$type,contact=$contactsBean")
+        if(type == ContactsAdapter.EDIT_TYPE_DEL){
+            val delResult = viewModel.delContact(contactsBean)
+
+            if(!delResult){
+                PRToast.show(requireContext(),R.string.del_failed.string(requireContext()))
+            }else{
+                PRToast.show(requireContext(),R.string.del_succeed.string(requireContext()))
+                viewModel.refreshContacts()
+            }
+        }else{
+            //修改
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-        viewModel.getContacts()
+        viewModel.refreshContacts()
     }
 
     private fun setEvent(){

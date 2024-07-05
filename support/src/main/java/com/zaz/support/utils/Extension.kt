@@ -2,18 +2,21 @@ package com.zaz.support.utils
 
 import android.content.Context
 import android.content.res.Resources
+import android.util.Log
 import android.util.TypedValue
 import androidx.annotation.DrawableRes
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 
 /********************DataStore*********************/
 val Context.prConfig: DataStore<Preferences> by preferencesDataStore(name = "pr_config")
 val requestRolePermissionDialogNotShowAgain =
     booleanPreferencesKey("requestRolePermissionDialogNotShowAgain")
-
 
 /**Density**/
 val Float.dp
@@ -30,3 +33,4 @@ fun Int.string(context: Context,vararg obj:Any):String = context.getString(this,
 
 val String.pickPhoneNum
     get() =this.filter { it.isDigit() || it == '+' }
+
