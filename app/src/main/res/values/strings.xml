@@ -13,8 +13,12 @@
     <string name="add_by_hand">Add manually </string>
     <string name="read_contacts">Read Contacts</string>
     <string name="pick_contact_from_phonebook">Pick a contact from phonebook</string>
-    <string name="request_contacts_permission_failed">Failed to get permission to read contacts. Please try again(%d).</string>
+    <string name="request_contacts_permission_failed">Failed to get permission to read contacts. Please try again(%s).</string>
     <string name="pick_contacts_failed">Failed to add contact. Please try again.</string>
     <string name="del_failed">Delete failed, please try again</string>
     <string name="del_succeed">Delete successful</string>
+    <string name="request_contact_permission_content">Permission to read contacts needs to be granted to &appname; in order to add contacts from the phonebook.</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="del_contact">Do you want to delete %s? After deletion, you can still add %s.</string>
 </resources>

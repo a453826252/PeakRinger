@@ -1,5 +1,6 @@
 package com.zaz.support.dialog.permission
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,9 @@ import com.zaz.support.databinding.ItemPermissionBinding
 import com.zaz.support.utils.string
 
 class PermissionListAdapter(data:MutableList<PermissionItem>,val authorizeBtnClick:(PermissionItem)->Unit): BaseRecyclerAdapter<PermissionItem, ItemPermissionBinding>(data) {
+    companion object{
+        const val TAG = "PermissionListAdapter"
+    }
     override fun getView(layoutInflater: LayoutInflater,parent: ViewGroup,viewType:Int): ItemPermissionBinding {
         return ItemPermissionBinding.inflate(layoutInflater,parent,false)
     }
@@ -19,6 +23,7 @@ class PermissionListAdapter(data:MutableList<PermissionItem>,val authorizeBtnCli
     }
 
     override fun bindData(position:Int, data: PermissionItem, vh: VH<ItemPermissionBinding>) {
+        Log.d(TAG, "bindData: data=$data,granted=${data.granted},position=$position")
         vh.viewBinding.itemPermissionIcon.setImageResource(data.icon)
         vh.viewBinding.itemPermissionTitle.text = data.title
         with(vh.viewBinding.itemPermissionSubtitle){

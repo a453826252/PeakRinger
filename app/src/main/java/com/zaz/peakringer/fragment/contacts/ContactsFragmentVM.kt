@@ -66,8 +66,6 @@ class ContactsFragmentVM: ViewModel() {
                             if(!avatarFile.exists() || avatarFile.length() == 0L){
                                 Log.d(TAG, "addContacts: avatar not exist")
                                 avatarPath = ""
-                            }else{
-                                avatarPath = "file://$avatarPath"
                             }
                             PRDbRepository.addContact(ContactsBean(phoneNumber.pickPhoneNum,phoneNumber, displayName,avatarPath))
                         }

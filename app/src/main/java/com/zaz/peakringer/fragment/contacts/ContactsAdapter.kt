@@ -7,6 +7,7 @@ import com.bumptech.glide.Glide
 import com.zaz.peakringer.R
 import com.zaz.peakringer.base.BaseRecyclerAdapter
 import com.zaz.peakringer.databinding.ItemContactsBinding
+import java.io.File
 
 class ContactsAdapter(val editContactCallback:(Int,ContactsBean)->Unit): BaseRecyclerAdapter<ContactsBean, ItemContactsBinding>(), View.OnClickListener {
     companion object{
@@ -29,10 +30,13 @@ class ContactsAdapter(val editContactCallback:(Int,ContactsBean)->Unit): BaseRec
             it.setOnClickListener(this)
         }
         if(!data.icon.isNullOrBlank()){
-            if(data.icon.startsWith("file")){
-
+            if(data.icon.startsWith("/")){
+                Glide.with(vh.itemView.context)
+                    .load(File(data.icon))
+                    .error(R.mipmap.ic_default_avatar)
+                    .placeholder(R.mipmap.ic_default_avatar)
+                    .into(vh.viewBinding.itemContactProfilePhoto)
             }
-            Glide.with(vh.itemView.context).load()
         }
 
     }

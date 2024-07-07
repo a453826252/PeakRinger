@@ -14,8 +14,12 @@
     <string name="add_by_hand">手动添加</string>
     <string name="read_contacts">读取联系人</string>
     <string name="pick_contact_from_phonebook">从电话簿中选择联系人</string>
-    <string name="request_contacts_permission_failed">获取读取联系人权限失败，请重试(%d)</string>
+    <string name="request_contacts_permission_failed">获取读取联系人权限失败，请重试(%s)</string>
     <string name="pick_contacts_failed">添加联系人失败，请重试</string>
     <string name="del_failed">删除失败，请重试</string>
     <string name="del_succeed">删除成功</string>
+    <string name="request_contact_permission_content">需要赋予&appname;读取联系人权限才能从电话簿中添加联系人</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确认</string>
+    <string name="del_contact">是否删除%s，删除后您仍可以添加%s</string>
 </resources>

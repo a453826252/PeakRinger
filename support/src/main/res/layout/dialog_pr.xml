@@ -34,7 +34,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:button="@null"
-        android:checked="true"
         android:drawableStart="@drawable/btn_checkbox"
         android:drawablePadding="5dp"
         android:text="@string/no_prompting"

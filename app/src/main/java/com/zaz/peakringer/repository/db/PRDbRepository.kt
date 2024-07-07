@@ -3,6 +3,8 @@ package com.zaz.peakringer.repository.db
 import com.zaz.peakringer.PRApp
 import com.zaz.peakringer.fragment.contacts.ContactsBean
 import kotlinx.coroutines.flow.Flow
+import java.io.File
+import java.util.concurrent.Callable
 
 object PRDbRepository {
     private val db = PRDatabase.getDatabase(PRApp.application)
@@ -30,6 +32,12 @@ object PRDbRepository {
     }
 
     fun delContact(contact: ContactsBean):Int{
-       return db.contactsDao().delete(contact)
+        return db.runInTransaction(Callable {
+            val iconPath = contact.icon
+            if(iconPath?.startsWith("/") == true){
+                File(iconPath).delete()
+            }
+            db.contactsDao().delete(contact)
+        })
     }
 }

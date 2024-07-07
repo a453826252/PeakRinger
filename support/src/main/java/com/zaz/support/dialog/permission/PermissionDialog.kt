@@ -2,6 +2,7 @@ package com.zaz.support.dialog.permission
 
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,11 +23,11 @@ class PermissionDialog private constructor(): BottomSheetDialogFragment() {
     private lateinit var viewBinding: DialogPermissionBinding
     private lateinit var permissionAdapter:PermissionListAdapter
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
-    private var requestPermissionCallBack:((Map<String,Boolean>?)->Unit)?=null
+    private var requestPermissionCallBack:((PermissionDialog,Map<String,Boolean>?)->Unit)?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ result->
-           requestPermissionCallBack?.invoke(result)
+           requestPermissionCallBack?.invoke(this@PermissionDialog,result)
             checkIfGranted()
         }
     }
@@ -54,11 +55,16 @@ class PermissionDialog private constructor(): BottomSheetDialogFragment() {
     }
 
     private fun checkIfGranted(){
-        val permissions = permissionAdapter.data
-        for (per in permissions){
-            per.granted = ActivityCompat.checkSelfPermission(requireContext(),per.permission) == PackageManager.PERMISSION_GRANTED
+        val permissions = permissionAdapter.getData()
+        val noPermissionItems = permissions.filter {
+            it.granted = ActivityCompat.checkSelfPermission(requireContext(),it.permission) == PackageManager.PERMISSION_GRANTED
+            !it.granted
         }
-        permissionAdapter.submitData(permissions)
+        if(noPermissionItems.isEmpty()){
+            dismiss()
+        }else{
+            permissionAdapter.submitData(noPermissionItems)
+        }
     }
 
     private fun onAuthorizeBtnClick(permissionItem: PermissionItem){
@@ -84,7 +90,7 @@ class PermissionDialog private constructor(): BottomSheetDialogFragment() {
     companion object{
         const val TAG = "PermissionDialog"
         @JvmStatic
-        fun show(fm:FragmentManager,permissions:ArrayList<PermissionItem>,requestPermissionCallBack:(Map<String,Boolean>?)->Unit): PermissionDialog {
+        fun show(fm:FragmentManager,permissions:ArrayList<PermissionItem>,requestPermissionCallBack:(PermissionDialog,Map<String,Boolean>?)->Unit): PermissionDialog {
             val dialog = PermissionDialog().apply {
                 arguments = Bundle().apply {
                     putParcelableArrayList("permissions",permissions)

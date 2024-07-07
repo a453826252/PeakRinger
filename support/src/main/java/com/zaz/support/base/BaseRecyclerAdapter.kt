@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.zaz.support.Clone
+import com.zaz.support.utils.deepClone
+import org.jetbrains.annotations.Unmodifiable
 
 abstract class BaseRecyclerAdapter<T,R:ViewBinding>(private val dataList:MutableList<T> = mutableListOf()): RecyclerView.Adapter<BaseRecyclerAdapter.VH<R>>() {
-    val data:MutableList<T>
-        get() = mutableListOf<T>().apply {
-        addAll(dataList)
-    }
+    fun getData() = dataList.deepClone()
     abstract fun getView(layoutInflater: LayoutInflater,parent: ViewGroup,viewType: Int):R
     abstract fun bindData(position: Int,data:T,vh:VH<R>)
 
@@ -31,7 +31,10 @@ abstract class BaseRecyclerAdapter<T,R:ViewBinding>(private val dataList:Mutable
                 return areContentsTheSame(dataList[oldItemPosition],data[newItemPosition])
             }
 
-        }).apply { dataList.clear();dataList.addAll(data) }.dispatchUpdatesTo(this)
+        }).apply {
+            dataList.clear()
+            dataList.addAll(data)
+        }.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH<R> {
@@ -44,7 +47,5 @@ abstract class BaseRecyclerAdapter<T,R:ViewBinding>(private val dataList:Mutable
         bindData(position,dataList[position],holder)
     }
 
-    class VH<R:ViewBinding>(val viewBinding: R): RecyclerView.ViewHolder(viewBinding.root) {
-
-    }
+    class VH<R:ViewBinding>(val viewBinding: R): RecyclerView.ViewHolder(viewBinding.root)
 }

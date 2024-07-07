@@ -3,8 +3,9 @@ package com.zaz.support.dialog.permission
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.annotation.DrawableRes
+import com.zaz.support.Clone
 
-data class PermissionItem(val permission:String,val title:String,@DrawableRes val icon:Int,val subTitle:String?=null):Parcelable {
+data class PermissionItem(val permission:String,val title:String,@DrawableRes val icon:Int,val subTitle:String?=null):Parcelable,Clone {
     var granted = false //是否已有该权限
     constructor(parcel: Parcel) : this(
         parcel.readString() ?:"",
@@ -24,6 +25,11 @@ data class PermissionItem(val permission:String,val title:String,@DrawableRes va
         dest.writeString(subTitle)
     }
 
+    override fun clone(): PermissionItem {
+        return PermissionItem(permission,title,icon,subTitle).apply {
+            granted = this@PermissionItem.granted
+        }
+    }
     companion object CREATOR : Parcelable.Creator<PermissionItem> {
         override fun createFromParcel(parcel: Parcel): PermissionItem {
             return PermissionItem(parcel)
@@ -33,4 +39,6 @@ data class PermissionItem(val permission:String,val title:String,@DrawableRes va
             return arrayOfNulls(size)
         }
     }
+
+
 }
