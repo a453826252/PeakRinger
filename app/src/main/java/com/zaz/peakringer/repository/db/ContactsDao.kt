@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.zaz.peakringer.fragment.contacts.ContactsBean
 import kotlinx.coroutines.flow.Flow
 
@@ -14,14 +15,17 @@ interface ContactsDao {
     fun getAllContacts(): Flow<List<ContactsBean>>
 
     @Query("select * from contacts where phone_number=:phoneNum")
-    fun getContact(phoneNum:String):ContactsBean?
+    fun getContact(phoneNum:String): ContactsBean?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addContacts(contacts:List<ContactsBean>)
+    fun addContacts(contacts:List<ContactsBean>):List<Long>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addContact(contact:ContactsBean)
+    fun addContact(contact: ContactsBean):Long
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    fun updateContact(contact: ContactsBean):Int
 
     @Delete
-    fun delete(contact:ContactsBean):Int
+    fun delete(contact: ContactsBean):Int
 }

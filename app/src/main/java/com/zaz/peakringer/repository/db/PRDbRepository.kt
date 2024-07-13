@@ -9,11 +9,15 @@ import java.util.concurrent.Callable
 object PRDbRepository {
     private val db = PRDatabase.getDatabase(PRApp.application)
 
-    fun addContact(contact:ContactsBean){
-        db.runInTransaction{
+    fun addContact(contact: ContactsBean):Long{
+       return db.runInTransaction(Callable {
             contact.addTime = System.currentTimeMillis() / 1000
             db.contactsDao().addContact(contact)
-        }
+        })
+    }
+
+    fun updateContact(contact: ContactsBean):Int{
+        return db.contactsDao().updateContact(contact)
     }
 
     fun addContacts(contacts: List<ContactsBean>){
@@ -27,7 +31,7 @@ object PRDbRepository {
         return db.contactsDao().getAllContacts()
     }
 
-    fun findContact(phoneNum:String):ContactsBean?{
+    fun findContact(phoneNum:String): ContactsBean?{
         return db.contactsDao().getContact(phoneNum)
     }
 

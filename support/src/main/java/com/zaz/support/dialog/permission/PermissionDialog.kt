@@ -1,7 +1,12 @@
 package com.zaz.support.dialog.permission
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,15 +14,15 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleCoroutineScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.zaz.support.R
 import com.zaz.support.databinding.DialogPermissionBinding
+import com.zaz.support.dialog.PRDialog
+import com.zaz.support.utils.PRToast
+import com.zaz.support.utils.string
 
 class PermissionDialog private constructor(): BottomSheetDialogFragment() {
     private lateinit var viewBinding: DialogPermissionBinding
@@ -47,6 +52,9 @@ class PermissionDialog private constructor(): BottomSheetDialogFragment() {
         permissionAdapter = PermissionListAdapter(permissions!!,::onAuthorizeBtnClick)
         viewBinding.permissionList.layoutManager = LinearLayoutManager(requireContext())
         viewBinding.permissionList.adapter = permissionAdapter
+        viewBinding.dialogPermissionCancelButton.setOnClickListener {
+            dismiss()
+        }
     }
 
     override fun onResume() {
@@ -99,6 +107,44 @@ class PermissionDialog private constructor(): BottomSheetDialogFragment() {
             dialog.requestPermissionCallBack = requestPermissionCallBack
             fm.commit { add(dialog, TAG) }
             return dialog
+        }
+        @JvmStatic
+        fun checkAndShow(activity: Activity, fm: FragmentManager, permissionItem: PermissionItem, hasPermissionCallback:()->Unit){
+            if(ActivityCompat.checkSelfPermission(activity, permissionItem.permission) != PackageManager.PERMISSION_GRANTED){
+                // no permission,request
+                show(fm, ArrayList<PermissionItem>().apply {
+                    add(permissionItem)
+                }){ dialog,permissions->
+                    permissions?.forEach { (permission, granted) ->
+                        Log.d(TAG, "request permission result,permission=$permission,granted=$granted")
+                    }
+                    permissions?.let {
+                        if(it[permissionItem.permission] == true){
+                            Log.d(TAG, "checkCameraPermission: grant ${permissionItem.permission} permission")
+                            hasPermissionCallback()
+                        }else{
+                            if(!ActivityCompat.shouldShowRequestPermissionRationale(activity,permissionItem.permission)){
+                                PRDialog.Builder()
+                                    .setTitle(permissionItem.title)
+                                    .setContent(R.string.request_permission_failed.string(activity,permissionItem.title,-1))
+                                    .setLeftBtnName(R.string.cancel.string(activity))
+                                    .setRightBtnName(com.zaz.support.R.string.authorize.string(activity))
+                                    .setHideNotShowBtn(true)
+                                    .setRightBtnListener {
+                                        activity.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply { data = Uri.fromParts("package",activity.packageName,null) })
+                                    }
+                                    .show(fm)
+                            }else{
+                                PRToast.show(activity,R.string.request_permission_failed.string(activity,permissionItem.title,-2))
+                            }
+                            dialog.dismiss()
+                        }
+                    }?: PRToast.show(activity,R.string.request_permission_failed.string(activity,permissionItem.title,-3))
+                }
+            }else{
+                // have permission
+                hasPermissionCallback()
+            }
         }
     }
 }

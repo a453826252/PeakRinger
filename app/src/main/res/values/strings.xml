@@ -13,7 +13,6 @@
     <string name="add_by_hand">Add manually </string>
     <string name="read_contacts">Read Contacts</string>
     <string name="pick_contact_from_phonebook">Pick a contact from phonebook</string>
-    <string name="request_contacts_permission_failed">Failed to get permission to read contacts. Please try again(%s).</string>
     <string name="pick_contacts_failed">Failed to add contact. Please try again.</string>
     <string name="del_failed">Delete failed, please try again</string>
     <string name="del_succeed">Delete successful</string>
@@ -21,4 +20,14 @@
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
     <string name="del_contact">Do you want to delete %s? After deletion, you can still add %s.</string>
+    <string name="name">Name</string>
+    <string name="phone_number">Phone number</string>
+    <string name="edit_contact">Modify contact information</string>
+    <string name="fill_contact_name">Please fill in the contact\'s name.</string>
+    <string name="fill_contact_phone">Please fill in the contact\'s phone number.</string>
+    <string name="add_contact_succeed">Contact added successfully.</string>
+    <string name="take_photo">Take photo</string>
+    <string name="pick_from_gallery">Choose from Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="err_retry">An error occurred, please try again(%d)</string>
 </resources>

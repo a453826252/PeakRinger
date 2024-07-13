@@ -12,4 +12,5 @@
     <string name="need_follow_permissions">Require permissions as followed</string>
     <string name="authorize">Go Authorize</string>
     <string name="authorize_already">Authorized</string>
+    <string name="request_permission_failed">Failed to get permission to %s. Please try again(%s).</string>
 </resources>

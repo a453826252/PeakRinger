@@ -5,9 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.zaz.peakringer.fragment.contacts.ContactsBean
-import kotlinx.coroutines.CoroutineScope
 
-@Database(entities = arrayOf(ContactsBean::class), version = 1)
+@Database(entities = arrayOf(ContactsBean::class),exportSchema=false, version = 1)
 abstract class PRDatabase : RoomDatabase() {
     abstract fun contactsDao(): ContactsDao
     companion object {

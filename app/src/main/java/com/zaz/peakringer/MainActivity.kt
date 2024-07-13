@@ -1,8 +1,11 @@
 package com.zaz.peakringer
 
 import android.os.Bundle
+import android.window.OnBackInvokedDispatcher
 import androidx.appcompat.app.AppCompatActivity
 import com.zaz.peakringer.databinding.ActivityMainBinding
+import com.zaz.peakringer.fragment.contacts.ContactsBean
+import com.zaz.peakringer.fragment.contacts.edit.EditOrAddContactFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -14,11 +17,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
-    override fun onResume() {
-        super.onResume()
-        val roleHeld  = CallScreenRoleManager.checkAndRequestRole(this)
-        if(roleHeld){
-
-        }
+    fun showEditOrAddFragment(contact:ContactsBean?){
+        EditOrAddContactFragment.show(supportFragmentManager,binding.root.id,contact)
     }
 }

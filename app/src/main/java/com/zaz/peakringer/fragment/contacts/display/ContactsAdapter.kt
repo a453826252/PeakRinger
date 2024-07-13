@@ -1,5 +1,6 @@
-package com.zaz.peakringer.fragment.contacts
+package com.zaz.peakringer.fragment.contacts.display
 
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,9 +8,10 @@ import com.bumptech.glide.Glide
 import com.zaz.peakringer.R
 import com.zaz.peakringer.base.BaseRecyclerAdapter
 import com.zaz.peakringer.databinding.ItemContactsBinding
+import com.zaz.peakringer.fragment.contacts.ContactsBean
 import java.io.File
 
-class ContactsAdapter(val editContactCallback:(Int,ContactsBean)->Unit): BaseRecyclerAdapter<ContactsBean, ItemContactsBinding>(), View.OnClickListener {
+class ContactsAdapter(val editContactCallback:(Int, ContactsBean)->Unit): BaseRecyclerAdapter<ContactsBean, ItemContactsBinding>(), View.OnClickListener {
     companion object{
         const val EDIT_TYPE_EDIT = 1
         const val EDIT_TYPE_DEL = 2
@@ -42,7 +44,7 @@ class ContactsAdapter(val editContactCallback:(Int,ContactsBean)->Unit): BaseRec
     }
 
     override fun areContentsTheSame(oldItem: ContactsBean, newItem: ContactsBean): Boolean {
-        return oldItem.phoneNumber == newItem.phoneNumber && oldItem.name == newItem.name
+        return oldItem.phoneNumber == newItem.phoneNumber && oldItem.name == newItem.name && TextUtils.equals(oldItem.icon,newItem.icon)
     }
 
     override fun onClick(v: View) {

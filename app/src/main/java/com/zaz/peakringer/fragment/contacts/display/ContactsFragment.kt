@@ -1,5 +1,6 @@
-package com.zaz.peakringer.fragment.contacts
+package com.zaz.peakringer.fragment.contacts.display
 
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -13,13 +14,14 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zaz.peakringer.CallScreenRoleManager
+import com.zaz.peakringer.MainActivity
 import com.zaz.peakringer.R
 import com.zaz.peakringer.databinding.FragmentContactsListBinding
+import com.zaz.peakringer.fragment.contacts.ContactsBean
+import com.zaz.support.base.BaseFragment
 import com.zaz.support.dialog.PRDialog
 import com.zaz.support.dialog.permission.PermissionDialog
 import com.zaz.support.dialog.permission.PermissionItem
@@ -29,7 +31,8 @@ import com.zaz.support.utils.string
 /**
  * A fragment representing a list of Items.
  */
-class ContactsFragment : Fragment() {
+class ContactsFragment : BaseFragment() {
+    private var activity:MainActivity?=null
     private val TAG = "ContactsFragment"
     private lateinit var binding: FragmentContactsListBinding
     private val viewModel: ContactsFragmentVM by viewModels()
@@ -45,6 +48,16 @@ class ContactsFragment : Fragment() {
             }
             viewModel.addContacts(requireContext(),it)
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activity = context as MainActivity
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        activity = null
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,7 +88,7 @@ class ContactsFragment : Fragment() {
         if(type == ContactsAdapter.EDIT_TYPE_DEL){
             PRDialog.Builder()
                 .setTitle(R.string.confirm.string(requireContext()))
-                .setContent(R.string.del_contact.string(requireContext()))
+                .setContent(R.string.del_contact.string(requireContext(),contactsBean.name,contactsBean.name))
                 .setLeftBtnName(R.string.cancel.string(requireContext()))
                 .setRightBtnName(R.string.confirm.string(requireContext()))
                 .setRightBtnListener {
@@ -89,7 +102,7 @@ class ContactsFragment : Fragment() {
                 }
                 .show(childFragmentManager)
         }else{
-            //TODO 修改
+            activity?.showEditOrAddFragment(contactsBean)
         }
     }
 
@@ -119,39 +132,11 @@ class ContactsFragment : Fragment() {
     }
 
     private fun addFromPhonebook(){
-        //check permission
-        if(ActivityCompat.checkSelfPermission(requireContext(),android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
-            // no permission,request
-            PermissionDialog.show(childFragmentManager, ArrayList<PermissionItem>().apply {
-                add(PermissionItem(android.Manifest.permission.READ_CONTACTS,R.string.read_contacts.string(requireContext()),R.mipmap.ic_phonebook))
-            }){ dialog,permissions->
-                permissions?.forEach { (permission, granted) ->
-                    Log.d(TAG, "request permission result,permission=$permission,granted=$granted")
-                }
-                permissions?.let {
-                    if(it[android.Manifest.permission.READ_CONTACTS] == true){
-                        Log.d(TAG, "addFromPhonebook: grant read_contacts permission")
-                        pickContacts()
-                    }else{
-                        PRToast.show(requireContext(),R.string.request_contacts_permission_failed.string(requireContext(),-1))
-                        if(!shouldShowRequestPermissionRationale(android.Manifest.permission.READ_CONTACTS)){
-                            PRDialog.Builder()
-                                .setTitle(R.string.read_contacts.string(requireContext()))
-                                .setContent(R.string.request_contact_permission_content.string(requireContext()))
-                                .setLeftBtnName(R.string.cancel.string(requireContext()))
-                                .setRightBtnName(com.zaz.support.R.string.authorize.string(requireContext()))
-                                .setHideNotShowBtn(true)
-                                .setRightBtnListener {
-                                    startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply { data = Uri.fromParts("package",requireContext().packageName,null) })
-                                }
-                                .show(childFragmentManager)
-                        }
-                        dialog.dismiss()
-                    }
-                }?:PRToast.show(requireContext(),R.string.request_contacts_permission_failed.string(requireContext(),-2))
-            }
-        }else{
-            // have permission,pick contacts
+        PermissionDialog.checkAndShow(requireActivity(),childFragmentManager, PermissionItem(
+            android.Manifest.permission.READ_CONTACTS,
+            R.string.read_contacts.string(requireContext())
+            ,R.mipmap.ic_phonebook
+        )){
             pickContacts()
         }
     }
@@ -163,7 +148,11 @@ class ContactsFragment : Fragment() {
     }
 
     private fun addByHand(){
-        TODO("Not yet implemented")
+        activity?.showEditOrAddFragment(null)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.contacts.removeObservers(viewLifecycleOwner)
+    }
 }

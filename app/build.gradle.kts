@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.kapt)
 }
 
+
 android {
     namespace = "com.zaz.peakringer"
     compileSdk = 34

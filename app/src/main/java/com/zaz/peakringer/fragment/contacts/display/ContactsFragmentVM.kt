@@ -1,4 +1,4 @@
-package com.zaz.peakringer.fragment.contacts
+package com.zaz.peakringer.fragment.contacts.display
 
 import android.content.ContentUris
 import android.content.Context
@@ -6,13 +6,14 @@ import android.net.Uri
 import android.provider.ContactsContract
 import android.text.TextUtils
 import android.util.Log
+import android.webkit.MimeTypeMap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zaz.peakringer.PRApp
 import com.zaz.peakringer.R
 import com.zaz.peakringer.config.Config
+import com.zaz.peakringer.fragment.contacts.ContactsBean
 import com.zaz.peakringer.repository.db.PRDbRepository
 import com.zaz.support.utils.PRToast
 import com.zaz.support.utils.pickPhoneNum
@@ -27,7 +28,6 @@ class ContactsFragmentVM: ViewModel() {
 
     fun addContacts(context: Context,uri:Uri){
         viewModelScope.launch {
-
             try {
                 context.contentResolver.query(uri,null,null,null,null)?.use { cursor->
                     if (cursor.moveToNext()){
@@ -53,8 +53,11 @@ class ContactsFragmentVM: ViewModel() {
 
                         val avatarUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id)
                         val input = ContactsContract.Contacts.openContactPhotoInputStream(context.contentResolver, avatarUri)
-                        var avatarPath = Config.getAvatarDefaultPath(context,"${displayName}_${phoneNumber.pickPhoneNum}.png")
+                        var avatarPath = Config.getAvatarDefaultPath(context,displayName,phoneNumber,MimeTypeMap.getSingleton().getExtensionFromMimeType(context.contentResolver.getType(avatarUri))?:"")
                         val avatarFile = File(avatarPath)
+                        if(avatarFile.exists()){
+                            avatarFile.delete()
+                        }
                         input?.use {
                             val mkdir = avatarFile.parentFile?.mkdirs()
                             Log.d(TAG, "addContacts: mkdir result=$mkdir,path=${avatarFile.parentFile?.absolutePath}")

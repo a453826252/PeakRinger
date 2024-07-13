@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_bg">
+
+    <ImageView
+        android:id="@+id/edit_or_add_contact_cancel"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@mipmap/ic_no"
+        android:tint="@color/gray_666"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/edit_or_add_contact_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="@string/add_contacts"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/edit_or_add_contact_cancel"
+        app:layout_constraintLeft_toRightOf="@id/edit_or_add_contact_cancel"
+        app:layout_constraintTop_toTopOf="@id/edit_or_add_contact_cancel" />
+
+    <ImageView
+        android:id="@+id/edit_or_add_contact_do"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="20dp"
+        android:src="@mipmap/ic_yes"
+        android:tint="@color/gray_666"
+        app:layout_constraintBottom_toBottomOf="@id/edit_or_add_contact_cancel"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/edit_or_add_contact_cancel" />
+
+
+    <ImageView
+        android:id="@+id/edit_or_add_contact_exist_avatar_bg"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.zaz.support.widget.RoundImageView
+        android:id="@+id/edit_or_add_contact_exist_avatar"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="50dp"
+        android:src="@mipmap/ic_default_avatar_gray"
+        app:layout_constraintBottom_toBottomOf="@id/edit_or_add_contact_exist_avatar_bg"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/edit_or_add_contact_exist_avatar_bg"
+        app:riv_borderColor="@color/white"
+        app:riv_borderWidth="1dp"
+        app:riv_radius="40dp" />
+
+    <com.zaz.support.widget.RoundImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:clickable="false"
+        android:src="@drawable/ic_camera_white_bg"
+        app:layout_constraintBottom_toBottomOf="@id/edit_or_add_contact_exist_avatar"
+        app:layout_constraintRight_toRightOf="@id/edit_or_add_contact_exist_avatar"
+        app:riv_borderColor="@color/white"
+        app:riv_borderWidth="1dp"
+        app:riv_radius="10dp" />
+
+    <LinearLayout
+        android:id="@+id/edit_or_add_contact_exist_name_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/bg_radius_10"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_or_add_contact_exist_avatar_bg">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/ic_user"
+            android:tint="@color/gray_666" />
+
+        <EditText
+            android:id="@+id/edit_or_add_contact_input_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:hint="@string/name"
+            android:paddingHorizontal="5dp"
+            android:textColorHint="@color/gray_666" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/edit_or_add_contact_exist_phone_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_radius_10"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_or_add_contact_exist_name_container">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/ic_phone"
+            android:tint="@color/gray_666" />
+
+        <EditText
+            android:inputType="phone"
+            android:id="@+id/edit_or_add_contact_input_phone"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:hint="@string/phone_number"
+            android:paddingHorizontal="5dp"
+            android:textColorHint="@color/gray_666" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

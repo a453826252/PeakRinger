@@ -13,4 +13,5 @@
     <string name="need_follow_permissions">需要以下权限</string>
     <string name="authorize">去授权</string>
     <string name="authorize_already">已授权</string>
+    <string name="request_permission_failed">获取(%s)权限失败，请重试(%s)</string>
 </resources>
