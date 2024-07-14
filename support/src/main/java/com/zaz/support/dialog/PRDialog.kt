@@ -164,7 +164,7 @@ class PRDialog private constructor(): DialogFragment() {
         var content:String? = ""
         var leftBtnName:String?=""
         var rightBtnName:String? = ""
-        var hideNotShowBtn:Boolean=false
+        var hideNotShowBtn:Boolean=true
         var leftListener:((PRDialog)->Unit)?=null
         var rightListener:((PRDialog)->Unit)?=null
         var dismissListener:((PRDialog)->Unit)?=null

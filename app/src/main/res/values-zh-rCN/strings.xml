@@ -31,4 +31,5 @@
     <string name="pick_from_gallery">从图库选择</string>
     <string name="camera">相机</string>
     <string name="err_retry">发生错误，请重试(%d)</string>
+    <string name="no_contacts">未添加联系人，请添加</string>
 </resources>

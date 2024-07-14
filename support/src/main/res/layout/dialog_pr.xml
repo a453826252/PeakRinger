@@ -14,21 +14,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tips"
+        android:textSize="20sp"
+        android:textColor="@color/black"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:textSize="14sp"
+        android:textColor="@color/black"
         android:id="@+id/pr_dialog_content"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/err_pr_content"
-        app:layout_constraintLeft_toLeftOf="@id/pr_dialog_cancel_button"
-        app:layout_constraintRight_toRightOf="@id/pr_dialog_confirm_button"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/pr_dialog_title" />
 
     <CheckBox
+        android:visibility="gone"
+        tools:visibility="visible"
         android:id="@+id/pr_dialog_not_show_again"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,7 +43,7 @@
         android:drawableStart="@drawable/btn_checkbox"
         android:drawablePadding="5dp"
         android:text="@string/no_prompting"
-        android:textSize="10sp"
+        android:textSize="12sp"
         app:layout_constraintLeft_toLeftOf="@id/pr_dialog_cancel_button"
         app:layout_constraintTop_toBottomOf="@id/pr_dialog_content" />
 
@@ -46,12 +52,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_pr_dialog_cancel_btn"
-        android:paddingHorizontal="25dp"
+        android:paddingHorizontal="30dp"
         android:paddingVertical="10dp"
         android:text="@string/cancel"
+        android:textSize="16sp"
         android:textColor="@color/border_of_cancel_btn"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/pr_dialog_confirm_button"
+        android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@id/pr_dialog_not_show_again"
         app:layout_goneMarginTop="25dp" />
 
@@ -61,9 +69,10 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_pr_dialog_cancel_btn"
         android:backgroundTint="@color/main_color"
-        android:paddingHorizontal="25dp"
+        android:paddingHorizontal="30dp"
         android:paddingVertical="10dp"
         android:text="@string/sure"
+        android:textSize="16sp"
         android:textColor="@color/white"
         app:layout_constraintBaseline_toBaselineOf="@id/pr_dialog_cancel_button"
         app:layout_constraintLeft_toRightOf="@id/pr_dialog_cancel_button"
