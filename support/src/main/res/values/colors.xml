@@ -4,7 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="border_of_cancel_btn">#FF999999</color>
     <color name="gray_666">#FF666666</color>
-    <color name="main_color">#FF4169E1</color>
+    <color name="main_color">#FF2f7bec</color>
     <color name="common_bg">#F1F3F5</color>
     <color name="transparent">#00000000</color>
 </resources>

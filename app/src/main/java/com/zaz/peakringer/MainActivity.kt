@@ -6,8 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.zaz.peakringer.databinding.ActivityMainBinding
 import com.zaz.peakringer.fragment.contacts.ContactsBean
 import com.zaz.peakringer.fragment.contacts.edit.EditOrAddContactFragment
+import com.zaz.support.base.BaseActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
