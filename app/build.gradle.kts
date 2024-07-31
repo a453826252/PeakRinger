@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.zaz.peakringer"
-        minSdk = 25
+        minSdk = 29
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"

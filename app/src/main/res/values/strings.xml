@@ -31,4 +31,9 @@
     <string name="camera">Camera</string>
     <string name="err_retry">An error occurred, please try again(%d)</string>
     <string name="no_contacts">No contacts ,please add</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="privacy_policy_content">By proceeding,you confirm that you accept the privacy policy</string>
+    <string name="refuse">DECLINE</string>
+    <string name="accept">ACCEPT</string>
+    <string name="install_browser_first">Please install a browser to view</string>
 </resources>

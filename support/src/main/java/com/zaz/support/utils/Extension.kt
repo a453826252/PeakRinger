@@ -1,7 +1,9 @@
 package com.zaz.support.utils
 
+import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import android.net.Uri
 import android.provider.MediaStore
@@ -30,6 +32,15 @@ val Int.dp
 
 /**Resource**/
 fun Int.string(context: Context,vararg obj:Any):String = context.getString(this,*obj)
+fun Context.string(stringId:Int,vararg obj:Any):String = this.getString(stringId,*obj)
+
+fun Context.gotoActivity(target:Class<*>){
+    val intent = Intent(this,target)
+    if(this !is Activity){
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    }
+    startActivity(intent)
+}
 fun Int.color(context: Context):Int = ContextCompat.getColor(context,this)
 
 
