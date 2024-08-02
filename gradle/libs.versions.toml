@@ -14,6 +14,8 @@ recyclerview = "1.3.0"
 datastore = "1.1.1"
 room = "2.6.1"
 glide = "4.16.0"
+retrofit = "2.11.0"
+okhttp3 = "3.14.9"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -31,9 +33,13 @@ androidx-room = { group = "androidx.room", name = "room-runtime", version.ref = 
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+okhttp3-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3" }
 
 [bundles]
 room = ["androidx-room","androidx-room-ktx"]
+retrofit = ["retrofit","retrofit-gson"]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

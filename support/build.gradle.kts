@@ -37,12 +37,16 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.datastore)
     implementation(libs.material)
+    api(libs.androidx.recyclerview)
+    api(libs.glide)
+    api(libs.bundles.room)
+    api(libs.bundles.retrofit)
+    api(libs.okhttp3.logging)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
