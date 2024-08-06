@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import com.zaz.peakringer.R
 import com.zaz.peakringer.bean.FeedbackTypeBean
@@ -25,10 +24,7 @@ class FeedbackFragment private constructor(): BaseFragment(),View.OnClickListene
         private const val TAG = "FeedbackFragment"
         fun show(fm:FragmentManager,container:Int):FeedbackFragment{
             val fragment = FeedbackFragment()
-            fm.commit {
-                addToBackStack(null)
-                add(container,fragment,"FeedbackFragment")
-            }
+            show(fm,fragment,container,"FeedbackFragment")
             return fragment
         }
     }

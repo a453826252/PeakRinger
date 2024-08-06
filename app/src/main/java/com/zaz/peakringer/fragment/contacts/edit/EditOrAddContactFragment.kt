@@ -51,10 +51,7 @@ class EditOrAddContactFragment private constructor() : BaseFragment(), View.OnCl
                     }
                 }
             }
-            fm.commit {
-                addToBackStack(null)
-                add(containerId,fragment,TAG)
-            }
+            show(fm,fragment,containerId,TAG)
             return fragment
         }
     }

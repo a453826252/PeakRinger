@@ -10,12 +10,7 @@ import android.provider.MediaStore
 import android.util.TypedValue
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import com.zaz.support.Clone
 import java.io.File
 
@@ -54,9 +49,7 @@ fun <T> List<T>.deepClone():List<T>{
 }
 
 fun Fragment.finishFragment(){
-    requireActivity().supportFragmentManager.commit {
-        remove(this@finishFragment)
-    }
+    requireActivity().supportFragmentManager.popBackStack()
 }
 fun Fragment.finishActivity(){
     requireActivity().finish()
