@@ -1,11 +1,7 @@
 package com.zaz.peakringer.fragment.contacts.display
 
 import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +9,6 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.PopupMenu
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zaz.peakringer.CallScreenRoleManager
@@ -21,7 +16,9 @@ import com.zaz.peakringer.MainActivity
 import com.zaz.peakringer.R
 import com.zaz.peakringer.databinding.FragmentContactsListBinding
 import com.zaz.peakringer.fragment.contacts.ContactsBean
+import com.zaz.peakringer.fragment.feedback.FeedbackFragment
 import com.zaz.support.base.BaseFragment
+import com.zaz.support.base.BaseViewModel
 import com.zaz.support.dialog.PRDialog
 import com.zaz.support.dialog.permission.PermissionDialog
 import com.zaz.support.dialog.permission.PermissionItem
@@ -35,7 +32,7 @@ class ContactsFragment : BaseFragment() {
     private var activity:MainActivity?=null
     private val TAG = "ContactsFragment"
     private lateinit var binding: FragmentContactsListBinding
-    private val viewModel: ContactsFragmentVM by viewModels()
+    private val viewModel:ContactsFragmentVM by viewModels()
     private lateinit var pickContactLauncher: ActivityResultLauncher<Void?>
     private lateinit var contactsAdapter: ContactsAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,6 +75,8 @@ class ContactsFragment : BaseFragment() {
         setEvent()
     }
 
+    override fun getBaseViewModel(): BaseViewModel  = viewModel
+
     private fun showContacts(contacts:List<ContactsBean>){
         Log.d(TAG, "showContacts: count=${contacts.size}")
         contactsAdapter.submitData(contacts)
@@ -117,14 +116,21 @@ class ContactsFragment : BaseFragment() {
             with(popupMenu){
                 menuInflater.inflate(R.menu.menu_add_contacts,menu)
                 setOnMenuItemClickListener { menu->
-                    if(menu.itemId == R.id.add_from_phonebook){
-                        addFromPhonebook()
-                        return@setOnMenuItemClickListener  true
-                    }else if(menu.itemId == R.id.add_by_hand){
-                        addByHand()
-                        return@setOnMenuItemClickListener  true
+                    when (menu.itemId) {
+                        R.id.add_from_phonebook -> {
+                            addFromPhonebook()
+                            return@setOnMenuItemClickListener  true
+                        }
+                        R.id.add_by_hand -> {
+                            addByHand()
+                            return@setOnMenuItemClickListener  true
+                        }
+                        R.id.tmp_feedback -> {
+                            activity?.showFeedback()
+                            return@setOnMenuItemClickListener  true
+                        }
+                        else -> return@setOnMenuItemClickListener false
                     }
-                    return@setOnMenuItemClickListener false
                 }
                 show()
             }

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.zaz.peakringer.databinding.ActivityMainBinding
 import com.zaz.peakringer.fragment.contacts.ContactsBean
 import com.zaz.peakringer.fragment.contacts.edit.EditOrAddContactFragment
+import com.zaz.peakringer.fragment.feedback.FeedbackFragment
 import com.zaz.support.base.BaseActivity
 
 class MainActivity : BaseActivity() {
@@ -20,5 +21,9 @@ class MainActivity : BaseActivity() {
 
     fun showEditOrAddFragment(contact:ContactsBean?){
         EditOrAddContactFragment.show(supportFragmentManager,binding.root.id,contact)
+    }
+
+    fun showFeedback(){
+        FeedbackFragment.show(supportFragmentManager,binding.root.id)
     }
 }

@@ -4,4 +4,6 @@
         android:title="@string/add_from_phonebook"/>
     <item android:id="@+id/add_by_hand"
         android:title="@string/add_by_hand"/>
+    <item android:id="@+id/tmp_feedback"
+        android:title="@string/feedback"/>
 </menu>

@@ -14,4 +14,5 @@
     <string name="authorize">去授权</string>
     <string name="authorize_already">已授权</string>
     <string name="request_permission_failed">获取(%s)权限失败，请重试(%s)</string>
+    <string name="loading">加载中，请稍后</string>
 </resources>

@@ -13,11 +13,12 @@ import androidx.lifecycle.viewModelScope
 import com.zaz.peakringer.config.Config
 import com.zaz.peakringer.fragment.contacts.ContactsBean
 import com.zaz.peakringer.repository.db.PRDbRepository
+import com.zaz.support.base.BaseViewModel
 import com.zaz.support.utils.toUri
 import kotlinx.coroutines.launch
 import java.io.File
 
-class EditOrAddContactVM : ViewModel() {
+class EditOrAddContactVM : BaseViewModel() {
     private val _avatarUpdate = MutableLiveData<Uri>()
     val avatarUpdate:LiveData<Uri> = _avatarUpdate
     fun addContact(context: Context, contactsBean: ContactsBean,cropAvatar: Uri?): Boolean {

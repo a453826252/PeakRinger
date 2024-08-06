@@ -32,7 +32,6 @@ val Int.dp
 
 /**Resource**/
 fun Int.string(context: Context,vararg obj:Any):String = context.getString(this,*obj)
-fun Context.string(stringId:Int,vararg obj:Any):String = this.getString(stringId,*obj)
 
 fun Context.gotoActivity(target:Class<*>){
     val intent = Intent(this,target)

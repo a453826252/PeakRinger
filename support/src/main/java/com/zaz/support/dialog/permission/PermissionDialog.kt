@@ -19,12 +19,13 @@ import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.zaz.support.R
+import com.zaz.support.base.BaseBottomDialog
 import com.zaz.support.databinding.DialogPermissionBinding
 import com.zaz.support.dialog.PRDialog
 import com.zaz.support.utils.PRToast
 import com.zaz.support.utils.string
 
-class PermissionDialog private constructor(): BottomSheetDialogFragment() {
+class PermissionDialog private constructor(): BaseBottomDialog() {
     private lateinit var viewBinding: DialogPermissionBinding
     private lateinit var permissionAdapter:PermissionListAdapter
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>

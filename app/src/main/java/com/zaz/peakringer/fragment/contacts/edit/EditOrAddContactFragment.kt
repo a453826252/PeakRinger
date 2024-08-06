@@ -21,6 +21,7 @@ import com.zaz.peakringer.databinding.FragmentEditOrAddContactBinding
 import com.zaz.peakringer.fragment.contacts.ContactsBean
 import com.zaz.support.acitivityresultcontract.CropImage
 import com.zaz.support.base.BaseFragment
+import com.zaz.support.base.BaseViewModel
 import com.zaz.support.dialog.bottom.BottomItemDialog
 import com.zaz.support.dialog.permission.PermissionDialog
 import com.zaz.support.dialog.permission.PermissionItem
@@ -32,9 +33,9 @@ import java.io.File
 
 class EditOrAddContactFragment private constructor() : BaseFragment(), View.OnClickListener {
     private lateinit var binding: FragmentEditOrAddContactBinding
-    private val viewModel: EditOrAddContactVM by viewModels()
     private var cropAvatarUri: Uri? = null
     private var cacheCameraFileUri: Uri? = null
+    private val viewModel:EditOrAddContactVM by viewModels()
     private lateinit var pickPhotoLauncher: ActivityResultLauncher<PickVisualMediaRequest>
     private lateinit var cameraLauncher: ActivityResultLauncher<Uri>
     private lateinit var cropImageLauncher: ActivityResultLauncher<CropImage.CropRequest>
@@ -96,12 +97,15 @@ class EditOrAddContactFragment private constructor() : BaseFragment(), View.OnCl
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initView(savedInstanceState)
         viewModel.avatarUpdate.observe(viewLifecycleOwner){
             Log.d(TAG, "refresh avatar,path=$it")
             showAvatar(it)
         }
     }
+
+    override fun getBaseViewModel(): BaseViewModel = viewModel
 
     private fun showAvatar(uri: Uri){
         Glide.with(requireContext())

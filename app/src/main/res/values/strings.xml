@@ -36,4 +36,18 @@
     <string name="refuse">DECLINE</string>
     <string name="accept">ACCEPT</string>
     <string name="install_browser_first">Please install a browser to view</string>
+    <string name="please_select">Please select</string>
+    <string name="submit">Submit</string>
+    <string name="contact_info">Contact information</string>
+    <string name="feedback">Feedback</string>
+    <string name="feedback_type">Feedback type</string>
+    <string name="feedback_content">Feedback content</string>
+    <string name="input_feedback_content">Please enter feedback content.</string>
+    <string name="input_feedback_content_max">You can enter up to 500 characters.</string>
+    <string name="think_feedback">Thank you for your feedback! Your input is important to us and helps improve our service. We appreciate your support!</string>
+    <string name="loading_failed_retry">Loading failed. Please check your network and try again</string>
+    <string name="submitting">Submitting</string>
+    <string name="submit_success">Submit Success</string>
+    <string name="submit_fail">Submit Failed,please try again</string>
+    <string name="select_feedback_type">Please select feedback type</string>
 </resources>

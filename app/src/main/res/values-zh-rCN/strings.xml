@@ -37,4 +37,18 @@
     <string name="refuse">拒绝</string>
     <string name="accept">接受</string>
     <string name="install_browser_first">请安装浏览器查看</string>
+    <string name="please_select">请选择</string>
+    <string name="submit">提交</string>
+    <string name="contact_info">联系方式</string>
+    <string name="feedback">反馈</string>
+    <string name="feedback_type">反馈类型</string>
+    <string name="feedback_content">反馈内容</string>
+    <string name="input_feedback_content">请输入反馈内容</string>
+    <string name="input_feedback_content_max">最多输入500个字符</string>
+    <string name="think_feedback">感谢您宝贵的反馈！我们会认真分析和采纳您的建议，努力为您提供更好的体验。再次感谢您的支持！</string>
+    <string name="loading_failed_retry">加载失败，请检查您的网络后重试</string>
+    <string name="submitting">提交中</string>
+    <string name="submit_success">提交成功</string>
+    <string name="submit_fail">提交失败</string>
+    <string name="select_feedback_type">请选择反馈类型</string>
 </resources>

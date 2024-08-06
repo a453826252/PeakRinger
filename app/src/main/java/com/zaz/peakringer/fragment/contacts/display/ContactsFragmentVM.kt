@@ -15,13 +15,14 @@ import com.zaz.peakringer.R
 import com.zaz.peakringer.config.Config
 import com.zaz.peakringer.fragment.contacts.ContactsBean
 import com.zaz.peakringer.repository.db.PRDbRepository
+import com.zaz.support.base.BaseViewModel
 import com.zaz.support.utils.PRToast
 import com.zaz.support.utils.pickPhoneNum
 import com.zaz.support.utils.string
 import kotlinx.coroutines.launch
 import java.io.File
 
-class ContactsFragmentVM: ViewModel() {
+class ContactsFragmentVM: BaseViewModel() {
     private val TAG = "ContactsFragmentVM"
     private val _contacts = MutableLiveData<List<ContactsBean>?>()
     val contacts:LiveData<List<ContactsBean>?> = _contacts

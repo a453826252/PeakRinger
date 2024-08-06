@@ -12,7 +12,6 @@ import androidx.core.view.WindowInsetsCompat
 import com.zaz.support.base.BaseActivity
 import com.zaz.support.utils.PRToast
 import com.zaz.support.utils.gotoActivity
-import com.zaz.support.utils.string
 
 
 class SplashActivity : BaseActivity() {
@@ -26,22 +25,22 @@ class SplashActivity : BaseActivity() {
         window.statusBarColor = Color.TRANSPARENT
         setContentView(R.layout.activity_splash)
         AlertDialog.Builder(this)
-            .setTitle(string(R.string.confirm))
-            .setMessage(string(R.string.privacy_policy_content))
+            .setTitle(getString(R.string.confirm))
+            .setMessage(getString(R.string.privacy_policy_content))
             .setCancelable(false)
-            .setPositiveButton(string(R.string.accept)){ dialog,whitch->
+            .setPositiveButton(getString(R.string.accept)){ dialog,whitch->
                 gotoActivity(MainActivity::class.java)
             }
-            .setNeutralButton(string(R.string.refuse)){ dialog,whitch->
-                finish()
-            }
-            .setNegativeButton(string(R.string.privacy_policy)){ dialog,whitch->
+            .setNeutralButton(getString(R.string.privacy_policy)){ dialog,whitch->
                 val intent = Intent(Intent.ACTION_VIEW,Uri.parse(Constant.PRIVACY_PROTOCOL))
                 try {
                     startActivity(intent)
                 } catch (e: Exception) {
-                    PRToast.show(applicationContext,string(R.string.install_browser_first))
+                    PRToast.show(applicationContext,getString(R.string.install_browser_first))
                 }
+            }
+            .setNegativeButton(getString(R.string.refuse)){ dialog,whitch->
+                finish()
             }
             .show()
     }
