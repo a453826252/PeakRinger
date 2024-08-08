@@ -16,6 +16,7 @@ room = "2.6.1"
 glide = "4.16.0"
 retrofit = "2.11.0"
 okhttp3 = "3.14.9"
+google-play-update = "2.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -36,10 +37,12 @@ glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "gl
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 okhttp3-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3" }
-
+google-play-update = {group = "com.google.android.play", name = "app-update", version.ref = "google-play-update" }
+google-play-update-ktx = {group = "com.google.android.play", name = "app-update-ktx", version.ref = "google-play-update" }
 [bundles]
 room = ["androidx-room","androidx-room-ktx"]
 retrofit = ["retrofit","retrofit-gson"]
+app-update=["google-play-update","google-play-update-ktx"]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

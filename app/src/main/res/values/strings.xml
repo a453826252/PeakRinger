@@ -50,4 +50,7 @@
     <string name="submit_success">Submit Success</string>
     <string name="submit_fail">Submit Failed,please try again</string>
     <string name="select_feedback_type">Please select feedback type</string>
+    <string name="new_version_can_installed">Click to install the new version</string>
+    <string name="install">Install</string>
+    <string name="app_update_notification">Update notifications</string>
 </resources>

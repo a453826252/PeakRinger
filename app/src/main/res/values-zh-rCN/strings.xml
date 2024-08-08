@@ -51,4 +51,7 @@
     <string name="submit_success">提交成功</string>
     <string name="submit_fail">提交失败</string>
     <string name="select_feedback_type">请选择反馈类型</string>
+    <string name="new_version_can_installed">点击安装新版本</string>
+    <string name="install">安装</string>
+    <string name="app_update_notification">更新通知</string>
 </resources>

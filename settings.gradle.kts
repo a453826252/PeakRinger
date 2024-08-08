@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "peakRinger"
 include(":app")
 include(":support")
+include(":google")
