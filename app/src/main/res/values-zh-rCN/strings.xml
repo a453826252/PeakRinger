@@ -54,4 +54,6 @@
     <string name="new_version_can_installed">点击安装新版本</string>
     <string name="install">安装</string>
     <string name="app_update_notification">更新通知</string>
+    <string name="tips">提示</string>
+    <string name="open_notification_permission_content">请打开&appname;的通知权限，以免错过重要通知</string>
 </resources>

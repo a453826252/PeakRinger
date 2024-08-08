@@ -25,8 +25,9 @@ object UpdateUtils {
             onGoing = true
             val installIntent = Intent(context.applicationContext,MainActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                putExtra("checkUpdate",true)
             }
-            val installAction = PendingIntent.getActivity(context,0,installIntent,PendingIntent.FLAG_UPDATE_CURRENT)
+            val installAction = PendingIntent.getActivity(context,0,installIntent,PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
             btnAction = NotificationCompat.Action(0,context.getString(R.string.install),installAction)
         }
 

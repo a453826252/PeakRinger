@@ -53,4 +53,6 @@
     <string name="new_version_can_installed">Click to install the new version</string>
     <string name="install">Install</string>
     <string name="app_update_notification">Update notifications</string>
+    <string name="tips">Tips</string>
+    <string name="open_notification_permission_content">Please enable the notification of &appname; to avoid missing important notifications</string>
 </resources>
