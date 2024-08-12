@@ -17,4 +17,8 @@ object ThreadPool {
         }
     }
 
+    fun mainDelay(action:()->Unit,delay:Long){
+        mainHandler.postDelayed(action,delay)
+    }
+
 }

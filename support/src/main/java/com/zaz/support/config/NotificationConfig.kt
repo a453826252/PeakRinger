@@ -11,7 +11,8 @@ data class NotificationConfig(
     val content:String,
     val notificationId:Int
 ){
-    var btnAction:NotificationCompat.Action?=null
+    var btnAction:NotificationCompat.Action?=null  //在通知栏展示一个安妮
     var clickAction:PendingIntent?=null
     var onGoing = false
+    var currentProgress:Int?=null
 }

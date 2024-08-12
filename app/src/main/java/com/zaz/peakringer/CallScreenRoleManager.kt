@@ -16,20 +16,18 @@ import kotlinx.coroutines.launch
 
 object CallScreenRoleManager {
     private lateinit var launcher: ActivityResultLauncher<Intent>
-    private lateinit var roleManager: RoleManager
+    private val roleManager: RoleManager = PRApp.application.getSystemService(Context.ROLE_SERVICE) as RoleManager
     private const val ROLE = RoleManager.ROLE_CALL_SCREENING
-    fun register(fragment: Fragment, result: ((ActivityResult) -> Unit)? = null) {
-        roleManager =
-            fragment.requireActivity().getSystemService(Context.ROLE_SERVICE) as RoleManager
+    fun register(activity: FragmentActivity, result: ((ActivityResult) -> Unit)? = null) {
         val activityResult = result ?: {
             if (it.resultCode != Activity.RESULT_OK) {
                 com.zaz.support.utils.PRToast.show(
-                    fragment.requireActivity(),
-                    fragment.getString(R.string.request_call_screen_permission)
+                    activity,
+                    activity.getString(R.string.request_call_screen_permission)
                 )
             }
         }
-        launcher = fragment.registerForActivityResult(
+        launcher = activity.registerForActivityResult(
             ActivityResultContracts.StartActivityForResult(),
             activityResult
         )
@@ -53,8 +51,7 @@ object CallScreenRoleManager {
                 .setRightBtnListener {
                     activity.lifecycleScope.launch {
                         activity.lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                            val intent =
-                                roleManager.createRequestRoleIntent(ROLE)
+                            val intent = roleManager.createRequestRoleIntent(ROLE)
                             launcher.launch(intent)
                         }
                     }

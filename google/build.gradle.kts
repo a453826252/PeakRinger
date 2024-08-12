@@ -35,6 +35,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.bundles.app.update)
     implementation(libs.material)
+    implementation(project(":update"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

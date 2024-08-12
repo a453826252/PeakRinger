@@ -12,10 +12,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
-import com.zaz.peakringer.ErrorCode
+import com.zaz.peakringer.Constant
 import com.zaz.peakringer.R
 import com.zaz.peakringer.databinding.FragmentEditOrAddContactBinding
 import com.zaz.peakringer.fragment.contacts.ContactsBean
@@ -199,7 +198,7 @@ class EditOrAddContactFragment private constructor() : BaseFragment(), View.OnCl
                     this.cacheCameraFileUri = cacheFileUri
                     cameraLauncher.launch(cacheFileUri)
                 }else{
-                    PRToast.show(requireContext(),R.string.err_retry.string(requireContext(),ErrorCode.ERR_CREATE_WAIT_CROP_URI_FAILED))
+                    PRToast.show(requireContext(),R.string.err_retry.string(requireContext(),Constant.ErrorCode.ERR_CREATE_WAIT_CROP_URI_FAILED))
                 }
             }
         }

@@ -25,7 +25,7 @@ import com.zaz.support.dialog.PRDialog
 import com.zaz.support.utils.PRToast
 import com.zaz.support.utils.string
 
-class PermissionDialog private constructor(): BaseBottomDialog() {
+open class PermissionDialog: BaseBottomDialog() {
     private lateinit var viewBinding: DialogPermissionBinding
     private lateinit var permissionAdapter:PermissionListAdapter
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
@@ -66,7 +66,7 @@ class PermissionDialog private constructor(): BaseBottomDialog() {
     private fun checkIfGranted(){
         val permissions = permissionAdapter.getData()
         val noPermissionItems = permissions.filter {
-            it.granted = ActivityCompat.checkSelfPermission(requireContext(),it.permission) == PackageManager.PERMISSION_GRANTED
+            it.granted = checkIfGranted(it)
             !it.granted
         }
         if(noPermissionItems.isEmpty()){
@@ -76,8 +76,11 @@ class PermissionDialog private constructor(): BaseBottomDialog() {
         }
     }
 
-    private fun onAuthorizeBtnClick(permissionItem: PermissionItem){
-        requestPermissionLauncher.launch(arrayOf( permissionItem.permission))
+    open fun checkIfGranted(permissionItem: PermissionItem):Boolean{
+        return ActivityCompat.checkSelfPermission(requireContext(),permissionItem.permission) == PackageManager.PERMISSION_GRANTED
+    }
+    open fun onAuthorizeBtnClick(permissionItem: PermissionItem){
+        requestPermissionLauncher.launch(arrayOf(permissionItem.permission))
     }
 
     private fun checkPermissionArgument(permissions:List<PermissionItem>?){
@@ -106,7 +109,7 @@ class PermissionDialog private constructor(): BaseBottomDialog() {
                 }
             }
             dialog.requestPermissionCallBack = requestPermissionCallBack
-            fm.commit { add(dialog, TAG) }
+            dialog.show(fm, TAG)
             return dialog
         }
         @JvmStatic

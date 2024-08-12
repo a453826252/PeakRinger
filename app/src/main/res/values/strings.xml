@@ -51,8 +51,14 @@
     <string name="submit_fail">Submit Failed,please try again</string>
     <string name="select_feedback_type">Please select feedback type</string>
     <string name="new_version_can_installed">Click to install the new version</string>
+    <string name="new_version_downloading">The new version is downloading</string>
+    <string name="download_fail_click_retry">Download failed, please click to retry</string>
+    <string name="retry">Retry</string>
     <string name="install">Install</string>
     <string name="app_update_notification">Update notifications</string>
     <string name="tips">Tips</string>
     <string name="open_notification_permission_content">Please enable the notification of &appname; to avoid missing important notifications</string>
+    <string name="default_caller_id">Default caller ID</string>
+    <string name="notification_permission">Notification</string>
+    <string name="install_new_ver">The new version has been downloaded and completed. Would you like to install it now</string>
 </resources>

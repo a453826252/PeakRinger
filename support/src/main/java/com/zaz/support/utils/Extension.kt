@@ -72,6 +72,11 @@ fun Context.showNotification(notificationConfig: NotificationConfig, channelConf
         .setContentText(notificationConfig.content)
         .setAutoCancel(true)
        .setOngoing(notificationConfig.onGoing)
+    if(notificationConfig.currentProgress != null){
+        notificationBuilder.setAutoCancel(false)
+            .setOngoing(true)
+            .setProgress(100,notificationConfig.currentProgress!!,false)
+    }
     if(notificationConfig.btnAction != null){
         notificationBuilder.addAction(notificationConfig.btnAction)
     }
@@ -83,6 +88,9 @@ fun Context.showNotification(notificationConfig: NotificationConfig, channelConf
     val notification = notificationBuilder.build()
     notificationManagerCompat.notify(notificationConfig.notificationId,notification)
 }
+
+val Context.myVerCode: Int
+    get() = this.packageManager.getPackageInfo(this.packageName,0).versionCode
 
 
 fun Int.color(context: Context):Int = ContextCompat.getColor(context,this)

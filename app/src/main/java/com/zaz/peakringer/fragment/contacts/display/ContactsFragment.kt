@@ -65,7 +65,6 @@ class ContactsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        CallScreenRoleManager.register(this)
         contactsAdapter = ContactsAdapter(this::editContact)
         binding.contactsList.layoutManager = LinearLayoutManager(requireContext())
         binding.contactsList.adapter = contactsAdapter

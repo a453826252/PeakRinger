@@ -9,9 +9,12 @@ import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import com.zaz.peakringer.Constant.SpKey.INIT_VERSION
 import com.zaz.support.base.BaseActivity
 import com.zaz.support.utils.PRToast
+import com.zaz.support.utils.SpUtils
 import com.zaz.support.utils.gotoActivity
+import com.zaz.support.utils.myVerCode
 
 
 class SplashActivity : BaseActivity() {
@@ -30,9 +33,10 @@ class SplashActivity : BaseActivity() {
             .setCancelable(false)
             .setPositiveButton(getString(R.string.accept)){ dialog,whitch->
                 gotoActivity(MainActivity::class.java)
+                SpUtils.getInstance(this@SplashActivity,Constant.SpName.PR_CONFIG).put(INIT_VERSION,myVerCode)
             }
             .setNeutralButton(getString(R.string.privacy_policy)){ dialog,whitch->
-                val intent = Intent(Intent.ACTION_VIEW,Uri.parse(Constant.PRIVACY_PROTOCOL))
+                val intent = Intent(Intent.ACTION_VIEW,Uri.parse(Constant.H5.PRIVACY_PROTOCOL))
                 try {
                     startActivity(intent)
                 } catch (e: Exception) {
