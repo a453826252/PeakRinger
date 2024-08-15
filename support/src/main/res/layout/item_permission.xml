@@ -46,7 +46,7 @@
         android:paddingHorizontal="15dp"
         android:paddingVertical="7dp"
         android:text="@string/authorize"
-        android:textColor="@drawable/color_selector_gray_main_color"
+        android:textColor="@drawable/color_selector_enable_gray_main_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

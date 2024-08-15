@@ -20,7 +20,7 @@ object Constant {
         const val PR_CONFIG = "pr_config"
     }
 
-    object SpKey{
+    object SpKey {
         const val INIT_VERSION = "init_version"
     }
 }

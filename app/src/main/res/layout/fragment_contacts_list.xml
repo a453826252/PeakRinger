@@ -10,7 +10,7 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -32,6 +32,7 @@
             tools:listitem="@layout/item_contacts" />
     </com.google.android.material.appbar.AppBarLayout>
     <TextView
+        android:id="@+id/contacts_empty_view"
         android:layout_gravity="center"
         android:textColor="@color/border_of_cancel_btn"
         android:textSize="20sp"

@@ -61,4 +61,5 @@
     <string name="default_caller_id">Default caller ID</string>
     <string name="notification_permission">Notification</string>
     <string name="install_new_ver">The new version has been downloaded and completed. Would you like to install it now</string>
+    <string name="close">Close</string>
 </resources>

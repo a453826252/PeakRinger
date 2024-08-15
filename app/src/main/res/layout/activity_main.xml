@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.fragment.app.FragmentContainerView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_container"
+    android:name="com.zaz.peakringer.fragment.contacts.display.ContactsFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:name="com.zaz.peakringer.fragment.contacts.display.ContactsFragment"
-    tools:context=".MainActivity"/>
+    android:orientation="vertical"
+    tools:context=".activity.main.MainActivity">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_page"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/bottom_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabIndicatorColor="@color/main_color"
+        app:tabIndicatorFullWidth="false"
+        app:tabIndicatorHeight="0dp"
+        app:tabIndicatorGravity="center"
+        app:tabSelectedTextColor="@color/main_color"
+        app:tabTextColor="@color/border_of_cancel_btn" />
+
+</LinearLayout>
 

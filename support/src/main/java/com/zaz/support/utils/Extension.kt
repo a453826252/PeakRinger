@@ -10,6 +10,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -39,6 +40,9 @@ val Int.dp
 
 /**Resource**/
 fun Int.string(context: Context,vararg obj:Any):String = context.getString(this,*obj)
+
+val String.color: Int
+    get() = Color.parseColor(this)
 
 fun Context.gotoActivity(target:Class<*>){
     val intent = Intent(this,target)
@@ -106,8 +110,13 @@ fun <T> List<T>.deepClone():List<T>{
     return result
 }
 
-fun Fragment.finishFragment(){
-    requireActivity().supportFragmentManager.popBackStack()
+fun Fragment.finishFragment(finishActivityWhenNoFragment:Boolean = true){
+    val activity = requireActivity()
+    val fm = activity.supportFragmentManager
+    fm.popBackStackImmediate()
+    if(fm.backStackEntryCount == 0 && finishActivityWhenNoFragment){
+        activity.finish()
+    }
 }
 fun Fragment.finishActivity(){
     requireActivity().finish()

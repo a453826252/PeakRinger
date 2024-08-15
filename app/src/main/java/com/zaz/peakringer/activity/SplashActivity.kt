@@ -1,4 +1,4 @@
-package com.zaz.peakringer
+package com.zaz.peakringer.activity
 
 import android.content.Intent
 import android.graphics.Color
@@ -9,7 +9,10 @@ import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import com.zaz.peakringer.Constant
 import com.zaz.peakringer.Constant.SpKey.INIT_VERSION
+import com.zaz.peakringer.R
+import com.zaz.peakringer.activity.main.MainActivity
 import com.zaz.support.base.BaseActivity
 import com.zaz.support.utils.PRToast
 import com.zaz.support.utils.SpUtils
@@ -31,11 +34,11 @@ class SplashActivity : BaseActivity() {
             .setTitle(getString(R.string.confirm))
             .setMessage(getString(R.string.privacy_policy_content))
             .setCancelable(false)
-            .setPositiveButton(getString(R.string.accept)){ dialog,whitch->
+            .setPositiveButton(getString(R.string.accept)){ dialog, whitch->
                 gotoActivity(MainActivity::class.java)
-                SpUtils.getInstance(this@SplashActivity,Constant.SpName.PR_CONFIG).put(INIT_VERSION,myVerCode)
+                SpUtils.getInstance(this@SplashActivity, Constant.SpName.PR_CONFIG).put(INIT_VERSION,myVerCode)
             }
-            .setNeutralButton(getString(R.string.privacy_policy)){ dialog,whitch->
+            .setNeutralButton(getString(R.string.privacy_policy)){ dialog, whitch->
                 val intent = Intent(Intent.ACTION_VIEW,Uri.parse(Constant.H5.PRIVACY_PROTOCOL))
                 try {
                     startActivity(intent)
@@ -43,9 +46,11 @@ class SplashActivity : BaseActivity() {
                     PRToast.show(applicationContext,getString(R.string.install_browser_first))
                 }
             }
-            .setNegativeButton(getString(R.string.refuse)){ dialog,whitch->
+            .setNegativeButton(getString(R.string.refuse)){ dialog, whitch->
                 finish()
             }
             .show()
     }
+
+    override fun getBaseViewModel() = null
 }

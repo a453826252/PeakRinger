@@ -11,12 +11,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.zaz.peakringer.CallScreenRoleManager
-import com.zaz.peakringer.MainActivity
+import com.zaz.peakringer.activity.main.MainActivity
 import com.zaz.peakringer.R
+import com.zaz.peakringer.activity.CommonActivity
 import com.zaz.peakringer.databinding.FragmentContactsListBinding
 import com.zaz.peakringer.fragment.contacts.ContactsBean
-import com.zaz.peakringer.fragment.feedback.FeedbackFragment
+import com.zaz.peakringer.utils.startFragment
 import com.zaz.support.base.BaseFragment
 import com.zaz.support.base.BaseViewModel
 import com.zaz.support.dialog.PRDialog
@@ -29,7 +29,6 @@ import com.zaz.support.utils.string
  * A fragment representing a list of Items.
  */
 class ContactsFragment : BaseFragment() {
-    private var activity:MainActivity?=null
     private val TAG = "ContactsFragment"
     private lateinit var binding: FragmentContactsListBinding
     private val viewModel:ContactsFragmentVM by viewModels()
@@ -47,15 +46,6 @@ class ContactsFragment : BaseFragment() {
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        activity = context as MainActivity
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        activity = null
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -79,6 +69,13 @@ class ContactsFragment : BaseFragment() {
     private fun showContacts(contacts:List<ContactsBean>){
         Log.d(TAG, "showContacts: count=${contacts.size}")
         contactsAdapter.submitData(contacts)
+        if(contacts.isEmpty()){
+            binding.contactsList.visibility = View.INVISIBLE
+            binding.contactsEmptyView.visibility = View.VISIBLE
+        }else{
+            binding.contactsList.visibility = View.VISIBLE
+            binding.contactsEmptyView.visibility = View.INVISIBLE
+        }
     }
 
     private fun editContact(type:Int,contactsBean: ContactsBean){
@@ -100,7 +97,9 @@ class ContactsFragment : BaseFragment() {
                 }
                 .show(childFragmentManager)
         }else{
-            activity?.showEditOrAddFragment(contactsBean)
+            startFragment(CommonActivity.FRAGMENT_TYPE_EDIT_OR_DEL_CONTACTS,Bundle().apply {
+                putParcelable("contact",contactsBean)
+            })
         }
     }
 
@@ -122,10 +121,6 @@ class ContactsFragment : BaseFragment() {
                         }
                         R.id.add_by_hand -> {
                             addByHand()
-                            return@setOnMenuItemClickListener  true
-                        }
-                        R.id.tmp_feedback -> {
-                            activity?.showFeedback()
                             return@setOnMenuItemClickListener  true
                         }
                         else -> return@setOnMenuItemClickListener false
@@ -153,7 +148,7 @@ class ContactsFragment : BaseFragment() {
     }
 
     private fun addByHand(){
-        activity?.showEditOrAddFragment(null)
+        startFragment(CommonActivity.FRAGMENT_TYPE_EDIT_OR_DEL_CONTACTS)
     }
 
     override fun onDestroyView() {

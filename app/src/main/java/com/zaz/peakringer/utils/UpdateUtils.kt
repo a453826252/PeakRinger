@@ -8,7 +8,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.FragmentActivity
 import com.zaz.google.GPAppUpdate
 import com.zaz.peakringer.Constant
-import com.zaz.peakringer.MainActivity
+import com.zaz.peakringer.activity.main.MainActivity
 import com.zaz.peakringer.R
 import com.zaz.support.config.NotificationChannelConfig
 import com.zaz.support.config.NotificationConfig

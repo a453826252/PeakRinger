@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/add_from_phonebook"
+        android:icon="@mipmap/ic_phonebook"
         android:title="@string/add_from_phonebook"/>
     <item android:id="@+id/add_by_hand"
+        android:icon="@mipmap/ic_phone"
+        android:iconTint="@color/main_color"
         android:title="@string/add_by_hand"/>
-    <item android:id="@+id/tmp_feedback"
-        android:title="@string/feedback"/>
 </menu>
