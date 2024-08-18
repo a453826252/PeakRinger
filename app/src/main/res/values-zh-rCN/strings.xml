@@ -31,7 +31,7 @@
     <string name="pick_from_gallery">从图库选择</string>
     <string name="camera">相机</string>
     <string name="err_retry">发生错误，请重试(%d)</string>
-    <string name="no_contacts">未添加联系人，请添加</string>
+    <string name="no_contacts">未添加联系人！当您添加的联系人给您来电时，您的铃声音量将被调整至最大，点击下方按钮添加联系人</string>
     <string name="privacy_policy">隐私政策</string>
     <string name="privacy_policy_content">如果继续，则表示您确认接受隐私政策</string>
     <string name="refuse">拒绝</string>

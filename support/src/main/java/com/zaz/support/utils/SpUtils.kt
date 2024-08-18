@@ -15,21 +15,25 @@ object SpUtils {
         }
         return spCache[spName]!!
     }
-    class Sp(context: Context,spName:String){
+
+    fun getPrConfigInstance(context: Context):Sp{
+        return getInstance(context, SP_NAME_PR_CONFIG)
+    }
+    class Sp(context: Context,val spName:String){
         private val spInstance:SharedPreferences = context.getSharedPreferences(spName,Context.MODE_PRIVATE)
         fun put(key:String, value:Int):Sp{
-            spInstance.edit().putInt(key,value).apply()
+            spInstance.edit().putInt("${spName}_$key",value).apply()
             return this
         }
         fun get(key:String,default:Int):Int{
-            return spInstance.getInt(key,default)
+            return spInstance.getInt("${spName}_$key",default)
         }
         fun put(key:String,value:Boolean):Sp{
-            spInstance.edit().putBoolean(key,value).apply()
+            spInstance.edit().putBoolean("${spName}_$key",value).apply()
             return this
         }
         fun get(key:String,default:Boolean):Boolean{
-            return spInstance.getBoolean(key,default)
+            return spInstance.getBoolean("${spName}_$key",default)
         }
     }
 }

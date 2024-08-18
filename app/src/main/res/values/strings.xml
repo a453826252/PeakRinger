@@ -30,7 +30,7 @@
     <string name="pick_from_gallery">Choose from Gallery</string>
     <string name="camera">Camera</string>
     <string name="err_retry">An error occurred, please try again(%d)</string>
-    <string name="no_contacts">No contacts ,please add</string>
+    <string name="no_contacts">No contacts.When the contact you added  calls you, your ringtone volume will be adjusted to maximum. Click the button below to add a contact</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="privacy_policy_content">By proceeding,you confirm that you accept the privacy policy</string>
     <string name="refuse">DECLINE</string>

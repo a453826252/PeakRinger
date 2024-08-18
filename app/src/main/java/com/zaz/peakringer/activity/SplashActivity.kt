@@ -30,7 +30,7 @@ class SplashActivity : BaseActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = Color.TRANSPARENT
         setContentView(R.layout.activity_splash)
-        val prConfig = SpUtils.getInstance(this,SpUtils.SP_NAME_PR_CONFIG)
+        val prConfig = SpUtils.getPrConfigInstance(this)
         val agreed = prConfig.get(SpUtils.PRIVACY_AGREED,false)
         if(agreed){
             ThreadPool.mainDelay(1000){

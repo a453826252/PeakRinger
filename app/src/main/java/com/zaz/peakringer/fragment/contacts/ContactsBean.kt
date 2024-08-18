@@ -9,7 +9,6 @@ import com.zaz.support.dialog.permission.PermissionItem
 
 @Entity(tableName = "contacts")
 data class ContactsBean(
-    @PrimaryKey
     @ColumnInfo(name = "phone_number")
     val phoneNumber:String,
 
@@ -21,6 +20,10 @@ data class ContactsBean(
 
     @ColumnInfo(name = "icon")
     val icon:String?=null,
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    var id:Int = 0,
 ):Parcelable{
     @ColumnInfo(name = "add_time", defaultValue = "CURRENT_TIMESTAMP")
     var addTime:Long = 0
@@ -28,7 +31,8 @@ data class ContactsBean(
         parcel.readString() ?:"",
         parcel.readString()?: "",
         parcel.readString()?: "",
-        parcel.readString()
+        parcel.readString(),
+        parcel.readInt()
     ){
         addTime = parcel.readLong()
     }
@@ -41,6 +45,7 @@ data class ContactsBean(
         dest.writeString(displayPhoneNumber)
         dest.writeString(name)
         dest.writeString(icon)
+        dest.writeInt(id)
         dest.writeLong(addTime)
     }
 

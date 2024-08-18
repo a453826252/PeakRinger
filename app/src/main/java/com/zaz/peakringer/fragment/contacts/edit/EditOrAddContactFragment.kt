@@ -38,6 +38,7 @@ class EditOrAddContactFragment private constructor() : BaseFragment(), View.OnCl
     private lateinit var pickPhotoLauncher: ActivityResultLauncher<PickVisualMediaRequest>
     private lateinit var cameraLauncher: ActivityResultLauncher<Uri>
     private lateinit var cropImageLauncher: ActivityResultLauncher<CropImage.CropRequest>
+    private var contact:ContactsBean?=null
     companion object {
         const val TAG = "EditOrAddContactFragment"
 
@@ -124,7 +125,7 @@ class EditOrAddContactFragment private constructor() : BaseFragment(), View.OnCl
             binding.editOrAddContactInputName.setText(it.getString("input_name", ""))
             binding.editOrAddContactInputPhone.setText(it.getString("input_phone", ""))
         }
-        val contact = arguments?.getParcelable<ContactsBean>("contact")
+        contact = arguments?.getParcelable<ContactsBean>("contact")
         contact?.let {
             Log.d(TAG, "initView: edit,phoneNum=${it.displayPhoneNumber}")
             binding.editOrAddContactTitle.text = R.string.edit_contact.string(requireContext())
@@ -220,7 +221,7 @@ class EditOrAddContactFragment private constructor() : BaseFragment(), View.OnCl
 
         val addResult = viewModel.addContact(
             requireContext(),
-            ContactsBean(phoneNumber, displayPhoneNum, name),
+            ContactsBean(phoneNumber, displayPhoneNum, name,id=contact?.id ?: 0),
             cropAvatarUri
         )
         Log.d(TAG, "addContact:phone=$phoneNumber,name=$name,avatar=$cropAvatarUri succeed=$addResult")
