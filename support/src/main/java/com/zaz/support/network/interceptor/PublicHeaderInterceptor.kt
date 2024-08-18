@@ -3,6 +3,9 @@ package com.zaz.support.network.interceptor
 import android.content.Context
 import android.os.Build
 import android.util.Log
+import com.zaz.support.utils.SpUtils
+import com.zaz.support.utils.myVerCode
+import com.zaz.support.utils.myVerName
 import okhttp3.Interceptor
 import okhttp3.Response
 import org.json.JSONObject
@@ -20,6 +23,9 @@ class PublicHeaderInterceptor(val context: Context):Interceptor {
            context.resources.configuration.locale.language
         }
         headers.put("language",language)
+        headers.put("initVerCode",SpUtils.getInstance(context,SpUtils.SP_NAME_PR_CONFIG).get(SpUtils.INIT_VERSION,0))
+        headers.put("currentVerCode",context.myVerCode)
+        headers.put("currentVerName",context.myVerName)
         requestBuilder.addHeader("publicHeader",headers.toString())
         Log.d(TAG, "PublicHeaderInterceptor, headers=$headers")
         return chain.proceed(requestBuilder.build())

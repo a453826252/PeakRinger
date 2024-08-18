@@ -95,7 +95,8 @@ fun Context.showNotification(notificationConfig: NotificationConfig, channelConf
 
 val Context.myVerCode: Int
     get() = this.packageManager.getPackageInfo(this.packageName,0).versionCode
-
+val Context.myVerName:String
+    get() = this.packageManager.getPackageInfo(this.packageName,0).versionName
 
 fun Int.color(context: Context):Int = ContextCompat.getColor(context,this)
 
