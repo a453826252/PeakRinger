@@ -1,7 +1,9 @@
 package com.zaz.support.network
 
 import android.util.Log
+import com.zaz.support.AppGlobal
 import com.zaz.support.network.calladapter.FlowCallAdapterFactory
+import com.zaz.support.network.interceptor.PublicHeaderInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -20,6 +22,7 @@ object HttpInstance {
                 }.apply {
                     level = HttpLoggingInterceptor.Level.BODY
                 })
+                .addInterceptor(PublicHeaderInterceptor(AppGlobal.application))
                 .build()
         )
         .baseUrl(BASE_URL)
