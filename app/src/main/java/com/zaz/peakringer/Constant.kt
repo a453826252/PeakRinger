@@ -15,12 +15,4 @@ object Constant {
     object NotificationChannelId{
         const val APP_UPDATE = "app_update"
     }
-
-    object SpName{
-        const val PR_CONFIG = "pr_config"
-    }
-
-    object SpKey {
-        const val INIT_VERSION = "init_version"
-    }
 }

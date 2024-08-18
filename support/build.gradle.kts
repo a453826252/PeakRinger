@@ -40,7 +40,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.datastore)
+    implementation(libs.bundles.datastroe)
     implementation(libs.material)
     api(libs.androidx.recyclerview)
     api(libs.glide)
