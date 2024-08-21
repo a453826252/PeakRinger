@@ -22,6 +22,8 @@
             android:elevation="5dp"
             app:title="@string/title_contacts"
             app:titleCentered="true"
+            app:subtitleCentered="true"
+            app:subtitleTextColor="@color/white"
             app:titleTextColor="@color/white" />
 
 

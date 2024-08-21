@@ -1,28 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center_vertical"
-    android:paddingVertical="10dp">
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="15dp">
 
     <ImageView
         android:id="@+id/item_setting_icon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:src="@mipmap/ic_logo_gray" />
 
     <TextView
-        tools:text="设置"
-        android:id="@+id/item_setting_name"
+        android:id="@+id/item_setting_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_weight="1"
         android:textColor="@color/black"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        tools:text="设置" />
+
+    <TextView
+        android:id="@+id/item_setting_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:textColor="@color/border_of_cancel_btn"
+        android:textSize="12sp"
+        tools:text="副标题" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:focusable="false"
+        android:clickable="false"
+        android:id="@+id/item_setting_switch"
+        android:layout_width="40dp"
+        android:layout_height="20dp"
+        android:thumb="@drawable/switch_thumb"
+        android:visibility="gone"
+        app:track="@drawable/switch_track_style"
+        tools:visibility="visible" />
 
     <ImageView
+        android:id="@+id/item_setting_end_icon"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:src="@mipmap/ic_right_arrow_gray" />

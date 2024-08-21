@@ -62,5 +62,10 @@
     <string name="default_caller_id">默认来电显示</string>
     <string name="notification_permission">通知权限</string>
     <string name="install_new_ver">新版本已下载完成，是否现在安装</string>
+    <string name="open_close_func">开启/关闭功能</string>
+    <string name="contact_us">联系我们</string>
+    <string name="about_us">关于我们</string>
+    <string name="close_feature_confirm_content">关闭来电提醒功能后，您添加的联系人给你来电时将不会调整手机铃声音量，是否关闭?</string>
     <string name="close">关闭</string>
+    <string name="feature_disabled">来电提醒功能已关闭</string>
 </resources>

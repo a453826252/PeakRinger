@@ -10,9 +10,8 @@ import com.zaz.support.base.BaseActivity
 class CommonActivity: BaseActivity() {
     companion object{
         const val FRAGMENT_TYPE_KEY = "fragment_type"
-        const val FRAGMENT_TYPE_TOGGLE = 1
-        const val FRAGMENT_TYPE_FEEDBACK = 2
-        const val FRAGMENT_TYPE_EDIT_OR_DEL_CONTACTS = 3
+        const val FRAGMENT_TYPE_FEEDBACK = 1
+        const val FRAGMENT_TYPE_EDIT_OR_DEL_CONTACTS = 2
 
     }
 

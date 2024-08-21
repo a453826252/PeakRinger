@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/white" />
+    <size
+        android:width="20dp"
+        android:height="20dp" />
+    <!-- 这里的5dp边距的作用是，圆点在轨道里面的边距，这样的效果感觉更好 -->
+    <stroke
+        android:width="5dp"
+        android:color="#00000000" />
+    <corners android:radius="10dp" />
+</shape>

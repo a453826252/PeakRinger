@@ -10,6 +10,7 @@ import android.telephony.TelephonyManager
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.zaz.peakringer.repository.db.PRDbRepository
+import com.zaz.peakringer.utils.isFeatureOpen
 import com.zaz.support.utils.pickPhoneNum
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
@@ -19,23 +20,22 @@ class PRCallScreenService: CallScreeningService() {
         const val TAG = "PRCallScreenService"
     }
     override fun onScreenCall(details: Call.Details) {
-        if(details.callDirection != Call.Details.DIRECTION_INCOMING){
-            return
-        }
-        val phoneNumber = details.handle.schemeSpecificPart?.pickPhoneNum
-        Log.d(TAG, "onScreenCall: phoneNum=${phoneNumber}")
-        if(!phoneNumber.isNullOrBlank() && PRDbRepository.findContact(phoneNumber) != null){
-            //将铃声调整到最大
-            RingerSteamManager.maxSteam()
-            val tm = getSystemService(Service.TELEPHONY_SERVICE) as TelephonyManager
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                //android12以上
-                tm.registerTelephonyCallback(Dispatchers.Main.asExecutor(),PhoneStateCallbackListener)
-            }else{
-                tm.listen(PrPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE)
+        if(details.callDirection == Call.Details.DIRECTION_INCOMING && isFeatureOpen()){
+            val phoneNumber = details.handle.schemeSpecificPart?.pickPhoneNum
+            Log.d(TAG, "onScreenCall: phoneNum=${phoneNumber}")
+            if(!phoneNumber.isNullOrBlank() && PRDbRepository.findContact(phoneNumber) != null){
+                //将铃声调整到最大
+                RingerSteamManager.maxSteam()
+                val tm = getSystemService(Service.TELEPHONY_SERVICE) as TelephonyManager
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    //android12以上
+                    tm.registerTelephonyCallback(Dispatchers.Main.asExecutor(),PhoneStateCallbackListener)
+                }else{
+                    tm.listen(PrPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE)
+                }
             }
-
         }
+
         respondToCall(details,CallResponse.Builder().setDisallowCall(false).build()) //5s内要调用该方法
     }
 

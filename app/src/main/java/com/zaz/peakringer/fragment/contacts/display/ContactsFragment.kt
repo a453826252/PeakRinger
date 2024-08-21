@@ -1,6 +1,7 @@
 package com.zaz.peakringer.fragment.contacts.display
 
 import android.content.Context
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import com.zaz.peakringer.R
 import com.zaz.peakringer.activity.CommonActivity
 import com.zaz.peakringer.databinding.FragmentContactsListBinding
 import com.zaz.peakringer.fragment.contacts.ContactsBean
+import com.zaz.peakringer.utils.isFeatureOpen
 import com.zaz.peakringer.utils.startFragment
 import com.zaz.support.base.BaseFragment
 import com.zaz.support.base.BaseViewModel
@@ -23,6 +25,8 @@ import com.zaz.support.dialog.PRDialog
 import com.zaz.support.dialog.permission.PermissionDialog
 import com.zaz.support.dialog.permission.PermissionItem
 import com.zaz.support.utils.PRToast
+import com.zaz.support.utils.SpUtils
+import com.zaz.support.utils.color
 import com.zaz.support.utils.string
 
 /**
@@ -106,6 +110,13 @@ class ContactsFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         viewModel.refreshContacts()
+        binding.toolbar.background =  if(requireContext().isFeatureOpen()){
+            binding.toolbar.subtitle = ""
+            ColorDrawable(com.zaz.support.R.color.main_color.color(requireContext()))
+        }else{
+            binding.toolbar.subtitle = requireContext().getString(R.string.feature_disabled)
+            ColorDrawable(com.zaz.support.R.color.border_of_cancel_btn.color(requireContext()))
+        }
     }
 
     private fun setEvent(){

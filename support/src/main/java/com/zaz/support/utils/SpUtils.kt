@@ -7,6 +7,7 @@ object SpUtils {
     const val SP_NAME_PR_CONFIG = "pr_config"
     const val PRIVACY_AGREED = "privacy_agreed"
     const val INIT_VERSION = "init_version"
+    const val FEATURE_OPEN = "feature_open"
     private val spCache:MutableMap<String,Sp> = mutableMapOf()
     fun getInstance(context: Context,spName: String):Sp{
         if(!spCache.containsKey(spName)){

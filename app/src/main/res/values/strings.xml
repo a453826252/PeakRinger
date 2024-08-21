@@ -61,5 +61,10 @@
     <string name="default_caller_id">Default caller ID</string>
     <string name="notification_permission">Notification</string>
     <string name="install_new_ver">The new version has been downloaded and completed. Would you like to install it now</string>
+    <string name="open_close_func">Enable/Disable feature</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="about_us">About Us</string>
+    <string name="close_feature_confirm_content">After turning off the call reminder function, the volume of the phone ringtone will not be adjusted when the contacts you added call you. Do you want to turn it off?</string>
     <string name="close">Close</string>
+    <string name="feature_disabled">Call reminder function disabled yet</string>
 </resources>
