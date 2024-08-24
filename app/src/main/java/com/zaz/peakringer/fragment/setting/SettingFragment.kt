@@ -1,5 +1,8 @@
 package com.zaz.peakringer.fragment.setting
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -76,6 +79,24 @@ class SettingFragment : BaseFragment() {
 
             SettingItemBean.ID_FEEDBACK -> {
                 startFragment(CommonActivity.FRAGMENT_TYPE_FEEDBACK)
+            }
+            SettingItemBean.ID_CONTACT_US->{
+                //联系我们
+                val email = "peakringer@outlook.com"
+                PRDialog.Builder()
+                    .setTitle(getString(R.string.tips))
+                    .setContent(getString(R.string.contact_us_dialog_content, email))
+                    .setRightBtnName(getString(com.zaz.support.R.string.sure))
+                    .setRightBtnListener {
+                        val intent = Intent(Intent.ACTION_SENDTO).apply {
+                            setData(Uri.fromParts("mailto", email, null))
+                        }
+                        try {
+                            startActivity(intent)
+                        } catch (_: Exception) {
+                        }
+                    }
+                    .show(childFragmentManager)
             }
         }
     }

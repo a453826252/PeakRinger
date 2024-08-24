@@ -54,6 +54,7 @@ class PRDialog private constructor(): DialogFragment() {
 
             if(it.leftBtnName.isNullOrBlank()){
                 binding.prDialogCancelButton.visibility = View.GONE
+                binding.prDialogBtnSpace.visibility = View.GONE
             }else{
                 with(binding.prDialogCancelButton){
                     text = it.leftBtnName
@@ -67,6 +68,7 @@ class PRDialog private constructor(): DialogFragment() {
             }
             if(it.rightBtnName.isNullOrBlank()){
                 binding.prDialogConfirmButton.visibility = View.GONE
+                binding.prDialogBtnSpace.visibility = View.GONE
             }else{
                 with(binding.prDialogConfirmButton){
                     text = it.rightBtnName
@@ -77,7 +79,7 @@ class PRDialog private constructor(): DialogFragment() {
                     }
                 }
             }
-            it.hideNotShowBtn?.let {
+            it.hideNotShowBtn.let {
                 binding.prDialogNotShowAgain.visibility = if(it){
                     View.GONE
                 }else{

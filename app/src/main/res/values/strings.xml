@@ -74,4 +74,5 @@
     <string name="read_phone_state_subtitle">Restore the volume of the ringtone when the ringing state is pushed out</string>
     <string name="no_read_phone_state_permission">&appname; no permission to read phone state. When exiting the ringing state, the volume cannot be restored for you</string>
     <string name="i_see">I see</string>
+    <string name="contact_us_dialog_content">You can contact us via email: %s</string>
 </resources>
