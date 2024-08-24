@@ -108,6 +108,16 @@ class SettingFragment : BaseFragment() {
                     PRToast.show(requireContext(),getString(R.string.install_browser_first))
                 }
             }
+            SettingItemBean.ID_ABOUT->{
+                //关于我们
+                val email = "peakringer@outlook.com"
+                val txt = "Powered by PeakRinger, email address:$email"
+                PRDialog.Builder()
+                    .setTitle(getString(R.string.about_us))
+                    .setContent(txt)
+                    .setRightBtnName("OK")
+                    .show(childFragmentManager)
+            }
         }
     }
 }
