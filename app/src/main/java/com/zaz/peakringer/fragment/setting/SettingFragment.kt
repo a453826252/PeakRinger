@@ -1,6 +1,5 @@
 package com.zaz.peakringer.fragment.setting
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -20,7 +19,6 @@ import com.zaz.support.base.BaseViewModel
 import com.zaz.support.dercoration.VerticalDecoration
 import com.zaz.support.dialog.PRDialog
 import com.zaz.support.utils.PRToast
-import com.zaz.support.utils.SpUtils
 import com.zaz.support.utils.color
 
 class SettingFragment : BaseFragment() {
@@ -111,7 +109,7 @@ class SettingFragment : BaseFragment() {
             SettingItemBean.ID_ABOUT->{
                 //关于我们
                 val email = "peakringer@outlook.com"
-                val txt = "Powered by PeakRinger, email address:$email"
+                val txt = "Powered by PeakRinger\n($email)"
                 PRDialog.Builder()
                     .setTitle(getString(R.string.about_us))
                     .setContent(txt)
