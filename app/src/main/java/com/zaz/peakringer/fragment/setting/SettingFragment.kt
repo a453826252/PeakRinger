@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.zaz.peakringer.Constant
 import com.zaz.peakringer.R
 import com.zaz.peakringer.activity.CommonActivity
 import com.zaz.peakringer.databinding.FragementSettingBinding
@@ -18,6 +19,7 @@ import com.zaz.support.base.BaseFragment
 import com.zaz.support.base.BaseViewModel
 import com.zaz.support.dercoration.VerticalDecoration
 import com.zaz.support.dialog.PRDialog
+import com.zaz.support.utils.PRToast
 import com.zaz.support.utils.SpUtils
 import com.zaz.support.utils.color
 
@@ -97,6 +99,14 @@ class SettingFragment : BaseFragment() {
                         }
                     }
                     .show(childFragmentManager)
+            }
+            SettingItemBean.ID_PRIVACY_PROTOCOL->{
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(Constant.H5.PRIVACY_PROTOCOL))
+                try {
+                    startActivity(intent)
+                } catch (e: Exception) {
+                    PRToast.show(requireContext(),getString(R.string.install_browser_first))
+                }
             }
         }
     }
