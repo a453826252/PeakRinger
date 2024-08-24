@@ -7,7 +7,6 @@
     <string name="title_contacts">Contacts</string>
     <string name="add_contacts">Add Contacts</string>
     <string name="request_call_screen_permission">Setting &appname; as the default call screening application can better serve you</string>
-    <string name="request_call_screen_permission_dialog">&appname; needs to be set as the default call filtering application to intercept or adjust the volume of incoming calls</string>
     <string name="device_not_support">Sorry, your device is currently not supported</string>
     <string name="add_from_phonebook">Add from phonebook</string>
     <string name="add_by_hand">Add manually </string>
@@ -59,6 +58,7 @@
     <string name="tips">Tips</string>
     <string name="open_notification_permission_content">Please enable the notification of &appname; to avoid missing important notifications</string>
     <string name="default_caller_id">Default caller ID</string>
+    <string name="default_caller_id_subtitle">Adjust the volume of the ringtone for you when calling</string>
     <string name="notification_permission">Notification</string>
     <string name="install_new_ver">The new version has been downloaded and completed. Would you like to install it now</string>
     <string name="open_close_func">Enable/Disable feature</string>
@@ -67,4 +67,11 @@
     <string name="close_feature_confirm_content">After turning off the call reminder function, the volume of the phone ringtone will not be adjusted when the contacts you added call you. Do you want to turn it off?</string>
     <string name="close">Close</string>
     <string name="feature_disabled">Call reminder function disabled yet</string>
+    <string name="important">Important</string>
+    <string name="no_recover_volume_permission">No permission to restore ringtone volume for you, click to authorize</string>
+    <string name="permission_notification">Permission notification</string>
+    <string name="read_phone_state">Read phone state</string>
+    <string name="read_phone_state_subtitle">Restore the volume of the ringtone when the ringing state is pushed out</string>
+    <string name="no_read_phone_state_permission">&appname; no permission to read phone state. When exiting the ringing state, the volume cannot be restored for you</string>
+    <string name="i_see">I see</string>
 </resources>

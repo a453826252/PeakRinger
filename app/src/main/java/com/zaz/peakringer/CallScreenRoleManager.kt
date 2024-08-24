@@ -33,37 +33,14 @@ object CallScreenRoleManager {
         )
     }
 
-    fun checkAndRequestRole(activity: FragmentActivity): Boolean {
-        if (!isRoleAvailable()) {
-            com.zaz.support.dialog.PRDialog.Builder()
-                .setTitle(activity.getString(com.zaz.support.R.string.tips))
-                .setContent(activity.getString(R.string.device_not_support))
-                .setRightBtnName(activity.getString(com.zaz.support.R.string.yes))
-                .show(activity.supportFragmentManager)
-            return false
-        } else if (!isRoleHeld()) {
-            com.zaz.support.dialog.PRDialog.Builder()
-                .setTitle(activity.getString(com.zaz.support.R.string.tips))
-                .setContent(activity.getString(R.string.request_call_screen_permission_dialog))
-                .setLeftBtnName(activity.getString(com.zaz.support.R.string.cancel))
-                .setRightBtnName(activity.getString(com.zaz.support.R.string.sure))
-                .setHideNotShowBtn(true)
-                .setRightBtnListener {
-                    activity.lifecycleScope.launch {
-                        activity.lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                            val intent = roleManager.createRequestRoleIntent(ROLE)
-                            launcher.launch(intent)
-                        }
-                    }
-                    it.dismiss()
-                }
-                .show(activity.supportFragmentManager)
-
-            return false
+    fun requestRole(activity: FragmentActivity){
+        activity.lifecycleScope.launch {
+            activity.lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                val intent = roleManager.createRequestRoleIntent(ROLE)
+                launcher.launch(intent)
+            }
         }
-        return true
     }
-
     fun isRoleHeld() = roleManager.isRoleHeld(ROLE)
     fun isRoleAvailable() = roleManager.isRoleAvailable(ROLE)
 }

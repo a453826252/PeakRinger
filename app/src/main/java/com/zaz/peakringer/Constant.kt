@@ -11,8 +11,10 @@ object Constant {
     }
     object NotificationId{
         const val APP_UPDATE = 1
+        const val NO_READ_PHONE_STATE_PERMISSION = 2
     }
     object NotificationChannelId{
         const val APP_UPDATE = "app_update"
+        const val READ_PHONE_STATE_PERMISSION = "read_phone_state_permission"
     }
 }

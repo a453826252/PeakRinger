@@ -8,7 +8,6 @@
     <string name="title_contacts">联系人</string>
     <string name="add_contacts">添加联系人</string>
     <string name="request_call_screen_permission">将&appname;设置为默认来电过滤应用才能更好的为您服务</string>
-    <string name="request_call_screen_permission_dialog">需要将&appname;设置为默认来电过滤应用以对来电进行拦截或调整音量</string>
     <string name="device_not_support">抱歉，暂不支持您的设备</string>
     <string name="add_from_phonebook">从电话簿添加</string>
     <string name="add_by_hand">手动添加</string>
@@ -60,6 +59,7 @@
     <string name="tips">提示</string>
     <string name="open_notification_permission_content">请打开&appname;的通知权限，以免错过重要通知</string>
     <string name="default_caller_id">默认来电显示</string>
+    <string name="default_caller_id_subtitle">来电时为您调整铃声音量</string>
     <string name="notification_permission">通知权限</string>
     <string name="install_new_ver">新版本已下载完成，是否现在安装</string>
     <string name="open_close_func">开启/关闭功能</string>
@@ -68,4 +68,11 @@
     <string name="close_feature_confirm_content">关闭来电提醒功能后，您添加的联系人给你来电时将不会调整手机铃声音量，是否关闭?</string>
     <string name="close">关闭</string>
     <string name="feature_disabled">来电提醒功能已关闭</string>
+    <string name="important">重要</string>
+    <string name="no_recover_volume_permission">没有权限，无法为您恢复铃声音量，点击授权</string>
+    <string name="permission_notification">权限通知</string>
+    <string name="read_phone_state">读取电话状态</string>
+    <string name="read_phone_state_subtitle">退响铃状态时恢复铃声音量</string>
+    <string name="no_read_phone_state_permission">&appname;没有读取电话状态权限，在退出响铃状态时，将无法为您恢复音量。</string>
+    <string name="i_see">我知道了</string>
 </resources>

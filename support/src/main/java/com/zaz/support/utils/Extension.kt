@@ -1,6 +1,5 @@
 package com.zaz.support.utils
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Notification
@@ -14,15 +13,16 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.provider.Settings
 import android.util.Log
 import android.util.TypedValue
-import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.zaz.support.Clone
+import com.zaz.support.R
 import com.zaz.support.config.NotificationChannelConfig
 import com.zaz.support.config.NotificationConfig
 import java.io.File
@@ -81,13 +81,16 @@ fun Context.showNotification(notificationConfig: NotificationConfig, channelConf
             .setOngoing(true)
             .setProgress(100,notificationConfig.currentProgress!!,false)
     }
-    if(notificationConfig.btnAction != null){
-        notificationBuilder.addAction(notificationConfig.btnAction)
+    if(notificationConfig.btnYesAction != null){
+        notificationBuilder.addAction(notificationConfig.btnYesAction)
+    }
+    if(notificationConfig.btnNoAction != null){
+        notificationBuilder.addAction(notificationConfig.btnNoAction)
     }
     if(notificationConfig.clickAction != null){
         notificationBuilder.setContentIntent(notificationConfig.clickAction)
-    }else if(notificationConfig.btnAction != null){
-        notificationBuilder.setContentIntent(notificationConfig.btnAction!!.actionIntent)
+    }else if(notificationConfig.btnYesAction != null){
+        notificationBuilder.setContentIntent(notificationConfig.btnYesAction!!.actionIntent)
     }
     val notification = notificationBuilder.build()
     notificationManagerCompat.notify(notificationConfig.notificationId,notification)
@@ -97,7 +100,21 @@ val Context.myVerCode: Int
     get() = this.packageManager.getPackageInfo(this.packageName,0).versionCode
 val Context.myVerName:String
     get() = this.packageManager.getPackageInfo(this.packageName,0).versionName
+fun Context.isPermissionGranted(permission:String) = ContextCompat.checkSelfPermission(this,permission) == PackageManager.PERMISSION_GRANTED
 
+fun Context.goToAppDetails(){
+    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+        data = Uri.fromParts("package",packageName,null)
+    }
+    if(this !is Activity){
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    }
+    try {
+        startActivity(intent)
+    } catch (e: Exception) {
+        PRToast.show(applicationContext,getString(R.string.jump_detail_failed))
+    }
+}
 fun Int.color(context: Context):Int = ContextCompat.getColor(context,this)
 
 

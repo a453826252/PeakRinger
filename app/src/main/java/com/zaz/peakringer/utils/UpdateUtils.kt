@@ -24,7 +24,7 @@ object UpdateUtils : IUpdate {
     private const val TAG = "UpdateUtils"
     private val instance: IUpdate = GPAppUpdate
 
-    override fun checkUpdate(context: Context, resultCallback: (UpdateCheckResult) -> Unit) {
+    override  fun checkUpdate(context: Context, resultCallback: (UpdateCheckResult) -> Unit) {
         instance.checkUpdate(context, resultCallback)
     }
 
@@ -154,7 +154,7 @@ object UpdateUtils : IUpdate {
                     installIntent,
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
-                btnAction = androidx.core.app.NotificationCompat.Action(
+                btnYesAction = androidx.core.app.NotificationCompat.Action(
                     0,
                     if(downloadState == UpdateDownloadState.SUCCEED) getString(R.string.install) else getString(R.string.retry),
                     installAction
