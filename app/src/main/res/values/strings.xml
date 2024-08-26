@@ -1,5 +1,5 @@
 <!DOCTYPE resources [
-    <!ENTITY appname "PeakRinger">
+    <!ENTITY appname "IncallAssistant">
     ]>
 <resources>
     <string name="app_name">&appname;</string>
