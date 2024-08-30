@@ -1,5 +1,5 @@
 <!DOCTYPE resources [
-    <!ENTITY appname "IncallAssistant">
+    <!ENTITY appname "Call Assistant">
     ]>
 <resources>
     <string name="app_name">&appname;</string>
