@@ -16,7 +16,7 @@ import com.zaz.support.dialog.bottom.BottomItemDialog
 import com.zaz.support.utils.PRToast
 import com.zaz.support.utils.finishFragment
 
-class FeedbackFragment private constructor(): BaseFragment(),View.OnClickListener {
+class FeedbackFragment: BaseFragment(),View.OnClickListener {
     private lateinit var binding:FragmentFeedbackBinding
     private val viewModel:FeedbackVM by viewModels()
     private lateinit var feedbackTypeDialog:BottomItemDialog<FeedbackTypeBean>

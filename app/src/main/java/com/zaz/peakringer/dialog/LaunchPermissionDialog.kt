@@ -16,7 +16,7 @@ import com.zaz.support.dialog.permission.PermissionItem
 import com.zaz.support.utils.isPermissionGranted
 import kotlinx.coroutines.launch
 
-class LaunchPermissionDialog(private val activity: FragmentActivity):PermissionDialog() {
+class LaunchPermissionDialog:PermissionDialog() {
     override fun checkIfGranted(permissionItem: PermissionItem): Boolean {
         return when (permissionItem.permission) {
             ROLE_PERMISSION -> {
@@ -47,7 +47,7 @@ class LaunchPermissionDialog(private val activity: FragmentActivity):PermissionD
         const val ROLE_PERMISSION = "role_manager_permission"
         const val READ_PHONE_STATE = "read_phone_state"
         fun show(activity: FragmentActivity, permissions:ArrayList<PermissionItem>){
-            val dialog = LaunchPermissionDialog(activity).apply {
+            val dialog = LaunchPermissionDialog().apply {
                 arguments = Bundle().apply {
                     putParcelableArrayList("permissions",permissions)
                 }

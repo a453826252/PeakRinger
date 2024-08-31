@@ -30,7 +30,7 @@ import com.zaz.support.utils.pickPhoneNum
 import com.zaz.support.utils.string
 import java.io.File
 
-class EditOrAddContactFragment private constructor() : BaseFragment(), View.OnClickListener {
+class EditOrAddContactFragment : BaseFragment(), View.OnClickListener {
     private lateinit var binding: FragmentEditOrAddContactBinding
     private var cropAvatarUri: Uri? = null
     private var cacheCameraFileUri: Uri? = null
