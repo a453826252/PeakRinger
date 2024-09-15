@@ -77,6 +77,7 @@ object GPAppUpdate : IUpdate {
         appUpdateManager = AppUpdateManagerFactory.create(context)
         val appUpdateInfoTask = appUpdateManager.appUpdateInfo
         appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+            Log.d(TAG, "checkUpdate: success listener")
             this.appUpdateInfo = appUpdateInfo
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
                 //有可用更新

@@ -217,23 +217,23 @@ class MainActivity : BaseActivity() {
                             emit(it)
                         }
                     }
-//                    .transform {
-//                        //检查更新
-//                        UpdateUtils.checkUpdate(activity){
-//                            Log.d(TAG, "checkUpdate: result=$it")
-//                            if(it != UpdateCheckResult.NO_UPDATE){
-//                                UpdateUtils.startUpdate(it, StartUpdateConfig().apply {
-//                                    this.context = this@MainActivity
-//                                    callback = ::onUpdateDownloadCallback
-//                                    googleUpdateLauncher = gpUpdate
-//                                })
-//                            }else{
-//                                launch {
-//                                    emit(it)
-//                                }
-//                            }
-//                        }
-//                    }
+                    .transform {
+                        //检查更新
+                        UpdateUtils.checkUpdate(activity){
+                            Log.d(TAG, "checkUpdate: result=$it")
+                            if(it != UpdateCheckResult.NO_UPDATE){
+                                UpdateUtils.startUpdate(it, StartUpdateConfig().apply {
+                                    this.context = this@MainActivity
+                                    callback = ::onUpdateDownloadCallback
+                                    googleUpdateLauncher = gpUpdate
+                                })
+                            }else{
+                                launch {
+                                    emit(it)
+                                }
+                            }
+                        }
+                    }
                     .collect{
                         Log.d(TAG, "proceedIntent: intent proceed complete!")
                     }

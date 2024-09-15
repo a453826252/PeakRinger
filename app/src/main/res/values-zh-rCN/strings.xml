@@ -82,4 +82,6 @@
     <string name="email_incorrect">输入的电子邮件地址格式不正确</string>
     <string name="get_contact_phone_number_failed">获取电话号码失败，请到设置-反馈中报告该问题</string>
     <string name="contact_phone_exist_yet">该号码已经存在</string>
+    <string name="new_version_available">新版本现已可用,点击下载安装！</string>
+    <string name="notify_channel_new_version">版本更新通知</string>
 </resources>
