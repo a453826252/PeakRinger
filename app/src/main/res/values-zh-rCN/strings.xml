@@ -76,4 +76,8 @@
     <string name="no_read_phone_state_permission">&appname;没有读取电话状态权限，在退出响铃状态时，将无法为您恢复音量。</string>
     <string name="i_see">我知道了</string>
     <string name="contact_us_dialog_content">您可以通过电子邮件(%s)与我们联系</string>
+    <string name="suggestion">功能建议</string>
+    <string name="issue">问题反馈</string>
+    <string name="email_input">请输入您的电子邮件地址</string>
+    <string name="email_incorrect">输入的电子邮件地址格式不正确</string>
 </resources>

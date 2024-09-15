@@ -1,10 +1,12 @@
 package com.zaz.peakringer.fragment.feedback
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import com.zaz.peakringer.R
@@ -14,6 +16,8 @@ import com.zaz.support.base.BaseFragment
 import com.zaz.support.base.BaseViewModel
 import com.zaz.support.dialog.bottom.BottomItemDialog
 import com.zaz.support.utils.PRToast
+import com.zaz.support.utils.RegUtils
+import com.zaz.support.utils.finishActivity
 import com.zaz.support.utils.finishFragment
 
 class FeedbackFragment: BaseFragment(),View.OnClickListener {
@@ -27,6 +31,11 @@ class FeedbackFragment: BaseFragment(),View.OnClickListener {
             show(fm,fragment,container,"FeedbackFragment")
             return fragment
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
     }
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,7 +51,7 @@ class FeedbackFragment: BaseFragment(),View.OnClickListener {
         viewModel.showFeedbackType.observe(viewLifecycleOwner){
             showFeedbackType(it)
         }
-        binding.feedbackType.setOnClickListener(this)
+        binding.feedbackTypeContent.setOnClickListener(this)
         binding.feedbackSubmit.setOnClickListener(this)
         binding.feedbackTitle.setNavigationOnClickListener {
             finishFragment()
@@ -53,8 +62,8 @@ class FeedbackFragment: BaseFragment(),View.OnClickListener {
 
     override fun onClick(v: View) {
         when(v.id){
-            R.id.feedback_type->{
-                viewModel.getFeedbackType()
+            R.id.feedback_type_content->{
+                viewModel.getFeedbackType(requireContext())
             }
             R.id.feedback_submit->{
                 submit()
@@ -63,9 +72,12 @@ class FeedbackFragment: BaseFragment(),View.OnClickListener {
     }
 
     private fun submit(){
-        if(binding.feedbackTypeContent.tag == null){
-            binding.feedbackType.error = getString(R.string.select_feedback_type)
-            PRToast.show(requireContext(),getString(R.string.select_feedback_type))
+        if (binding.feedbackTypeContent.tag == null) {
+            with(binding.feedbackTypeError) {
+                text = getString(R.string.select_feedback_type)
+                visibility = View.VISIBLE
+            }
+            PRToast.show(requireContext(), getString(R.string.select_feedback_type))
             return
         }
 
@@ -77,9 +89,16 @@ class FeedbackFragment: BaseFragment(),View.OnClickListener {
             binding.feedbackContentLy.error = getString(R.string.input_feedback_content_max)
             PRToast.show(requireContext(),getString(R.string.input_feedback_content_max))
         }else{
-            val type = (binding.feedbackTypeContent.tag as FeedbackTypeBean).id
             val contactInfo = binding.feedbackContactInfo.text?.toString() ?: ""
-            viewModel.submit(type,feedbackContent,contactInfo)
+            if(contactInfo.isNotEmpty() && !RegUtils.isEmail(contactInfo)){
+                PRToast.show(requireContext(),getString(R.string.email_incorrect))
+                binding.feedbackContactInfoContainer.error = getString(R.string.email_incorrect)
+                return
+            }
+            val type = (binding.feedbackTypeContent.tag as FeedbackTypeBean).id
+            viewModel.submit(type,feedbackContent,contactInfo){
+                finishActivity()
+            }
         }
     }
     private fun showFeedbackType(types:List<FeedbackTypeBean>){

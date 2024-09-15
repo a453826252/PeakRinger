@@ -21,7 +21,7 @@ abstract class BaseFragment: Fragment() {
         getBaseViewModel()?.let { base->
             with(base){
                 toast.observe(viewLifecycleOwner){
-                    PRToast.show(view.context,it)
+                    PRToast.show(view.context.applicationContext,it)
                 }
                 showLoading.observe(viewLifecycleOwner){
                     if(it == null){

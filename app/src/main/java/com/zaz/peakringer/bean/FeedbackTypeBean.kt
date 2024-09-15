@@ -9,4 +9,9 @@ data class FeedbackTypeBean(
     val showTxt:String
 ): IBottomItemBean<FeedbackTypeBean> {
     override fun getContent(): String  = showTxt
+
+    companion object{
+        const val TYPE_SUGGESTION = 1
+        const val TYPE_ISSUE = 2
+    }
 }

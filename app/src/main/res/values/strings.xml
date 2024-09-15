@@ -75,4 +75,8 @@
     <string name="no_read_phone_state_permission">&appname; no permission to read phone state. When exiting the ringing state, the volume cannot be restored for you</string>
     <string name="i_see">I see</string>
     <string name="contact_us_dialog_content">You can contact us via email: %s</string>
+    <string name="suggestion">Improvement Suggestions</string>
+    <string name="issue">Issues</string>
+    <string name="email_input">Please enter your email address</string>
+    <string name="email_incorrect">The entered email address format is incorrect</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.zaz.peakringer.fragment.feedback
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -13,26 +14,22 @@ import kotlinx.coroutines.launch
 class FeedbackVM: BaseViewModel() {
     protected val _showFeedbackType = MutableLiveData<List<FeedbackTypeBean>>()
     val showFeedbackType: LiveData<List<FeedbackTypeBean>> = _showFeedbackType
-    fun getFeedbackType(){
-        _showLoading.postValue(PRApp.application.getString(com.zaz.support.R.string.loading))
+    fun getFeedbackType(context: Context){
         viewModelScope.launch {
-            httpApi.getFeedbackType().collect{
-                _showLoading.postValue(null)
-                if(it.isSuccessful() && it.data?.isNotEmpty() == true){
-                    _showFeedbackType.postValue(it.data)
-                }else{
-                    _toast.postValue(PRApp.application.getString(R.string.loading_failed_retry))
-                }
-            }
+            val feedbackTypes = mutableListOf<FeedbackTypeBean>()
+            feedbackTypes.add(FeedbackTypeBean(FeedbackTypeBean.TYPE_SUGGESTION,context.getString(R.string.suggestion)))
+            feedbackTypes.add(FeedbackTypeBean(FeedbackTypeBean.TYPE_ISSUE,context.getString(R.string.issue)))
+            _showFeedbackType.postValue(feedbackTypes)
         }
     }
 
-    fun submit(type:Int,content:String,contactInfo:String?){
+    fun submit(type:Int,content:String,contactInfo:String?,finishCallback:()->Unit){
         _showLoading.postValue(PRApp.application.getString(R.string.submitting))
         viewModelScope.launch {
             httpApi.postFeedback(type,content,contactInfo).collect{
                 _showLoading.postValue(null)
                 _toast.postValue(if(it.isSuccessful()) PRApp.application.getString(R.string.submit_success) else PRApp.application.getString(R.string.submit_fail))
+                finishCallback()
             }
         }
     }
