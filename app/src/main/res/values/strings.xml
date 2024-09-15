@@ -79,4 +79,6 @@
     <string name="issue">Issues</string>
     <string name="email_input">Please enter your email address</string>
     <string name="email_incorrect">The entered email address format is incorrect</string>
+    <string name="get_contact_phone_number_failed">Failed to obtain phone number, please report this issue in Settings-Feedback</string>
+    <string name="contact_phone_exist_yet">The phone number already exists</string>
 </resources>

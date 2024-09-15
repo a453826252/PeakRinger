@@ -47,7 +47,7 @@ class PRCallScreenService: CallScreeningService() {
                     }
                 }else{
                     val notificationConfig = NotificationConfig(
-                        R.mipmap.ic_logo_round,
+                        R.mipmap.ic_launcher_round,
                         getString(R.string.app_name),
                         getString(R.string.no_recover_volume_permission),
                         Constant.NotificationId.NO_READ_PHONE_STATE_PERMISSION

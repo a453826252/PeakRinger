@@ -80,7 +80,7 @@ object UpdateUtils : IUpdate {
     private fun showDownloadingNotification(context: Context, process: Float) {
         with(context) {
             val notificationConfig = NotificationConfig(
-                R.mipmap.ic_logo_round,
+                R.mipmap.ic_launcher_round,
                 getString(R.string.app_name),
                 getString(R.string.new_version_downloading),
                 Constant.NotificationId.APP_UPDATE
@@ -133,7 +133,7 @@ object UpdateUtils : IUpdate {
 
 
             val notificationConfig = NotificationConfig(
-                R.mipmap.ic_logo_round,
+                R.mipmap.ic_launcher_round,
                 getString(R.string.app_name),
                 getString(R.string.new_version_can_installed),
                 Constant.NotificationId.APP_UPDATE

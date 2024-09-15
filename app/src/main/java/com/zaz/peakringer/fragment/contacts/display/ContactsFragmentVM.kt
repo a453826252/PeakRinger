@@ -19,8 +19,10 @@ import com.zaz.support.base.BaseViewModel
 import com.zaz.support.utils.PRToast
 import com.zaz.support.utils.pickPhoneNum
 import com.zaz.support.utils.string
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import java.io.File
+import kotlin.coroutines.cancellation.CancellationException
 
 class ContactsFragmentVM: BaseViewModel() {
     private val TAG = "ContactsFragmentVM"
@@ -51,7 +53,17 @@ class ContactsFragmentVM: BaseViewModel() {
                                 }
                             }?:Log.e(TAG, "get contacts phoneNum from uri($uri) failed")
                         }
-
+                        if(phoneNumber.isBlank() || phoneNumber.pickPhoneNum.isBlank()){
+                            Log.e(TAG, "addContacts: failed to get phone number")
+                            PRToast.show(context,context.getString(R.string.get_contact_phone_number_failed))
+                            return@launch
+                        }
+                        val realPhoneNumber = phoneNumber.pickPhoneNum
+                        if(PRDbRepository.findContact(realPhoneNumber) != null){
+                            Log.e(TAG, "addContacts:  phone number $realPhoneNumber already exists")
+                            PRToast.show(context,context.getString(R.string.contact_phone_exist_yet))
+                            return@launch
+                        }
                         val avatarUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id)
                         val input = ContactsContract.Contacts.openContactPhotoInputStream(context.contentResolver, avatarUri)
                         var avatarPath = Config.getAvatarDefaultPath(context,displayName,phoneNumber,MimeTypeMap.getSingleton().getExtensionFromMimeType(context.contentResolver.getType(avatarUri))?:"")
@@ -73,11 +85,14 @@ class ContactsFragmentVM: BaseViewModel() {
                             }
                             PRDbRepository.addContact(ContactsBean(phoneNumber.pickPhoneNum,phoneNumber, displayName,avatarPath))
                         }
+                        if(!isActive) return@launch
                         PRDbRepository.getContacts().collect{
                             _contacts.postValue(it)
                         }
                     }
                 }?:Log.e(TAG, "add contacts from uri($uri) failed")
+            }catch (_:CancellationException){
+
             } catch (e: Exception) {
                 Log.e(TAG, "addContacts: ex=${e.message}",e)
                 PRToast.show(context, R.string.pick_contacts_failed.string(context))
