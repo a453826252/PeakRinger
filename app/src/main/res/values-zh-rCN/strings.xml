@@ -62,10 +62,13 @@
     <string name="default_caller_id_subtitle">来电时为您调整铃声音量</string>
     <string name="notification_permission">通知权限</string>
     <string name="install_new_ver">新版本已下载完成，是否现在安装</string>
-    <string name="open_close_func">开启/关闭功能</string>
+    <string name="enable">开启</string>
+    <string name="enable_immediately">立即开启</string>
+    <string name="enabled">已开启</string>
+    <string name="disable">关闭</string>
+    <string name="disabled">已关闭</string>
     <string name="contact_us">联系我们</string>
     <string name="about_us">关于我们</string>
-    <string name="close_feature_confirm_content">关闭来电提醒功能后，您添加的联系人给你来电时将不会调整手机铃声音量，是否关闭?</string>
     <string name="close">关闭</string>
     <string name="feature_disabled">来电提醒功能已关闭</string>
     <string name="important">重要</string>
@@ -84,4 +87,7 @@
     <string name="contact_phone_exist_yet">该号码已经存在</string>
     <string name="new_version_available">新版本现已可用,点击下载安装！</string>
     <string name="notify_channel_new_version">版本更新通知</string>
+    <string name="close_temp">临时关闭%s</string>
+    <string name="other">其他</string>
+    <string name="auto_enable_after">%s后自动开启</string>
 </resources>

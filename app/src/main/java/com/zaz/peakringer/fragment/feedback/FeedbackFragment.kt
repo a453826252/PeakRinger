@@ -10,7 +10,7 @@ import android.view.WindowManager
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import com.zaz.peakringer.R
-import com.zaz.peakringer.bean.FeedbackTypeBean
+import com.zaz.peakringer.bean.StringItemBean
 import com.zaz.peakringer.databinding.FragmentFeedbackBinding
 import com.zaz.support.base.BaseFragment
 import com.zaz.support.base.BaseViewModel
@@ -23,7 +23,7 @@ import com.zaz.support.utils.finishFragment
 class FeedbackFragment: BaseFragment(),View.OnClickListener {
     private lateinit var binding:FragmentFeedbackBinding
     private val viewModel:FeedbackVM by viewModels()
-    private lateinit var feedbackTypeDialog:BottomItemDialog<FeedbackTypeBean>
+    private lateinit var feedbackTypeDialog:BottomItemDialog<StringItemBean>
     companion object{
         private const val TAG = "FeedbackFragment"
         fun show(fm:FragmentManager,container:Int):FeedbackFragment{
@@ -95,13 +95,13 @@ class FeedbackFragment: BaseFragment(),View.OnClickListener {
                 binding.feedbackContactInfoContainer.error = getString(R.string.email_incorrect)
                 return
             }
-            val type = (binding.feedbackTypeContent.tag as FeedbackTypeBean).id
+            val type = (binding.feedbackTypeContent.tag as StringItemBean).id
             viewModel.submit(type,feedbackContent,contactInfo){
                 finishActivity()
             }
         }
     }
-    private fun showFeedbackType(types:List<FeedbackTypeBean>){
+    private fun showFeedbackType(types:List<StringItemBean>){
         Log.d(TAG, "showFeedbackType: size=${types.size}")
         feedbackTypeDialog = BottomItemDialog.show(childFragmentManager,types){
             binding.feedbackTypeContent.setText(it.showTxt)

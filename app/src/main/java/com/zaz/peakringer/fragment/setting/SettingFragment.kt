@@ -11,13 +11,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.zaz.peakringer.Constant
 import com.zaz.peakringer.R
 import com.zaz.peakringer.activity.CommonActivity
+import com.zaz.peakringer.bean.StringItemBean
 import com.zaz.peakringer.databinding.FragementSettingBinding
-import com.zaz.peakringer.utils.changeFeatureOpen
+import com.zaz.peakringer.utils.disableFeature
+import com.zaz.peakringer.utils.isFeatureOpen
 import com.zaz.peakringer.utils.startFragment
 import com.zaz.support.base.BaseFragment
 import com.zaz.support.base.BaseViewModel
 import com.zaz.support.dercoration.VerticalDecoration
 import com.zaz.support.dialog.PRDialog
+import com.zaz.support.dialog.bottom.BottomItemDialog
 import com.zaz.support.utils.PRToast
 import com.zaz.support.utils.color
 
@@ -56,24 +59,19 @@ class SettingFragment : BaseFragment() {
     private fun onSettingItemClick(position:Int,item: SettingItemBean) {
         when (item.id) {
             SettingItemBean.ID_TOGGLE -> {
-                if(item.switchValue){
+                val isOpened = requireContext().isFeatureOpen()
+                if(isOpened){
                     //open->close
-                    PRDialog.Builder()
-                        .setTitle(getString(R.string.confirm))
-                        .setContent(getString(R.string.close_feature_confirm_content))
-                        .setLeftBtnName(getString(R.string.cancel))
-                        .setRightBtnName(getString(R.string.close))
-                        .setRightBtnListener {
-                            item.switchValue = false
-                            settingItemsAdapter.notifyItemChanged(position)
-                            requireContext().changeFeatureOpen(false)
-                        }
-                        .show(childFragmentManager)
+                    //show dialog content
+                    val menu = viewModel.getCloseMenu(requireContext())
+                    BottomItemDialog.show(childFragmentManager,menu,::onDisableMenuItemClick)
                 }else{
                     //close->open
-                    item.switchValue = true
+                    item.subTitle = requireContext().getString(R.string.enabled)
+                    item.title = requireContext().getString(R.string.disable)
                     settingItemsAdapter.notifyItemChanged(position)
-                    requireContext().changeFeatureOpen(true)
+                    viewModel.enable(requireContext())
+                    PRToast.show(requireContext().applicationContext,requireContext().getString(R.string.enabled))
                 }
             }
 
@@ -115,6 +113,66 @@ class SettingFragment : BaseFragment() {
                     .setContent(txt)
                     .setRightBtnName("OK")
                     .show(childFragmentManager)
+            }
+        }
+    }
+
+    private fun onDisableMenuItemClick(item:StringItemBean){
+        when(item.id){
+            StringItemBean.PowerCloseType.TYPE_CLOSE_NOW->{
+                with(requireContext()){
+                    disableFeature()
+                    PRToast.show(this.applicationContext,getString(R.string.disabled))
+                    settingItemsAdapter.getItem(SettingItemBean.ID_TOGGLE)?.let {
+                        settingItemsAdapter.notifyItemChanged(it.apply {
+                            title = getString(R.string.enable)
+                            subTitle = getString(R.string.disabled)
+                        })
+                    }
+
+                }
+            }
+            StringItemBean.PowerCloseType.TYPE_CLOSE_MIN_30->{
+                with(requireContext()){
+                    viewModel.disable(this,30 * 60)
+                    val showTxt = getString(R.string.auto_enable_after,"30${getString(com.zaz.support.R.string.time_min)}")
+                    PRToast.show(this.applicationContext,showTxt)
+                    settingItemsAdapter.getItem(SettingItemBean.ID_TOGGLE)?.let {
+                        settingItemsAdapter.notifyItemChanged(it.apply {
+                            title = getString(R.string.enable_immediately)
+                            subTitle = showTxt
+                        })
+                    }
+                }
+            }
+            StringItemBean.PowerCloseType.TYPE_CLOSE_MIN_60->{
+                with(requireContext()){
+                    viewModel.disable(this,60 * 60)
+                    val showTxt = getString(R.string.auto_enable_after,"60${getString(com.zaz.support.R.string.time_min)}")
+                    PRToast.show(this.applicationContext,showTxt)
+                    settingItemsAdapter.getItem(SettingItemBean.ID_TOGGLE)?.let {
+                        settingItemsAdapter.notifyItemChanged(it.apply {
+                            title = getString(R.string.enable_immediately)
+                            subTitle = showTxt
+                        })
+                    }
+                }
+            }
+            StringItemBean.PowerCloseType.TYPE_CLOSE_HOUR_3->{
+                with(requireContext()){
+                    viewModel.disable(this,3* 60 * 60)
+                    val showTxt = getString(R.string.auto_enable_after,"3${getString(com.zaz.support.R.string.time_hour)}")
+                    PRToast.show(this.applicationContext,showTxt)
+                    settingItemsAdapter.getItem(SettingItemBean.ID_TOGGLE)?.let {
+                        settingItemsAdapter.notifyItemChanged(it.apply {
+                            title = getString(R.string.enable_immediately)
+                            subTitle = showTxt
+                        })
+                    }
+                }
+            }
+            StringItemBean.PowerCloseType.TYPE_CLOSE_CUSTOM->{
+
             }
         }
     }

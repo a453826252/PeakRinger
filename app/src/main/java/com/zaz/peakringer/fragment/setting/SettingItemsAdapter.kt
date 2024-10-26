@@ -21,16 +21,6 @@ class SettingItemsAdapter(data: MutableList<SettingItemBean>,val onItemClick:(In
         vh.viewBinding.itemSettingIcon.setImageResource(data.icon)
         vh.viewBinding.itemSettingTitle.text = data.title
         vh.viewBinding.itemSettingSubtitle.text = data.subTitle
-        if(data.useSwitch){
-            vh.viewBinding.itemSettingEndIcon.visibility = View.GONE
-            with(vh.viewBinding.itemSettingSwitch){
-                visibility = View.VISIBLE
-                isChecked = data.switchValue
-            }
-        }else{
-            vh.viewBinding.itemSettingEndIcon.visibility = View.VISIBLE
-            vh.viewBinding.itemSettingSwitch.visibility = View.GONE
-        }
         vh.itemView.setTag(R.id.item_setting_data,data)
         vh.itemView.setTag(R.id.item_setting_position,position)
         vh.itemView.setOnClickListener(this)
@@ -40,6 +30,26 @@ class SettingItemsAdapter(data: MutableList<SettingItemBean>,val onItemClick:(In
         (v.getTag(R.id.item_setting_data) as? SettingItemBean)?.let {
             val position = v.getTag(R.id.item_setting_position) as Int
             onItemClick(position,it)
+        }
+    }
+
+    fun getItem(id:Int):SettingItemBean?{
+        for (d in getData()){
+            if(d.id == id){
+                return d
+            }
+        }
+        return null
+    }
+    fun notifyItemChanged(item:SettingItemBean){
+        for ((index,d) in dataList.withIndex()){
+            if(d.id == item.id){
+                d.icon = item.icon
+                d.title = item.title
+                d.subTitle = item.subTitle
+                notifyItemChanged(index)
+                break
+            }
         }
     }
 }

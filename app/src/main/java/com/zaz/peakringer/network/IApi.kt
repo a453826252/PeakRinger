@@ -1,8 +1,7 @@
 package com.zaz.peakringer.network
 
-import com.zaz.peakringer.bean.FeedbackTypeBean
+import com.zaz.peakringer.bean.StringItemBean
 import com.zaz.support.network.Response
-import com.zaz.support.network.ResponseFlow
 import kotlinx.coroutines.flow.Flow
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -11,7 +10,7 @@ import retrofit2.http.POST
 
 interface IApi {
     @GET("/feedback/getFeedbackType")
-    fun getFeedbackType(): Flow<Response<List<FeedbackTypeBean>>>
+    fun getFeedbackType(): Flow<Response<List<StringItemBean>>>
 
 
     @POST("/feedback/submit")

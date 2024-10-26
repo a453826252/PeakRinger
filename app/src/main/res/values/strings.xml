@@ -61,10 +61,13 @@
     <string name="default_caller_id_subtitle">Adjust the volume of the ringtone for you when calling</string>
     <string name="notification_permission">Notification</string>
     <string name="install_new_ver">The new version has been downloaded and completed. Would you like to install it now</string>
-    <string name="open_close_func">Enable/Disable feature</string>
+    <string name="enable">Enable</string>
+    <string name="enable_immediately">Enable immediately</string>
+    <string name="enabled">Enabled</string>
+    <string name="disable">Disable</string>
+    <string name="disabled">Disabled</string>
     <string name="contact_us">Contact Us</string>
     <string name="about_us">About Us</string>
-    <string name="close_feature_confirm_content">After turning off the call reminder function, the volume of the phone ringtone will not be adjusted when the contacts you added call you. Do you want to turn it off?</string>
     <string name="close">Close</string>
     <string name="feature_disabled">Call reminder function disabled yet</string>
     <string name="important">Important</string>
@@ -83,4 +86,7 @@
     <string name="contact_phone_exist_yet">The phone number already exists</string>
     <string name="new_version_available">The new version is now available.Click to download and install!</string>
     <string name="notify_channel_new_version">Version update notification</string>
+    <string name="close_temp">Temporarily disabled for %s</string>
+    <string name="other">Other</string>
+    <string name="auto_enable_after">Automatically enabled after %s</string>
 </resources>

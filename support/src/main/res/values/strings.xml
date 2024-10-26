@@ -15,4 +15,8 @@
     <string name="request_permission_failed">Failed to get permission to %s. Please try again(%s).</string>
     <string name="loading">Loading, please wait</string>
     <string name="jump_detail_failed">Failed to jump to the application details page</string>
+    <string name="time_sec">seconds</string>
+    <string name="time_min">minutes</string>
+    <string name="time_hour">hours</string>
+    <string name="time_day">days</string>
 </resources>

@@ -6,19 +6,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.zaz.peakringer.PRApp
 import com.zaz.peakringer.R
-import com.zaz.peakringer.bean.FeedbackTypeBean
+import com.zaz.peakringer.bean.StringItemBean
 import com.zaz.peakringer.network.httpApi
 import com.zaz.support.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class FeedbackVM: BaseViewModel() {
-    protected val _showFeedbackType = MutableLiveData<List<FeedbackTypeBean>>()
-    val showFeedbackType: LiveData<List<FeedbackTypeBean>> = _showFeedbackType
+    protected val _showFeedbackType = MutableLiveData<List<StringItemBean>>()
+    val showFeedbackType: LiveData<List<StringItemBean>> = _showFeedbackType
     fun getFeedbackType(context: Context){
         viewModelScope.launch {
-            val feedbackTypes = mutableListOf<FeedbackTypeBean>()
-            feedbackTypes.add(FeedbackTypeBean(FeedbackTypeBean.TYPE_SUGGESTION,context.getString(R.string.suggestion)))
-            feedbackTypes.add(FeedbackTypeBean(FeedbackTypeBean.TYPE_ISSUE,context.getString(R.string.issue)))
+            val feedbackTypes = mutableListOf<StringItemBean>()
+            feedbackTypes.add(StringItemBean(StringItemBean.FeedBackType.TYPE_SUGGESTION,context.getString(R.string.suggestion)))
+            feedbackTypes.add(StringItemBean(StringItemBean.FeedBackType.TYPE_ISSUE,context.getString(R.string.issue)))
             _showFeedbackType.postValue(feedbackTypes)
         }
     }

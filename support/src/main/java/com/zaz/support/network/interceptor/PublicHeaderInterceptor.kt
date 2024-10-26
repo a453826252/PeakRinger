@@ -23,7 +23,7 @@ class PublicHeaderInterceptor(val context: Context):Interceptor {
            context.resources.configuration.locale.language
         }
         headers.put("language",language)
-        headers.put("initVerCode",SpUtils.getPrConfigInstance(context).get(SpUtils.INIT_VERSION,0))
+        headers.put("initVerCode",SpUtils.getPrConfigInstance(context).getInt(SpUtils.INIT_VERSION,0))
         headers.put("currentVerCode",context.myVerCode)
         headers.put("currentVerName",context.myVerName)
         headers.put("brand",Build.BRAND)

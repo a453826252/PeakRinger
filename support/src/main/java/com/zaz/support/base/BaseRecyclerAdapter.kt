@@ -10,7 +10,7 @@ import com.zaz.support.Clone
 import com.zaz.support.utils.deepClone
 import org.jetbrains.annotations.Unmodifiable
 
-abstract class BaseRecyclerAdapter<T,R:ViewBinding>(private val dataList:MutableList<T> = mutableListOf()): RecyclerView.Adapter<BaseRecyclerAdapter.VH<R>>() {
+abstract class BaseRecyclerAdapter<T,R:ViewBinding>(open val dataList:MutableList<T> = mutableListOf()): RecyclerView.Adapter<BaseRecyclerAdapter.VH<R>>() {
     fun getData() = dataList.deepClone()
     abstract fun getView(layoutInflater: LayoutInflater,parent: ViewGroup,viewType: Int):R
     abstract fun bindData(position: Int,data:T,vh:VH<R>)

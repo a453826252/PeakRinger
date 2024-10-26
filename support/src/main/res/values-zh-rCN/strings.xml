@@ -16,4 +16,8 @@
     <string name="request_permission_failed">获取(%s)权限失败，请重试(%s)</string>
     <string name="loading">加载中，请稍后</string>
     <string name="jump_detail_failed">跳转应用详情页面失败</string>
+    <string name="time_sec">秒</string>
+    <string name="time_min">分钟</string>
+    <string name="time_hour">小时</string>
+    <string name="time_day">天</string>
 </resources>

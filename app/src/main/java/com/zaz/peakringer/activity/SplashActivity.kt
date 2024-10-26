@@ -31,7 +31,7 @@ class SplashActivity : BaseActivity() {
         window.statusBarColor = Color.TRANSPARENT
         setContentView(R.layout.activity_splash)
         val prConfig = SpUtils.getPrConfigInstance(this)
-        val agreed = prConfig.get(SpUtils.PRIVACY_AGREED,false)
+        val agreed = prConfig.getBoolean(SpUtils.PRIVACY_AGREED,false)
         if(agreed){
             ThreadPool.mainDelay(1000){
                 gotoActivity(MainActivity::class.java)
@@ -43,8 +43,8 @@ class SplashActivity : BaseActivity() {
                 .setMessage(getString(R.string.privacy_policy_content))
                 .setCancelable(false)
                 .setPositiveButton(getString(R.string.accept)){ dialog, whitch->
-                    prConfig.put(SpUtils.PRIVACY_AGREED,true)
-                    prConfig.put(SpUtils.INIT_VERSION,myVerCode)
+                    prConfig.putBoolean(SpUtils.PRIVACY_AGREED,true)
+                    prConfig.putInt(SpUtils.INIT_VERSION,myVerCode)
                     gotoActivity(MainActivity::class.java)
                     finish()
                 }
