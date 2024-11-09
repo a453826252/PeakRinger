@@ -90,4 +90,5 @@
     <string name="close_temp">临时关闭%s</string>
     <string name="other">其他</string>
     <string name="auto_enable_after">%s后自动开启</string>
+    <string name="select">选择</string>
 </resources>

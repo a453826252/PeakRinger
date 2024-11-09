@@ -4,6 +4,7 @@ import android.content.Context
 import com.zaz.peakringer.R
 import com.zaz.peakringer.bean.StringItemBean
 import com.zaz.peakringer.utils.autoOpenTime
+import com.zaz.peakringer.utils.disableFeatureBefore
 import com.zaz.peakringer.utils.disableFeatureTemporary
 import com.zaz.peakringer.utils.enableFeature
 import com.zaz.peakringer.utils.isFeatureOpen
@@ -77,7 +78,10 @@ class SettingItemVM: BaseViewModel() {
         context.enableFeature()
     }
 
-    fun disable(context: Context,tempTime:Int){
+    fun disableTemporary(context: Context, tempTime:Int){
         context.disableFeatureTemporary(tempTime)
+    }
+    fun disableBefore(context: Context,time:Long){
+        context.disableFeatureBefore(time)
     }
 }

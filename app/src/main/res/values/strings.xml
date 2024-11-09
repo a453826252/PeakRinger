@@ -89,4 +89,5 @@
     <string name="close_temp">Temporarily disabled for %s</string>
     <string name="other">Other</string>
     <string name="auto_enable_after">Automatically enabled after %s</string>
+    <string name="select">Select</string>
 </resources>

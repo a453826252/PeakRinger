@@ -47,6 +47,7 @@ dependencies {
     api(libs.bundles.room)
     api(libs.bundles.retrofit)
     api(libs.okhttp3.logging)
+    api(libs.datetimepicker)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

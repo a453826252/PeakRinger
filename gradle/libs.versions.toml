@@ -1,5 +1,6 @@
 [versions]
 agp = "8.4.0"
+datetimepicker = "0.6.3"
 kotlin = "1.9.0"
 coreKtx = "1.10.1"
 junit = "4.13.2"
@@ -20,6 +21,7 @@ google-play-update = "2.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+datetimepicker = { module = "com.github.loper7:DateTimePicker", version.ref = "datetimepicker" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -40,6 +42,7 @@ retrofit-gson = { group = "com.squareup.retrofit2", name = "converter-gson", ver
 okhttp3-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3" }
 google-play-update = {group = "com.google.android.play", name = "app-update", version.ref = "google-play-update" }
 google-play-update-ktx = {group = "com.google.android.play", name = "app-update-ktx", version.ref = "google-play-update" }
+
 [bundles]
 room = ["androidx-room","androidx-room-ktx"]
 retrofit = ["retrofit","retrofit-gson"]

@@ -23,6 +23,7 @@ import com.zaz.support.dialog.PRDialog
 import com.zaz.support.dialog.bottom.BottomItemDialog
 import com.zaz.support.utils.PRToast
 import com.zaz.support.utils.color
+import java.text.SimpleDateFormat
 
 class SettingFragment : BaseFragment() {
     private lateinit var binding: FragementSettingBinding
@@ -122,58 +123,43 @@ class SettingFragment : BaseFragment() {
             StringItemBean.PowerCloseType.TYPE_CLOSE_NOW->{
                 with(requireContext()){
                     disableFeature()
-                    PRToast.show(this.applicationContext,getString(R.string.disabled))
-                    settingItemsAdapter.getItem(SettingItemBean.ID_TOGGLE)?.let {
-                        settingItemsAdapter.notifyItemChanged(it.apply {
-                            title = getString(R.string.enable)
-                            subTitle = getString(R.string.disabled)
-                        })
-                    }
-
+                    closeItemUi(getString(R.string.enable),getString(R.string.disabled))
                 }
             }
             StringItemBean.PowerCloseType.TYPE_CLOSE_MIN_30->{
                 with(requireContext()){
-                    viewModel.disable(this,30 * 60)
-                    val showTxt = getString(R.string.auto_enable_after,"30${getString(com.zaz.support.R.string.time_min)}")
-                    PRToast.show(this.applicationContext,showTxt)
-                    settingItemsAdapter.getItem(SettingItemBean.ID_TOGGLE)?.let {
-                        settingItemsAdapter.notifyItemChanged(it.apply {
-                            title = getString(R.string.enable_immediately)
-                            subTitle = showTxt
-                        })
-                    }
+                    viewModel.disableTemporary(this,30 * 60)
+                    closeItemUi(getString(R.string.enable_immediately),getString(R.string.auto_enable_after,"30${getString(com.zaz.support.R.string.time_min)}"))
                 }
             }
             StringItemBean.PowerCloseType.TYPE_CLOSE_MIN_60->{
                 with(requireContext()){
-                    viewModel.disable(this,60 * 60)
-                    val showTxt = getString(R.string.auto_enable_after,"60${getString(com.zaz.support.R.string.time_min)}")
-                    PRToast.show(this.applicationContext,showTxt)
-                    settingItemsAdapter.getItem(SettingItemBean.ID_TOGGLE)?.let {
-                        settingItemsAdapter.notifyItemChanged(it.apply {
-                            title = getString(R.string.enable_immediately)
-                            subTitle = showTxt
-                        })
-                    }
+                    viewModel.disableTemporary(this,60 * 60)
+                    closeItemUi(getString(R.string.enable_immediately),getString(R.string.auto_enable_after,"60${getString(com.zaz.support.R.string.time_min)}"))
                 }
             }
             StringItemBean.PowerCloseType.TYPE_CLOSE_HOUR_3->{
                 with(requireContext()){
-                    viewModel.disable(this,3* 60 * 60)
-                    val showTxt = getString(R.string.auto_enable_after,"3${getString(com.zaz.support.R.string.time_hour)}")
-                    PRToast.show(this.applicationContext,showTxt)
-                    settingItemsAdapter.getItem(SettingItemBean.ID_TOGGLE)?.let {
-                        settingItemsAdapter.notifyItemChanged(it.apply {
-                            title = getString(R.string.enable_immediately)
-                            subTitle = showTxt
-                        })
-                    }
+                    viewModel.disableTemporary(this,3* 60 * 60)
+                    closeItemUi(getString(R.string.enable_immediately),getString(R.string.auto_enable_after,"3${getString(com.zaz.support.R.string.time_hour)}"))
                 }
             }
-            StringItemBean.PowerCloseType.TYPE_CLOSE_CUSTOM->{
-
+            else->{
+                DatePickerBottomDialog.show(childFragmentManager){
+                    viewModel.disableBefore(requireContext(),it)
+                    closeItemUi(getString(R.string.enable_immediately),getString(R.string.auto_enable_after, SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(it)))
+                }
             }
+        }
+    }
+
+    private fun closeItemUi(title:String,subtitle:String){
+        PRToast.show(requireContext().applicationContext,title)
+        settingItemsAdapter.getItem(SettingItemBean.ID_TOGGLE)?.let {
+            settingItemsAdapter.notifyItemChanged(it.apply {
+                this.title = title
+                this.subTitle = subtitle
+            })
         }
     }
 }

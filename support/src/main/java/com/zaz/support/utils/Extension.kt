@@ -16,6 +16,7 @@ import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
 import android.util.TypedValue
+import androidx.annotation.ColorRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -115,6 +116,7 @@ fun Context.goToAppDetails(){
         PRToast.show(applicationContext,getString(R.string.jump_detail_failed))
     }
 }
+
 fun Int.color(context: Context):Int = ContextCompat.getColor(context,this)
 
 
