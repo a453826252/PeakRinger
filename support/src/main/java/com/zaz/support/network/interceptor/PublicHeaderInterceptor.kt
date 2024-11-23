@@ -2,6 +2,7 @@ package com.zaz.support.network.interceptor
 
 import android.content.Context
 import android.os.Build
+import android.telephony.TelephonyManager
 import android.util.Log
 import com.zaz.support.utils.SpUtils
 import com.zaz.support.utils.myVerCode
@@ -9,6 +10,7 @@ import com.zaz.support.utils.myVerName
 import okhttp3.Interceptor
 import okhttp3.Response
 import org.json.JSONObject
+import java.util.Locale
 
 class PublicHeaderInterceptor(val context: Context):Interceptor {
     companion object{
@@ -17,12 +19,14 @@ class PublicHeaderInterceptor(val context: Context):Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val requestBuilder = chain.request().newBuilder()
         val headers = JSONObject()
-       val language =  if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-            context.resources.configuration.locales[0].language
+       val locale =  if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            context.resources.configuration.locales[0]
         }else{
-           context.resources.configuration.locale.language
+           context.resources.configuration.locale
         }
-        headers.put("language",language)
+        val country = (context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager).networkCountryIso.uppercase(Locale.ROOT)
+        headers.put("language",locale.language)
+        headers.put("country",country)
         headers.put("initVerCode",SpUtils.getPrConfigInstance(context).getInt(SpUtils.INIT_VERSION,0))
         headers.put("currentVerCode",context.myVerCode)
         headers.put("currentVerName",context.myVerName)
