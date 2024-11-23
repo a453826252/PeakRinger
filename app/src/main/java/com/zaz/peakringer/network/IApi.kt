@@ -9,8 +9,9 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface IApi {
-    @GET("/feedback/getFeedbackType")
-    fun getFeedbackType(): Flow<Response<List<StringItemBean>>>
+    @POST("/report/incall")
+    @FormUrlEncoded
+    fun reportIncall(@Field("special") special:Int): Flow<Response<Any?>>
 
 
     @POST("/feedback/submit")
