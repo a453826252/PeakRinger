@@ -9,15 +9,15 @@ import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zaz.peakringer.R
 import com.zaz.peakringer.config.Config
 import com.zaz.peakringer.fragment.contacts.ContactsBean
 import com.zaz.peakringer.repository.db.PRDbRepository
+import com.zaz.peakringer.utils.PRPhoneNumberUtil
+import com.zaz.peakringer.utils.formatToPhoneNumber
 import com.zaz.support.base.BaseViewModel
 import com.zaz.support.utils.PRToast
-import com.zaz.support.utils.pickPhoneNum
 import com.zaz.support.utils.string
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -53,13 +53,13 @@ class ContactsFragmentVM: BaseViewModel() {
                                 }
                             }?:Log.e(TAG, "get contacts phoneNum from uri($uri) failed")
                         }
-                        if(phoneNumber.isBlank() || phoneNumber.pickPhoneNum.isBlank()){
+                        if(phoneNumber.isBlank() || phoneNumber.formatToPhoneNumber.isBlank()){
                             Log.e(TAG, "addContacts: failed to get phone number")
                             PRToast.show(context,context.getString(R.string.get_contact_phone_number_failed))
                             return@launch
                         }
-                        val realPhoneNumber = phoneNumber.pickPhoneNum
-                        if(PRDbRepository.findContact(realPhoneNumber) != null){
+                        val realPhoneNumber = phoneNumber.formatToPhoneNumber
+                        if(PRPhoneNumberUtil.match(realPhoneNumber)){
                             Log.e(TAG, "addContacts:  phone number $realPhoneNumber already exists")
                             PRToast.show(context,context.getString(R.string.contact_phone_exist_yet))
                             return@launch
@@ -83,10 +83,10 @@ class ContactsFragmentVM: BaseViewModel() {
                                 Log.d(TAG, "addContacts: avatar not exist")
                                 avatarPath = ""
                             }
-                            PRDbRepository.addContact(ContactsBean(phoneNumber.pickPhoneNum,phoneNumber, displayName,avatarPath))
+                            PRDbRepository.addContact(ContactsBean(phoneNumber.formatToPhoneNumber,phoneNumber, displayName,avatarPath))
                         }
                         if(!isActive) return@launch
-                        PRDbRepository.getContacts().collect{
+                        PRDbRepository.getContactsFlow().collect{
                             _contacts.postValue(it)
                         }
                     }
@@ -102,7 +102,7 @@ class ContactsFragmentVM: BaseViewModel() {
 
     fun refreshContacts(){
         viewModelScope.launch {
-            PRDbRepository.getContacts().collect{
+            PRDbRepository.getContactsFlow().collect{
                 _contacts.postValue(it)
             }
         }

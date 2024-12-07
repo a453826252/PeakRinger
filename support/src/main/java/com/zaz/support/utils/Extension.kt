@@ -16,7 +16,6 @@ import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
 import android.util.TypedValue
-import androidx.annotation.ColorRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -142,8 +141,7 @@ fun Fragment.finishActivity(){
     requireActivity().finish()
 }
 
-val String.pickPhoneNum
-    get() =this.filter { it.isDigit() || it == '+' }
+
 
 fun File.toUri(context:Context):Uri{
     return FileProvider.getUriForFile(context,"${context.packageName}.fileprovider",this)

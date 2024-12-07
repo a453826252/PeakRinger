@@ -4,6 +4,9 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +21,8 @@ import com.zaz.peakringer.Constant
 import com.zaz.peakringer.R
 import com.zaz.peakringer.databinding.FragmentEditOrAddContactBinding
 import com.zaz.peakringer.fragment.contacts.ContactsBean
+import com.zaz.peakringer.utils.PRPhoneNumberUtil
+import com.zaz.peakringer.utils.formatToPhoneNumber
 import com.zaz.support.acitivityresultcontract.CropImage
 import com.zaz.support.base.BaseFragment
 import com.zaz.support.base.BaseViewModel
@@ -26,7 +31,6 @@ import com.zaz.support.dialog.permission.PermissionDialog
 import com.zaz.support.dialog.permission.PermissionItem
 import com.zaz.support.utils.PRToast
 import com.zaz.support.utils.finishFragment
-import com.zaz.support.utils.pickPhoneNum
 import com.zaz.support.utils.string
 import java.io.File
 
@@ -127,7 +131,7 @@ class EditOrAddContactFragment : BaseFragment(), View.OnClickListener {
         }
         contact = arguments?.getParcelable<ContactsBean>("contact")
         contact?.let {
-            Log.d(TAG, "initView: edit,phoneNum=${it.displayPhoneNumber}")
+            Log.d(TAG, "initView: edit,phoneNum=${it.phoneNumber}")
             binding.editOrAddContactTitle.text = R.string.edit_contact.string(requireContext())
             if (!it.icon.isNullOrBlank()) {
                 Glide.with(requireContext())
@@ -138,13 +142,32 @@ class EditOrAddContactFragment : BaseFragment(), View.OnClickListener {
             }
             binding.editOrAddContactInputName.setText(it.name)
             with(binding.editOrAddContactInputPhone) {
-                setText(it.displayPhoneNumber)
+                setText(it.phoneNumber.formatToPhoneNumber)
                 isEnabled = false
             }
         }
         binding.editOrAddContactCancel.setOnClickListener(this)
         binding.editOrAddContactDo.setOnClickListener(this)
         binding.editOrAddContactExistAvatar.setOnClickListener(this)
+        binding.editOrAddContactInputPhone.addTextChangedListener (object :TextWatcher{
+            var lastStr = binding.editOrAddContactInputPhone.text.toString()
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                s?.let {
+                    val currentStr = s.toString()
+                    if(!TextUtils.equals(currentStr,lastStr)){
+                        lastStr = currentStr.formatToPhoneNumber
+                        binding.editOrAddContactInputPhone.setText(lastStr)
+                        binding.editOrAddContactInputPhone.setSelection(lastStr.length)
+                    }
+                }
+            }
+        })
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -212,19 +235,23 @@ class EditOrAddContactFragment : BaseFragment(), View.OnClickListener {
             PRToast.show(requireContext(), R.string.fill_contact_name.string(requireContext()))
             return
         }
-        val displayPhoneNum = binding.editOrAddContactInputPhone.text?.toString()
-        val phoneNumber = displayPhoneNum?.pickPhoneNum
-        if (phoneNumber.isNullOrBlank()) {
+        val phoneNum = binding.editOrAddContactInputPhone.text?.toString()
+        if (phoneNum.isNullOrBlank()) {
             PRToast.show(requireContext(), R.string.fill_contact_phone.string(requireContext()))
+            return
+        }
+        if(PRPhoneNumberUtil.match(phoneNum)){
+            Log.e(TAG, "addContacts:  phone number $phoneNum already exists")
+            PRToast.show(requireContext(),requireContext().getString(R.string.contact_phone_exist_yet))
             return
         }
 
         val addResult = viewModel.addContact(
             requireContext(),
-            ContactsBean(phoneNumber, displayPhoneNum, name,id=contact?.id ?: 0),
+            ContactsBean(phoneNum, phoneNum, name,id=contact?.id ?: 0),
             cropAvatarUri
         )
-        Log.d(TAG, "addContact:phone=$phoneNumber,name=$name,avatar=$cropAvatarUri succeed=$addResult")
+        Log.d(TAG, "addContact:phone=$phoneNum,name=$name,avatar=$cropAvatarUri succeed=$addResult")
         if (addResult) {
             PRToast.show(
                 requireContext().applicationContext,

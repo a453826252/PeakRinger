@@ -12,7 +12,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ContactsDao {
     @Query("select * from contacts")
-    fun getAllContacts(): Flow<List<ContactsBean>>
+    fun getAllContactsFlow(): Flow<List<ContactsBean>>
+
+    @Query("select * from contacts")
+    fun getAllContacts(): List<ContactsBean>
 
     @Query("select * from contacts where phone_number=:phoneNum")
     fun getContact(phoneNum:String): ContactsBean?

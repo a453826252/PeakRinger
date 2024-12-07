@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.legacy.support.v4)
+    implementation(libs.libphonenumber)
     kapt(libs.androidx.room.compiler)
     implementation(project(":support"))
     implementation(project(":google"))

@@ -39,7 +39,7 @@ class EditOrAddContactVM : BaseViewModel() {
                 avatarFile.outputStream().use { target->
                     it.copyTo(target)
                 }
-                bean = ContactsBean(contactsBean.phoneNumber,contactsBean.displayPhoneNumber,contactsBean.name,avatarPathDesired, id = bean.id)
+                bean = ContactsBean(contactsBean.phoneNumber,contactsBean.phoneNumber,contactsBean.name,avatarPathDesired, id = bean.id)
             }
             context.contentResolver.delete(it,null,null)
         }

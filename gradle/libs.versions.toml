@@ -18,6 +18,7 @@ glide = "4.16.0"
 retrofit = "2.11.0"
 okhttp3 = "3.14.9"
 google-play-update = "2.1.0"
+libphonenumber = "8.13.48"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -42,6 +43,7 @@ retrofit-gson = { group = "com.squareup.retrofit2", name = "converter-gson", ver
 okhttp3-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3" }
 google-play-update = {group = "com.google.android.play", name = "app-update", version.ref = "google-play-update" }
 google-play-update-ktx = {group = "com.google.android.play", name = "app-update-ktx", version.ref = "google-play-update" }
+libphonenumber = {group = "io.michaelrocks", name = "libphonenumber-android", version.ref = "libphonenumber" }
 
 [bundles]
 room = ["androidx-room","androidx-room-ktx"]

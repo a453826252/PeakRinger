@@ -22,7 +22,7 @@ class ContactsAdapter(val editContactCallback:(Int, ContactsBean)->Unit): BaseRe
 
     override fun bindData(position: Int, data: ContactsBean, vh: VH<ItemContactsBinding>) {
         vh.viewBinding.itemContactName.text = data.name
-        vh.viewBinding.itemContactNumber.text = data.displayPhoneNumber
+        vh.viewBinding.itemContactNumber.text = data.phoneNumber
         vh.viewBinding.itemContactEditBtn.let {
             it.tag = data
             it.setOnClickListener(this)

@@ -68,3 +68,6 @@ fun Context.disableFeatureBefore(time: Long){
 }
 
 fun Context.autoOpenTime() = SpUtils.getPrConfigInstance(this).getLong(SpUtils.AUTO_OPEN_AT,-1)
+
+val String.formatToPhoneNumber
+    get() = PRPhoneNumberUtil.format(this)

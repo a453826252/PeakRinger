@@ -17,14 +17,12 @@ import com.zaz.peakringer.R
 import com.zaz.peakringer.activity.main.MainActivity
 import com.zaz.peakringer.network.httpApi
 import com.zaz.peakringer.receiver.StaticsBroadcast
-import com.zaz.peakringer.repository.db.PRDbRepository
+import com.zaz.peakringer.utils.PRPhoneNumberUtil
 import com.zaz.peakringer.utils.UpdateUtils
 import com.zaz.peakringer.utils.isFeatureOpen
 import com.zaz.support.config.NotificationChannelConfig
 import com.zaz.support.config.NotificationConfig
-import com.zaz.support.network.HttpInstance
 import com.zaz.support.utils.isPermissionGranted
-import com.zaz.support.utils.pickPhoneNum
 import com.zaz.support.utils.showNotification
 import com.zaz.update.UpdateCheckResult
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -47,8 +45,8 @@ class PRCallScreenService: CallScreeningService() {
             scope.launch {
                 var specialCallNumber = false
                 try {
-                    val phoneNumber = details.handle.schemeSpecificPart?.pickPhoneNum
-                    if(!phoneNumber.isNullOrBlank() && PRDbRepository.findContact(phoneNumber) != null){
+                    val phoneNumber = details.handle.schemeSpecificPart
+                    if(!phoneNumber.isNullOrBlank() && PRPhoneNumberUtil.match(phoneNumber)){
                         specialCallNumber = true
                         val job = scope.async{
                             //将铃声调整到最大

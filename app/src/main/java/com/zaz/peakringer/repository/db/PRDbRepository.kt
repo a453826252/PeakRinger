@@ -27,7 +27,10 @@ object PRDbRepository {
         }
     }
 
-    fun getContacts(): Flow<List<ContactsBean>> {
+    fun getContactsFlow(): Flow<List<ContactsBean>> {
+        return db.contactsDao().getAllContactsFlow()
+    }
+    fun getContacts(): List<ContactsBean> {
         return db.contactsDao().getAllContacts()
     }
 
