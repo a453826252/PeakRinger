@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import androidx.activity.addCallback
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -12,9 +13,16 @@ import androidx.fragment.app.commit
 import com.zaz.support.R
 import com.zaz.support.dialog.PRLoading
 import com.zaz.support.utils.PRToast
+import com.zaz.support.utils.finishFragment
 
 abstract class BaseFragment: Fragment() {
     protected lateinit var loading: PRLoading
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(this){
+            onBackPressed()
+        }
+    }
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loading = PRLoading()
@@ -55,7 +63,9 @@ abstract class BaseFragment: Fragment() {
 
 
     abstract fun getBaseViewModel():BaseViewModel?
-
+    open fun onBackPressed(){
+        finishFragment()
+    }
     companion object{
         fun show(fm: FragmentManager,fragment: Fragment, container:Int, tag:String){
             fm.commit {

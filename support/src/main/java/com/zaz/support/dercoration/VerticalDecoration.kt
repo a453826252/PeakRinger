@@ -1,6 +1,7 @@
 package com.zaz.support.dercoration
 
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.view.View
@@ -8,18 +9,17 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.zaz.support.utils.dp
 
-class VerticalDecoration(color:Int,val spaceDp:Float): ItemDecoration() {
+class VerticalDecoration( spaceDp:Float,color:Int = Color.TRANSPARENT): ItemDecoration() {
     private val mPaint = Paint().apply {
         setColor(color)
     }
-    private var top = 0f
+    private var top = spaceDp.dp
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
-        top = spaceDp.dp
         outRect.top = top.toInt()
     }
 

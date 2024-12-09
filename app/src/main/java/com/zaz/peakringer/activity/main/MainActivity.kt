@@ -10,7 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.zaz.peakringer.CallScreenRoleManager
@@ -27,7 +26,6 @@ import com.zaz.peakringer.utils.UpdateUtils
 import com.zaz.support.base.BaseActivity
 import com.zaz.support.dialog.PRDialog
 import com.zaz.support.dialog.permission.PermissionItem
-import com.zaz.support.utils.PRToast
 import com.zaz.support.utils.goToAppDetails
 import com.zaz.support.utils.isPermissionGranted
 import com.zaz.update.StartUpdateConfig
@@ -47,18 +45,16 @@ class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var gpUpdate:ActivityResultLauncher<IntentSenderRequest>
+    private var userRejectDefaultCallIdPermission = false
+    private var userRejectPhoneStatePermission = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         CallScreenRoleManager.register(this) {
             if (it.resultCode != RESULT_OK) {
-                PRToast.show(
-                    this,
-                    getString(R.string.request_call_screen_permission)
-                )
-            }else{
-                proceedIntent()
+                userRejectDefaultCallIdPermission = true
+                showNoDefaultCallIdPermissionDialog()
             }
         }
         initView()
@@ -72,6 +68,36 @@ class MainActivity : BaseActivity() {
         proceedIntent()
     }
 
+    private fun showNoDefaultCallIdPermissionDialog(){
+        PRDialog.Builder()
+            .setTitle(getString(R.string.important))
+            .setContent(getString(R.string.request_call_screen_permission))
+            .setLeftBtnName(getString(R.string.i_see))
+            .setLeftBtnListener {dialog->
+                dialog.dismiss()
+            }
+            .setCancelable(false)
+            .setCanceledOnTouchOutside(false)
+            .setRightBtnName(getString(R.string.go_setting))
+            .setRightBtnListener {
+                CallScreenRoleManager.requestRole(this)
+            }
+            .show(supportFragmentManager)
+    }
+    private fun showNoPhoneStatePermissionDialog(){
+        PRDialog.Builder()
+            .setTitle(getString(R.string.important))
+            .setContent(getString(R.string.no_read_phone_state_permission))
+            .setLeftBtnName(getString(R.string.i_see))
+            .setRightBtnName(getString(com.zaz.support.R.string.authorize))
+            .setCancelable(false)
+            .setCanceledOnTouchOutside(false)
+            .setRightBtnListener {
+                goToAppDetails()
+            }
+            .show(supportFragmentManager)
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -80,17 +106,8 @@ class MainActivity : BaseActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if(requestCode == REQUEST_PERMISSION_READ_PHONE_STATE){
             if(permissions.isEmpty() || !isPermissionGranted(permissions[0])){
-                PRDialog.Builder()
-                    .setTitle(getString(R.string.important))
-                    .setContent(getString(R.string.no_read_phone_state_permission))
-                    .setLeftBtnName(getString(R.string.i_see))
-                    .setRightBtnName(getString(com.zaz.support.R.string.authorize))
-                    .setRightBtnListener {
-                        goToAppDetails()
-                    }
-                    .show(supportFragmentManager)
-            }else{
-                proceedIntent()
+                userRejectPhoneStatePermission = true
+                showNoPhoneStatePermissionDialog()
             }
         }
     }
@@ -178,7 +195,7 @@ class MainActivity : BaseActivity() {
                                     PermissionItem(
                                         LaunchPermissionDialog.ROLE_PERMISSION,
                                         getString(R.string.default_caller_id),
-                                        R.mipmap.ic_phone_blue,
+                                        R.mipmap.ic_notification,
                                         getString(R.string.default_caller_id_subtitle)
                                     )
                                 )
@@ -212,7 +229,17 @@ class MainActivity : BaseActivity() {
                             )
                         }
                         if(permissions.isNotEmpty()){
-                            LaunchPermissionDialog.show(activity, permissions)
+                            LaunchPermissionDialog.show(activity, permissions){
+                                for (permission in permissions){
+                                    if(permission.permission == LaunchPermissionDialog.ROLE_PERMISSION && !CallScreenRoleManager.isRoleHeld() && !userRejectDefaultCallIdPermission){
+                                        showNoDefaultCallIdPermissionDialog()
+                                        break
+                                    }else if(permission.permission == LaunchPermissionDialog.READ_PHONE_STATE && !isPermissionGranted(android.Manifest.permission.READ_PHONE_STATE) && !userRejectPhoneStatePermission){
+                                        showNoPhoneStatePermissionDialog()
+                                        break
+                                    }
+                                }
+                            }
                         }else{
                             emit(it)
                         }

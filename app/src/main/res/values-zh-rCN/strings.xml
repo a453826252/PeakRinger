@@ -7,7 +7,7 @@
     <string name="action_settings">设置</string>
     <string name="title_contacts">联系人</string>
     <string name="add_contacts">添加联系人</string>
-    <string name="request_call_screen_permission">将&appname;设置为默认来电过滤应用才能更好的为您服务</string>
+    <string name="request_call_screen_permission">警告：不将&appname;设置为默认来电过滤应用，&appname;将不能正常工作</string>
     <string name="device_not_support">抱歉，暂不支持您的设备</string>
     <string name="add_from_phonebook">从电话簿添加</string>
     <string name="add_by_hand">手动添加</string>
@@ -26,6 +26,7 @@
     <string name="fill_contact_name">请填写联系人姓名</string>
     <string name="fill_contact_phone">请填写联系人电话号码</string>
     <string name="add_contact_succeed">添加联系人成功</string>
+    <string name="edit_contact_succeed">修改联系人信息成功</string>
     <string name="take_photo">拍照</string>
     <string name="pick_from_gallery">从图库选择</string>
     <string name="camera">相机</string>
@@ -91,4 +92,5 @@
     <string name="other">其他</string>
     <string name="auto_enable_after">%s后自动开启</string>
     <string name="select">选择</string>
+    <string name="go_setting">设置</string>
 </resources>

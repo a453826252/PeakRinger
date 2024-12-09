@@ -143,7 +143,6 @@ class EditOrAddContactFragment : BaseFragment(), View.OnClickListener {
             binding.editOrAddContactInputName.setText(it.name)
             with(binding.editOrAddContactInputPhone) {
                 setText(it.phoneNumber.formatToPhoneNumber)
-                isEnabled = false
             }
         }
         binding.editOrAddContactCancel.setOnClickListener(this)
@@ -240,22 +239,27 @@ class EditOrAddContactFragment : BaseFragment(), View.OnClickListener {
             PRToast.show(requireContext(), R.string.fill_contact_phone.string(requireContext()))
             return
         }
-        if(PRPhoneNumberUtil.match(phoneNum)){
+        if(PRPhoneNumberUtil.match(phoneNum) && contact == null){
             Log.e(TAG, "addContacts:  phone number $phoneNum already exists")
             PRToast.show(requireContext(),requireContext().getString(R.string.contact_phone_exist_yet))
             return
         }
 
+
         val addResult = viewModel.addContact(
             requireContext(),
-            ContactsBean(phoneNum, phoneNum, name,id=contact?.id ?: 0),
+            ContactsBean(phoneNum, phoneNum, name, icon = contact?.icon, id=contact?.id ?: 0),
             cropAvatarUri
         )
         Log.d(TAG, "addContact:phone=$phoneNum,name=$name,avatar=$cropAvatarUri succeed=$addResult")
         if (addResult) {
             PRToast.show(
                 requireContext().applicationContext,
-                R.string.add_contact_succeed.string(requireContext())
+                if((contact?.id ?: 0) != 0){
+                    R.string.edit_contact_succeed.string(requireContext())
+                }else{
+                    R.string.add_contact_succeed.string(requireContext())
+                }
             )
             finishFragment()
         } else {

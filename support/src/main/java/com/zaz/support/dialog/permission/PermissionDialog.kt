@@ -2,6 +2,7 @@ package com.zaz.support.dialog.permission
 
 import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -21,8 +22,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.zaz.support.R
 import com.zaz.support.base.BaseBottomDialog
 import com.zaz.support.databinding.DialogPermissionBinding
+import com.zaz.support.dercoration.VerticalDecoration
 import com.zaz.support.dialog.PRDialog
 import com.zaz.support.utils.PRToast
+import com.zaz.support.utils.color
 import com.zaz.support.utils.string
 
 open class PermissionDialog: BaseBottomDialog() {
@@ -51,13 +54,25 @@ open class PermissionDialog: BaseBottomDialog() {
         val permissions = arguments?.getParcelableArrayList<PermissionItem>("permissions")
         checkPermissionArgument(permissions)
         permissionAdapter = PermissionListAdapter(permissions!!,::onAuthorizeBtnClick)
-        viewBinding.permissionList.layoutManager = LinearLayoutManager(requireContext())
-        viewBinding.permissionList.adapter = permissionAdapter
+        with(viewBinding.permissionList){
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = permissionAdapter
+            addItemDecoration(VerticalDecoration(10f))
+        }
+
         viewBinding.dialogPermissionCancelButton.setOnClickListener {
             dismiss()
+            onCancel()
         }
     }
 
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        onCancel()
+    }
+    open fun onCancel(){
+
+    }
     override fun onResume() {
         super.onResume()
         checkIfGranted()

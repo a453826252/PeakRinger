@@ -39,7 +39,7 @@ class DatePickerBottomDialog:BaseBottomDialog() {
             setThemeColor(com.zaz.support.R.color.main_color.color(requireContext()))
             val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
             setOnDateTimeChangedListener {
-                val timeFormat = format.format(it / 1000)
+                val timeFormat = format.format(it)
                 viewBinding.timePickerResult.text = getString(R.string.auto_enable_after, timeFormat)
             }
         }

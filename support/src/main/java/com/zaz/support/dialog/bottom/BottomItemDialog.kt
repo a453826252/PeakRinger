@@ -73,9 +73,10 @@ class BottomItemDialog<T : IBottomItemBean<T>> private constructor(): BaseBottom
         viewBinding.dialogBottomItems.adapter = adapter
         viewBinding.dialogBottomItems.addItemDecoration(
             VerticalDecoration(
+                1f,
                 R.color.border_of_cancel_btn.color(
                     requireContext()
-                ), 1f
+                )
             )
         )
         viewBinding.dialogPermissionCancelButton.setOnClickListener {

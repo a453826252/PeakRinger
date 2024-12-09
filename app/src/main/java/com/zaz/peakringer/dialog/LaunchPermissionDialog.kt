@@ -1,22 +1,15 @@
 package com.zaz.peakringer.dialog
 
-import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.zaz.peakringer.CallScreenRoleManager
 import com.zaz.peakringer.activity.main.MainActivity
 import com.zaz.support.dialog.permission.PermissionDialog
 import com.zaz.support.dialog.permission.PermissionItem
 import com.zaz.support.utils.isPermissionGranted
-import kotlinx.coroutines.launch
 
 class LaunchPermissionDialog:PermissionDialog() {
+    private var onCancelListener:(((LaunchPermissionDialog)->Unit))?=null
     override fun checkIfGranted(permissionItem: PermissionItem): Boolean {
         return when (permissionItem.permission) {
             ROLE_PERMISSION -> {
@@ -30,7 +23,17 @@ class LaunchPermissionDialog:PermissionDialog() {
             }
         }
     }
+    override fun onStart() {
+        super.onStart()
+        dialog?.apply {
+            setCancelable(false)
+            setCanceledOnTouchOutside(false)
+        }
+    }
 
+    override fun onCancel() {
+        onCancelListener?.invoke(this)
+    }
     override fun onAuthorizeBtnClick(permissionItem: PermissionItem) {
         when (permissionItem.permission) {
             ROLE_PERMISSION -> {
@@ -46,12 +49,13 @@ class LaunchPermissionDialog:PermissionDialog() {
     companion object{
         const val ROLE_PERMISSION = "role_manager_permission"
         const val READ_PHONE_STATE = "read_phone_state"
-        fun show(activity: FragmentActivity, permissions:ArrayList<PermissionItem>){
+        fun show(activity: FragmentActivity, permissions:ArrayList<PermissionItem>,onCancel:(LaunchPermissionDialog)->Unit){
             val dialog = LaunchPermissionDialog().apply {
                 arguments = Bundle().apply {
                     putParcelableArrayList("permissions",permissions)
                 }
             }
+            dialog.onCancelListener = onCancel
             dialog.show(activity.supportFragmentManager,TAG)
         }
     }

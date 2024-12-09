@@ -98,6 +98,10 @@ class PRDialog private constructor(): DialogFragment() {
             it.attributes = attr
             it.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
+        dialog?.let {
+            it.setCancelable(config?.cancelable ?: true)
+            it.setCanceledOnTouchOutside(config?.canceledOnTouchOutside ?: true)
+        }
     }
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
@@ -153,6 +157,14 @@ class PRDialog private constructor(): DialogFragment() {
             config.hideNotShowBtn = notShow
             return this
         }
+        fun setCancelable(cancelable:Boolean): Builder {
+            config.cancelable = cancelable
+            return this
+        }
+        fun setCanceledOnTouchOutside(canceledOnTouchOutside:Boolean): Builder {
+            config.canceledOnTouchOutside = canceledOnTouchOutside
+            return this
+        }
         fun show(fragmentManager: FragmentManager): PRDialog {
             val dialog = newInstance(config)
             fragmentManager.commit { add(dialog,"") }
@@ -170,13 +182,16 @@ class PRDialog private constructor(): DialogFragment() {
         var leftListener:((PRDialog)->Unit)?=null
         var rightListener:((PRDialog)->Unit)?=null
         var dismissListener:((PRDialog)->Unit)?=null
-
+        var cancelable = true
+        var canceledOnTouchOutside = true
         constructor(parcel: Parcel) : this() {
             title = parcel.readString()
             content = parcel.readString()
             leftBtnName = parcel.readString()
             rightBtnName = parcel.readString()
             hideNotShowBtn = parcel.readInt() == 1
+            cancelable = parcel.readInt() == 1
+            canceledOnTouchOutside = parcel.readInt() == 1
         }
 
         override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -185,6 +200,8 @@ class PRDialog private constructor(): DialogFragment() {
             parcel.writeString(leftBtnName)
             parcel.writeString(rightBtnName)
             parcel.writeInt(if(hideNotShowBtn) 1 else 0)
+            parcel.writeInt(if(cancelable) 1 else 0)
+            parcel.writeInt(if(canceledOnTouchOutside) 1 else 0)
         }
 
         override fun describeContents(): Int {

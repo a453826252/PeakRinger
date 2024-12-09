@@ -30,6 +30,7 @@ class SettingItemVM: BaseViewModel() {
             icon = R.mipmap.ic_power
             title = titleAndSubtitle.first
             subTitle = titleAndSubtitle.second
+            subTitleClickTag = SettingItemBean.SUBTITLE_CLICK_TAG_MODIFY_TEMP_CLOSE_TIME
         }
         result.add(toggle)
 

@@ -31,16 +31,15 @@ class ContactsAdapter(val editContactCallback:(Int, ContactsBean)->Unit): BaseRe
             it.tag = data
             it.setOnClickListener(this)
         }
-        if(!data.icon.isNullOrBlank()){
-            if(data.icon.startsWith("/")){
-                Glide.with(vh.itemView.context)
-                    .load(File(data.icon))
-                    .error(R.mipmap.ic_default_avatar)
-                    .placeholder(R.mipmap.ic_default_avatar)
-                    .into(vh.viewBinding.itemContactProfilePhoto)
-            }
+        if(!data.icon.isNullOrBlank() && data.icon.startsWith("/")){
+            Glide.with(vh.itemView.context)
+                .load(File(data.icon))
+                .error(R.mipmap.ic_default_avatar)
+                .placeholder(R.mipmap.ic_default_avatar)
+                .into(vh.viewBinding.itemContactProfilePhoto)
+        }else{
+            vh.viewBinding.itemContactProfilePhoto.setImageResource(R.mipmap.ic_default_avatar)
         }
-
     }
 
     override fun areContentsTheSame(oldItem: ContactsBean, newItem: ContactsBean): Boolean {

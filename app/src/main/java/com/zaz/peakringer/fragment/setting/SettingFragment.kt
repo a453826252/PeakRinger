@@ -41,12 +41,13 @@ class SettingFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         settingItemsAdapter =
-            SettingItemsAdapter(viewModel.getSettingItems(requireContext()), ::onSettingItemClick)
+            SettingItemsAdapter(viewModel.getSettingItems(requireContext()), ::onSettingItemClick,::onSubtitleClick)
         with(binding.settingItems) {
             this.adapter = settingItemsAdapter
             addItemDecoration(
                 VerticalDecoration(
-                    "#cccccc".color, 1f
+                    1f,
+                    "#cccccc".color
                 )
             )
             layoutManager = LinearLayoutManager(requireContext())
@@ -118,6 +119,15 @@ class SettingFragment : BaseFragment() {
         }
     }
 
+    private fun onSubtitleClick(position: Int,data:SettingItemBean){
+        when(data.subTitleClickTag){
+            SettingItemBean.SUBTITLE_CLICK_TAG_MODIFY_TEMP_CLOSE_TIME->{
+                val menu = viewModel.getCloseMenu(requireContext())
+                BottomItemDialog.show(childFragmentManager,menu,::onDisableMenuItemClick)
+            }
+        }
+    }
+
     private fun onDisableMenuItemClick(item:StringItemBean){
         when(item.id){
             StringItemBean.PowerCloseType.TYPE_CLOSE_NOW->{
@@ -147,7 +157,7 @@ class SettingFragment : BaseFragment() {
             else->{
                 DatePickerBottomDialog.show(childFragmentManager){
                     viewModel.disableBefore(requireContext(),it)
-                    closeItemUi(getString(R.string.enable_immediately),getString(R.string.auto_enable_after, SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(it)))
+                    closeItemUi(getString(R.string.enable_immediately),getString(R.string.auto_enable_after, SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(it * 1000)))
                 }
             }
         }

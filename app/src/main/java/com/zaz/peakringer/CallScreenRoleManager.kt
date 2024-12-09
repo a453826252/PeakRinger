@@ -18,18 +18,10 @@ object CallScreenRoleManager {
     private lateinit var launcher: ActivityResultLauncher<Intent>
     private val roleManager: RoleManager = PRApp.application.getSystemService(Context.ROLE_SERVICE) as RoleManager
     private const val ROLE = RoleManager.ROLE_CALL_SCREENING
-    fun register(activity: FragmentActivity, result: ((ActivityResult) -> Unit)? = null) {
-        val activityResult = result ?: {
-            if (it.resultCode != Activity.RESULT_OK) {
-                com.zaz.support.utils.PRToast.show(
-                    activity,
-                    activity.getString(R.string.request_call_screen_permission)
-                )
-            }
-        }
+    fun register(activity: FragmentActivity, result: (ActivityResult) -> Unit) {
         launcher = activity.registerForActivityResult(
             ActivityResultContracts.StartActivityForResult(),
-            activityResult
+            result
         )
     }
 

@@ -54,7 +54,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:paddingHorizontal="20dp"
+        android:paddingHorizontal="10dp"
+        app:layout_goneMarginTop="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/pr_dialog_not_show_again">
@@ -68,11 +69,10 @@
             android:gravity="center"
             android:maxLines="1"
             android:ellipsize="end"
-            android:paddingHorizontal="30dp"
             android:paddingVertical="10dp"
             android:text="@string/cancel"
             android:textColor="@color/border_of_cancel_btn"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
         <View
             android:id="@+id/pr_dialog_btn_space"
             android:layout_weight="1"
@@ -88,11 +88,10 @@
             android:background="@drawable/bg_pr_dialog_cancel_btn"
             android:backgroundTint="@color/main_color"
             android:gravity="center"
-            android:paddingHorizontal="30dp"
             android:paddingVertical="10dp"
             android:text="@string/sure"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
 
