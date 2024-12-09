@@ -55,6 +55,7 @@ object UpdateUtils : IUpdate {
         callback:((UpdateDownloadState)->Unit)?
     ) {
         val process = byteDownload * 100f / byteNeedDown
+        Log.d(TAG, "showDownloadedNotification: downloadState=$downloadState,process=$process")
         when (downloadState) {
             UpdateDownloadState.DOWNLOADING -> {
                 showDownloadingNotification(context, process)

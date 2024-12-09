@@ -92,4 +92,6 @@
     <string name="auto_enable_after">Automatically enabled after %s</string>
     <string name="select">Select</string>
     <string name="go_setting">Set</string>
+    <string name="open_phone_book_failed">Failed to open the phonebook, please check if there is a phonebook app on your device</string>
+    <string name="crop_avatar_failed">Failed to select avatar, please report this issue to us in  Settings-Feedback section</string>
 </resources>

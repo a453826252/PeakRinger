@@ -93,4 +93,6 @@
     <string name="auto_enable_after">%s后自动开启</string>
     <string name="select">选择</string>
     <string name="go_setting">设置</string>
+    <string name="open_phone_book_failed">打开电话簿失败，请检查您的设备上是否存在电话簿应用</string>
+    <string name="crop_avatar_failed">选择头像失败，请在设置-反馈中向我们报告这个问题</string>
 </resources>

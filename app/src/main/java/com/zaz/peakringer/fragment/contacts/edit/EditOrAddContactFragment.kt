@@ -119,9 +119,14 @@ class EditOrAddContactFragment : BaseFragment(), View.OnClickListener {
     private fun crop(uri: Uri){
         val targetFile = viewModel.getTmpAvatarUri()
         Log.d(TAG, "targetUri: $targetFile")
-        targetFile?.let { target->
+        targetFile.let { target->
             val request = CropImage.CropRequest(uri,target)
-            cropImageLauncher.launch(request)
+            try {
+                cropImageLauncher.launch(request)
+            } catch (e: Exception) {
+                Log.e(TAG, "crop: e=${e.message}", e)
+                PRToast.show(requireContext().applicationContext,getString(R.string.crop_avatar_failed))
+            }
         }
     }
     private fun initView(savedInstanceState: Bundle?) {

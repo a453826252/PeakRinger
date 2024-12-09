@@ -155,7 +155,12 @@ class ContactsFragment : BaseFragment() {
 
     private fun pickContacts(){
         Log.d(TAG, "pickContacts")
-        pickContactLauncher.launch(null)
+        try {
+            pickContactLauncher.launch(null)
+        } catch (e: Exception) {
+            Log.e(TAG, "pickContacts: e=${e.message}",e )
+            PRToast.show(requireContext().applicationContext,getString(R.string.open_phone_book_failed))
+        }
     }
 
     private fun addByHand(){

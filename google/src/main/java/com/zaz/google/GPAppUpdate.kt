@@ -74,6 +74,7 @@ object GPAppUpdate : IUpdate {
     }
 
     override fun checkUpdate(context: Context, resultCallback: (UpdateCheckResult) -> Unit) {
+        Log.d(TAG, "checkUpdate: begin")
         appUpdateManager = AppUpdateManagerFactory.create(context)
         val appUpdateInfoTask = appUpdateManager.appUpdateInfo
         appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
@@ -81,17 +82,19 @@ object GPAppUpdate : IUpdate {
             this.appUpdateInfo = appUpdateInfo
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
                 //有可用更新
-                if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+                    //灵活更新
+                    val clientVersionStalenessDays = appUpdateInfo.clientVersionStalenessDays() ?: Int.MAX_VALUE
+                    Log.d(TAG, "checkUpdate: clientVersionStalenessDays=$clientVersionStalenessDays")
+                    updateCheckResult = if (clientVersionStalenessDays >= 15) {
+                        //超过15还未更新，强制更新
+                        UpdateCheckResult.UPDATE_IMMEDIATE
+                    } else {
+                        UpdateCheckResult.UPDATE_FLEX
+                    }
+                }else if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
                     //强制更新
                     updateCheckResult = UpdateCheckResult.UPDATE_IMMEDIATE
-                } else if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
-                    //灵活更新
-                    if ((appUpdateInfo.clientVersionStalenessDays() ?: Int.MAX_VALUE) >= 15) {
-                        //超过15还未更新，强制更新
-                        updateCheckResult = UpdateCheckResult.UPDATE_IMMEDIATE
-                    } else {
-                        updateCheckResult = UpdateCheckResult.UPDATE_FLEX
-                    }
                 }
             } else if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
                 updateCheckResult = UpdateCheckResult.UPDATE_STOPPED
@@ -120,13 +123,14 @@ object GPAppUpdate : IUpdate {
     }
 
     override fun install(context: Context): Boolean {
-        return if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
-            Log.d(TAG, "install: installStatus=${appUpdateInfo.installStatus()}")
+        try {
             appUpdateManager.completeUpdate()
-            true
-        } else {
-            false
+            return true
+        } catch (e: Exception) {
+            Log.e(TAG, "install: ex=${e.message}",e)
+           return false
         }
+
     }
 
     private fun startUpdate(
