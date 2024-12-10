@@ -15,22 +15,11 @@ class SettingItemVM: BaseViewModel() {
     fun getSettingItems(context: Context):MutableList<SettingItemBean>{
         val result = mutableListOf<SettingItemBean>()
         // 开关
-        val titleAndSubtitle = if(context.isFeatureOpen()){
-            context.getString(R.string.disable) to context.getString(R.string.enabled)
-        }else{
-            val autoOpenTime = context.autoOpenTime()
-            if(autoOpenTime > 0){
-                context.getString(R.string.enable_immediately) to context.getString(R.string.auto_enable_after,TimeUtils.getFormatTimeFromNow(context,autoOpenTime))
-            }else{
-                context.getString(R.string.enable) to context.getString(R.string.disabled)
-            }
-
-        }
+        val subtitle = getStateTxt(context,context.isFeatureOpen(),context.autoOpenTime())
         val toggle = SettingItemBean(SettingItemBean.ID_TOGGLE).apply {
             icon = R.mipmap.ic_power
-            title = titleAndSubtitle.first
-            subTitle = titleAndSubtitle.second
-            subTitleClickTag = SettingItemBean.SUBTITLE_CLICK_TAG_MODIFY_TEMP_CLOSE_TIME
+            title = "${context.getString(R.string.enable)}/${context.getString(R.string.disable)}"
+            subTitle = subtitle
         }
         result.add(toggle)
 
@@ -64,9 +53,28 @@ class SettingItemVM: BaseViewModel() {
         return result
     }
 
+    fun getStateTxt(context: Context,isOpen:Boolean,autoOpenAt:Long):String{
+        return if(isOpen){
+            context.getString(R.string.enabled)
+        }else{
+            if(autoOpenAt > 0){
+                context.getString(R.string.auto_enable_after,TimeUtils.getFormatTimeFromNow(context,autoOpenAt))
+            }else{
+                context.getString(R.string.disabled)
+            }
+        }
+    }
+
     fun getCloseMenu(context: Context):List<StringItemBean>{
         val result = mutableListOf<StringItemBean>()
-        result.add(StringItemBean(StringItemBean.PowerCloseType.TYPE_CLOSE_NOW,context.getString(R.string.disable)))
+        if(!context.isFeatureOpen()){
+            result.add(StringItemBean(StringItemBean.PowerCloseType.TYPE_OPEN,context.getString(R.string.enable_immediately)))
+            if(context.autoOpenTime() != -1L){
+                result.add(StringItemBean(StringItemBean.PowerCloseType.TYPE_CLOSE_NOW,context.getString(R.string.disable_permanent)))
+            }
+        }else{
+            result.add(StringItemBean(StringItemBean.PowerCloseType.TYPE_CLOSE_NOW,context.getString(R.string.disable_permanent)))
+        }
         result.add(StringItemBean(StringItemBean.PowerCloseType.TYPE_CLOSE_MIN_30,context.getString(R.string.close_temp,"30${context.getString(
             com.zaz.support.R.string.time_min)}")))
         result.add(StringItemBean(StringItemBean.PowerCloseType.TYPE_CLOSE_MIN_60,context.getString(R.string.close_temp,"60${context.getString(com.zaz.support.R.string.time_min)}")))

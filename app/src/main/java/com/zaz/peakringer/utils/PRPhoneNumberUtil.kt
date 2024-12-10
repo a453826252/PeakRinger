@@ -20,21 +20,24 @@ object PRPhoneNumberUtil {
         networkCountryIso = telephonyManager.networkCountryIso.uppercase(Locale.ROOT)
     }
     fun match(number:String):Boolean{
+        return getContactId(number) > 0
+    }
+    fun getContactId(number:String):Int{
         if(TextUtils.isEmpty(number)){
             Log.e(TAG, "match: number is empty")
-            return false
+            return 0
         }
         val allContacts = PRDbRepository.getContacts()
         if(allContacts.isEmpty()){
             Log.e(TAG, "match: local contacts is empty")
-            return false
+            return 0
         }
         Log.d(TAG, "match: number=$number")
         val n1: Phonenumber.PhoneNumber
         try {
             n1 = phoneNumberUtils.parseAndKeepRawInput(number,networkCountryIso)
         } catch (e: NumberParseException) {
-            return false
+            return 0
         }
         for(dbContact in allContacts){
             val dbNumber = dbContact.phoneNumber.formatToPhoneNumber
@@ -47,13 +50,13 @@ object PRPhoneNumberUtil {
             }
             val matchType: PhoneNumberUtil.MatchType = phoneNumberUtils.isNumberMatch(n1, n2)
             if (matchType === PhoneNumberUtil.MatchType.EXACT_MATCH || matchType === PhoneNumberUtil.MatchType.NSN_MATCH) {
-                return true
+                return dbContact.id
             } else if (matchType === PhoneNumberUtil.MatchType.SHORT_NSN_MATCH && n1.nationalNumber == n2.nationalNumber && n1.countryCode == n2.countryCode) {
-                return true
+                return dbContact.id
             }
         }
         Log.d(TAG, "match: no match!")
-        return false
+        return 0
     }
 
     fun format(number: String):String{

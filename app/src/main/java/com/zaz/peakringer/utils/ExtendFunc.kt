@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import com.zaz.peakringer.activity.CommonActivity
+import com.zaz.peakringer.manager.ListenContactsSwitchStateManager
 import com.zaz.support.utils.SpUtils
 
 fun Fragment.startFragment(type: Int,data:Bundle?=null) {
@@ -25,7 +26,8 @@ fun Context.isFeatureOpen():Boolean{
         }else{
             val autoOpenTime = autoOpenTime()
             val currentTime = System.currentTimeMillis() / 1000
-            if(autoOpenTime in 1..currentTime){
+            Log.d("isFeatureOpen", "isFeatureOpen: currentTime=$currentTime,autoOpenTime=$autoOpenTime")
+            if(autoOpenTime in 1 .. currentTime){
                 enableFeature()
                 true
             }else{
@@ -43,17 +45,12 @@ fun Context.enableFeature(){
 fun Context.disableFeature(){
     changeOpen(this,false)
 }
-private fun changeOpen(context: Context,open:Boolean){
-    Log.d("changeOpen", "open=$open")
-    with(SpUtils.getPrConfigInstance(context)){
-        putBoolean(SpUtils.FEATURE_OPEN,open)
-        remove(SpUtils.AUTO_OPEN_AT)
-    }
-}
+
 fun Context.disableFeatureTemporary(temporaryTime: Int){
     Log.d("disableFeatureTemporary", "disableFeatureTemporary:temporaryTime=$temporaryTime")
     disableFeatureBefore(System.currentTimeMillis() / 1000 + temporaryTime)
 }
+
 fun Context.disableFeatureBefore(time: Long){
     val currentTime = System.currentTimeMillis() / 1000
     if(time < currentTime){
@@ -61,10 +58,15 @@ fun Context.disableFeatureBefore(time: Long){
         return
     }
     Log.d("disableFeatureBefore", "disableFeatureBefore:time=$time")
-    with(SpUtils.getPrConfigInstance(this)){
-        putBoolean(SpUtils.FEATURE_OPEN,false)
-        putLong(SpUtils.AUTO_OPEN_AT,time)
-    }
+    SpUtils.getPrConfigInstance(this).putBoolean(SpUtils.FEATURE_OPEN,false).putLong(SpUtils.AUTO_OPEN_AT,time)
+    ListenContactsSwitchStateManager.onStateChanged(false,time)
+}
+private fun changeOpen(context: Context,open:Boolean){
+    Log.d("changeOpen", "open=$open")
+    SpUtils.getPrConfigInstance(context)
+        .putBoolean(SpUtils.FEATURE_OPEN,open)
+        .remove(SpUtils.AUTO_OPEN_AT)
+    ListenContactsSwitchStateManager.onStateChanged(open)
 }
 
 fun Context.autoOpenTime() = SpUtils.getPrConfigInstance(this).getLong(SpUtils.AUTO_OPEN_AT,-1)

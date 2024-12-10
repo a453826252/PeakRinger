@@ -20,5 +20,6 @@ data class StringItemBean(
         const val TYPE_CLOSE_MIN_60 = 3
         const val TYPE_CLOSE_HOUR_3 = 4
         const val TYPE_CLOSE_CUSTOM = 5
+        const val TYPE_OPEN = 6
     }
 }

@@ -20,6 +20,7 @@ import com.zaz.peakringer.receiver.StaticsBroadcast
 import com.zaz.peakringer.utils.PRPhoneNumberUtil
 import com.zaz.peakringer.utils.UpdateUtils
 import com.zaz.peakringer.utils.isFeatureOpen
+import com.zaz.support.AppGlobal
 import com.zaz.support.config.NotificationChannelConfig
 import com.zaz.support.config.NotificationConfig
 import com.zaz.support.utils.isPermissionGranted
@@ -46,7 +47,7 @@ class PRCallScreenService: CallScreeningService() {
                 var specialCallNumber = false
                 try {
                     val phoneNumber = details.handle.schemeSpecificPart
-                    if(!phoneNumber.isNullOrBlank() && PRPhoneNumberUtil.match(phoneNumber)){
+                    if(!phoneNumber.isNullOrBlank() && PRPhoneNumberUtil.match(phoneNumber) ){
                         specialCallNumber = true
                         val job = scope.async{
                             //将铃声调整到最大
@@ -57,7 +58,10 @@ class PRCallScreenService: CallScreeningService() {
                                     //android12以上
                                     tm.registerTelephonyCallback(Dispatchers.Main.asExecutor(),PhoneStateCallbackListener)
                                 }else{
-                                    tm.listen(PrPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE)
+                                    withContext(Dispatchers.Main){
+                                        //需要在存在looper的线程中调用
+                                        tm.listen(PrPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE)
+                                    }
                                 }
                             }else{
                                 withContext(Dispatchers.Main){
@@ -175,6 +179,7 @@ class PRCallScreenService: CallScreeningService() {
             Log.d(TAG, "PhoneStateCallbackListener/onCallStateChanged: state=$state")
             if(TelephonyManager.CALL_STATE_RINGING != state){
                 RingerSteamManager.recover()
+                (AppGlobal.application.getSystemService(Service.TELEPHONY_SERVICE) as TelephonyManager).unregisterTelephonyCallback(this)
             }
         }
     }
@@ -183,6 +188,7 @@ class PRCallScreenService: CallScreeningService() {
             Log.d(TAG, "PrPhoneStateListener/onCallStateChanged: state=$state")
             if(TelephonyManager.CALL_STATE_RINGING != state){
                 RingerSteamManager.recover()
+                (AppGlobal.application.getSystemService(Service.TELEPHONY_SERVICE) as TelephonyManager).listen(this,PhoneStateListener.LISTEN_NONE)
             }
         }
     }

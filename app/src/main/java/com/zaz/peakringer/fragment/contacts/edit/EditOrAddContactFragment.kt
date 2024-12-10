@@ -244,12 +244,12 @@ class EditOrAddContactFragment : BaseFragment(), View.OnClickListener {
             PRToast.show(requireContext(), R.string.fill_contact_phone.string(requireContext()))
             return
         }
-        if(PRPhoneNumberUtil.match(phoneNum) && contact == null){
+        val dbContactId = PRPhoneNumberUtil.getContactId(phoneNum)
+        if(dbContactId > 0 && (contact == null || dbContactId != contact?.id)){
             Log.e(TAG, "addContacts:  phone number $phoneNum already exists")
             PRToast.show(requireContext(),requireContext().getString(R.string.contact_phone_exist_yet))
             return
         }
-
 
         val addResult = viewModel.addContact(
             requireContext(),

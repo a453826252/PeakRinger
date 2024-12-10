@@ -94,4 +94,6 @@
     <string name="go_setting">Set</string>
     <string name="open_phone_book_failed">Failed to open the phonebook, please check if there is a phonebook app on your device</string>
     <string name="crop_avatar_failed">Failed to select avatar, please report this issue to us in  Settings-Feedback section</string>
+    <string name="selected_time_less_then_current">Selected time less than the current time and we has automatically enabled for you</string>
+    <string name="disable_permanent">Disabled permanently</string>
 </resources>

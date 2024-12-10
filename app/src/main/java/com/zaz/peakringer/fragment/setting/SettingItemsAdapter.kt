@@ -7,7 +7,7 @@ import com.zaz.peakringer.R
 import com.zaz.peakringer.base.BaseRecyclerAdapter
 import com.zaz.peakringer.databinding.ItemSettingBinding
 
-class SettingItemsAdapter(data: MutableList<SettingItemBean>,val onItemClick:(Int,SettingItemBean)->Unit,val onSubtitleClick:(Int,SettingItemBean)->Unit): BaseRecyclerAdapter<SettingItemBean, ItemSettingBinding>(data),
+class SettingItemsAdapter(data: MutableList<SettingItemBean>,val onItemClick:(Int,SettingItemBean)->Unit): BaseRecyclerAdapter<SettingItemBean, ItemSettingBinding>(data),
     View.OnClickListener {
     override fun getView(
         layoutInflater: LayoutInflater,
@@ -24,13 +24,6 @@ class SettingItemsAdapter(data: MutableList<SettingItemBean>,val onItemClick:(In
         vh.itemView.setTag(R.id.item_setting_data,data)
         vh.itemView.setTag(R.id.item_setting_position,position)
         vh.itemView.setOnClickListener(this)
-        if(data.subTitleClickTag != 0){
-            vh.viewBinding.itemSettingSubtitle.setOnClickListener{
-                onSubtitleClick(position,data)
-            }
-        }else{
-            vh.viewBinding.itemSettingSubtitle.setOnClickListener(null)
-        }
     }
 
     override fun onClick(v: View) {

@@ -3,6 +3,7 @@ package com.zaz.peakringer.fragment.setting
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +14,9 @@ import com.zaz.peakringer.R
 import com.zaz.peakringer.activity.CommonActivity
 import com.zaz.peakringer.bean.StringItemBean
 import com.zaz.peakringer.databinding.FragementSettingBinding
+import com.zaz.peakringer.manager.ListenContactsSwitchStateManager
 import com.zaz.peakringer.utils.disableFeature
+import com.zaz.peakringer.utils.enableFeature
 import com.zaz.peakringer.utils.isFeatureOpen
 import com.zaz.peakringer.utils.startFragment
 import com.zaz.support.base.BaseFragment
@@ -29,6 +32,9 @@ class SettingFragment : BaseFragment() {
     private lateinit var binding: FragementSettingBinding
     private val viewModel: SettingItemVM by viewModels()
     private lateinit var settingItemsAdapter: SettingItemsAdapter
+    companion object{
+        private const val TAG = "SettingFragment"
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,7 +47,7 @@ class SettingFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         settingItemsAdapter =
-            SettingItemsAdapter(viewModel.getSettingItems(requireContext()), ::onSettingItemClick,::onSubtitleClick)
+            SettingItemsAdapter(viewModel.getSettingItems(requireContext()), ::onSettingItemClick)
         with(binding.settingItems) {
             this.adapter = settingItemsAdapter
             addItemDecoration(
@@ -52,6 +58,13 @@ class SettingFragment : BaseFragment() {
             )
             layoutManager = LinearLayoutManager(requireContext())
         }
+        ListenContactsSwitchStateManager.addObserver(this){ state->
+            settingItemsAdapter.getItem(SettingItemBean.ID_TOGGLE)?.let {
+                settingItemsAdapter.notifyItemChanged(it.apply {
+                    this.subTitle = viewModel.getStateTxt(requireContext(),state.isOpen,state.autoOpenAt)
+                })
+            }
+        }
     }
 
     override fun getBaseViewModel(): BaseViewModel {
@@ -61,20 +74,8 @@ class SettingFragment : BaseFragment() {
     private fun onSettingItemClick(position:Int,item: SettingItemBean) {
         when (item.id) {
             SettingItemBean.ID_TOGGLE -> {
-                val isOpened = requireContext().isFeatureOpen()
-                if(isOpened){
-                    //open->close
-                    //show dialog content
-                    val menu = viewModel.getCloseMenu(requireContext())
-                    BottomItemDialog.show(childFragmentManager,menu,::onDisableMenuItemClick)
-                }else{
-                    //close->open
-                    item.subTitle = requireContext().getString(R.string.enabled)
-                    item.title = requireContext().getString(R.string.disable)
-                    settingItemsAdapter.notifyItemChanged(position)
-                    viewModel.enable(requireContext())
-                    PRToast.show(requireContext().applicationContext,requireContext().getString(R.string.enabled))
-                }
+                val menu = viewModel.getCloseMenu(requireContext())
+                BottomItemDialog.show(childFragmentManager,menu,::onDisableMenuItemClick)
             }
 
             SettingItemBean.ID_FEEDBACK -> {
@@ -119,57 +120,51 @@ class SettingFragment : BaseFragment() {
         }
     }
 
-    private fun onSubtitleClick(position: Int,data:SettingItemBean){
-        when(data.subTitleClickTag){
-            SettingItemBean.SUBTITLE_CLICK_TAG_MODIFY_TEMP_CLOSE_TIME->{
-                val menu = viewModel.getCloseMenu(requireContext())
-                BottomItemDialog.show(childFragmentManager,menu,::onDisableMenuItemClick)
-            }
-        }
-    }
-
     private fun onDisableMenuItemClick(item:StringItemBean){
         when(item.id){
+            StringItemBean.PowerCloseType.TYPE_OPEN->{
+                with(requireContext()){
+                    enableFeature()
+                    PRToast.show(requireContext(),getString(R.string.enabled))
+                }
+            }
             StringItemBean.PowerCloseType.TYPE_CLOSE_NOW->{
                 with(requireContext()){
                     disableFeature()
-                    closeItemUi(getString(R.string.enable),getString(R.string.disabled))
+                    PRToast.show(requireContext(),getString(R.string.disabled))
                 }
             }
             StringItemBean.PowerCloseType.TYPE_CLOSE_MIN_30->{
                 with(requireContext()){
                     viewModel.disableTemporary(this,30 * 60)
-                    closeItemUi(getString(R.string.enable_immediately),getString(R.string.auto_enable_after,"30${getString(com.zaz.support.R.string.time_min)}"))
+                    PRToast.show(requireContext(),getString(R.string.auto_enable_after,"30${getString(com.zaz.support.R.string.time_min)}"))
                 }
             }
             StringItemBean.PowerCloseType.TYPE_CLOSE_MIN_60->{
                 with(requireContext()){
                     viewModel.disableTemporary(this,60 * 60)
-                    closeItemUi(getString(R.string.enable_immediately),getString(R.string.auto_enable_after,"60${getString(com.zaz.support.R.string.time_min)}"))
+                    PRToast.show(requireContext(),getString(R.string.auto_enable_after,"60${getString(com.zaz.support.R.string.time_min)}"))
                 }
             }
             StringItemBean.PowerCloseType.TYPE_CLOSE_HOUR_3->{
                 with(requireContext()){
                     viewModel.disableTemporary(this,3* 60 * 60)
-                    closeItemUi(getString(R.string.enable_immediately),getString(R.string.auto_enable_after,"3${getString(com.zaz.support.R.string.time_hour)}"))
+                    PRToast.show(requireContext(),getString(R.string.auto_enable_after,"3${getString(com.zaz.support.R.string.time_hour)}"))
                 }
             }
             else->{
                 DatePickerBottomDialog.show(childFragmentManager){
-                    viewModel.disableBefore(requireContext(),it)
-                    closeItemUi(getString(R.string.enable_immediately),getString(R.string.auto_enable_after, SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(it * 1000)))
+                    Log.d(TAG, "onDisableMenuItemClick: selected time=${it / 1000}")
+                    if(System.currentTimeMillis() >= it){
+                        PRToast.show(requireContext(),getString(R.string.selected_time_less_then_current))
+                        viewModel.enable(requireContext())
+                    }else{
+                        viewModel.disableBefore(requireContext(),it / 1000)
+                        PRToast.show(requireContext(),getString(R.string.auto_enable_after, SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(it)))
+                    }
                 }
             }
         }
     }
 
-    private fun closeItemUi(title:String,subtitle:String){
-        PRToast.show(requireContext().applicationContext,title)
-        settingItemsAdapter.getItem(SettingItemBean.ID_TOGGLE)?.let {
-            settingItemsAdapter.notifyItemChanged(it.apply {
-                this.title = title
-                this.subTitle = subtitle
-            })
-        }
-    }
 }

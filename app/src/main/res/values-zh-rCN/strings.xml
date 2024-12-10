@@ -95,4 +95,6 @@
     <string name="go_setting">设置</string>
     <string name="open_phone_book_failed">打开电话簿失败，请检查您的设备上是否存在电话簿应用</string>
     <string name="crop_avatar_failed">选择头像失败，请在设置-反馈中向我们报告这个问题</string>
+    <string name="selected_time_less_then_current">选择时间小于当前时间，已自动为您开启</string>
+    <string name="disable_permanent">永久关闭</string>
 </resources>

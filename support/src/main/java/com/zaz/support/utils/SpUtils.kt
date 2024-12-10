@@ -47,7 +47,7 @@ object SpUtils {
         }
 
         fun remove(key: String){
-            spInstance.edit().remove(key).apply()
+            spInstance.edit().remove("${spName}_$key").apply()
         }
     }
 }

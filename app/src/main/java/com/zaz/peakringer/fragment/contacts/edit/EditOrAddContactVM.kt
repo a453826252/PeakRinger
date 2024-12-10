@@ -43,9 +43,9 @@ class EditOrAddContactVM : BaseViewModel() {
             }
             context.contentResolver.delete(it,null,null)
         }
-
         return PRDbRepository.addContact(bean) > 0
     }
+
     fun addAvatar(context: Context,uri: Uri){
         viewModelScope.launch {
             try {

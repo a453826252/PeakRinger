@@ -10,6 +10,7 @@ import com.zaz.peakringer.databinding.DialogBottomDatePickerBinding
 import com.zaz.support.base.BaseBottomDialog
 import com.zaz.support.utils.color
 import java.text.SimpleDateFormat
+import java.util.Calendar
 
 class DatePickerBottomDialog:BaseBottomDialog() {
     companion object{
@@ -36,6 +37,8 @@ class DatePickerBottomDialog:BaseBottomDialog() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(viewBinding.timePicker) {
+            setMinMillisecond(System.currentTimeMillis())
+            setMaxMillisecond(System.currentTimeMillis() + 86400000 * 365L) //最多一年
             setThemeColor(com.zaz.support.R.color.main_color.color(requireContext()))
             val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
             setOnDateTimeChangedListener {
@@ -43,8 +46,9 @@ class DatePickerBottomDialog:BaseBottomDialog() {
                 viewBinding.timePickerResult.text = getString(R.string.auto_enable_after, timeFormat)
             }
         }
+        Calendar.getInstance()
         viewBinding.timePickerSelectBtn.setOnClickListener {
-            onTimeSelected?.invoke(viewBinding.timePicker.getMillisecond() / 1000)
+            onTimeSelected?.invoke(viewBinding.timePicker.getMillisecond())
             dismiss()
         }
     }
