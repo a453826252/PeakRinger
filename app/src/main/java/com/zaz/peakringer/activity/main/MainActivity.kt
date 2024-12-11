@@ -36,7 +36,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
-import java.util.Calendar
 
 class MainActivity : BaseActivity() {
     companion object{
@@ -244,7 +243,8 @@ class MainActivity : BaseActivity() {
                             emit(it)
                         }
                     }
-                    .transform {
+                    .collect{
+                        Log.d(TAG, "proceedIntent: intent proceed complete!")
                         UpdateUtils.checkUpdate(activity){
                             Log.d(TAG, "checkUpdate: result=$it")
                             if(it != UpdateCheckResult.NO_UPDATE){
@@ -253,72 +253,8 @@ class MainActivity : BaseActivity() {
                                     callback = ::onUpdateDownloadCallback
                                     googleUpdateLauncher = gpUpdate
                                 })
-                            }else{
-                                launch {
-                                    emit(it)
-                                }
                             }
                         }
-                    }
-                    .transform{
-                        // launch permission check
-                        val permissions = ArrayList<PermissionItem>()
-                        if(CallScreenRoleManager.isRoleAvailable()){
-                            if(!CallScreenRoleManager.isRoleHeld()){
-                                permissions.add(
-                                    PermissionItem(
-                                        LaunchPermissionDialog.ROLE_PERMISSION,
-                                        getString(R.string.default_caller_id),
-                                        R.mipmap.ic_notification,
-                                        getString(R.string.default_caller_id_subtitle)
-                                    )
-                                )
-                            }
-                        }else{
-                            PRDialog.Builder()
-                                .setTitle(activity.getString(R.string.important))
-                                .setContent(activity.getString(R.string.device_not_support))
-                                .setRightBtnName(activity.getString(com.zaz.support.R.string.yes))
-                                .show(activity.supportFragmentManager)
-                            return@transform
-                        }
-
-                        if(!isPermissionGranted(android.Manifest.permission.READ_PHONE_STATE)){
-                            //取消通知
-                            activity.sendBroadcast(
-                                Intent(StaticsBroadcast.ACTION_CANCEL_NOTIFICATION).apply {
-                                    putExtra(
-                                        StaticsBroadcast.Notification_ID,
-                                        Constant.NotificationId.NO_READ_PHONE_STATE_PERMISSION
-                                    )
-                                setPackage(packageName)
-                            })
-                            permissions.add(
-                                PermissionItem(
-                                    LaunchPermissionDialog.READ_PHONE_STATE,
-                                    getString(R.string.read_phone_state),
-                                    R.mipmap.ic_phone_blue,
-                                    getString(R.string.read_phone_state_subtitle)
-                                )
-                            )
-                        }
-                        if(permissions.isNotEmpty()){
-                            LaunchPermissionDialog.show(activity, permissions){
-                                for (permission in permissions){
-                                    if(permission.permission == LaunchPermissionDialog.ROLE_PERMISSION && !CallScreenRoleManager.isRoleHeld() && !userRejectDefaultCallIdPermission){
-                                        showNoDefaultCallIdPermissionDialog()
-                                        break
-                                    }else if(permission.permission == LaunchPermissionDialog.READ_PHONE_STATE && !isPermissionGranted(android.Manifest.permission.READ_PHONE_STATE) && !userRejectPhoneStatePermission){
-                                        showNoPhoneStatePermissionDialog()
-                                        break
-                                    }
-                                }
-                            }
-                        }else{
-                            emit(it)
-                        }
-                    }.collect{
-                        Log.d(TAG, "proceedIntent: intent proceed complete!")
                     }
             }
         }
