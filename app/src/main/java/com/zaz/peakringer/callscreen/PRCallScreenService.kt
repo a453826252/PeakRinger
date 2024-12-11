@@ -125,11 +125,10 @@ class PRCallScreenService: CallScreeningService() {
                     Log.e(TAG, "onScreenCall: e=${e.message}", e)
                 }finally {
                     respondToCall(details,CallResponse.Builder().setDisallowCall(false).build()) //5s内要调用该方法
-                    checkUpdate()
                     httpApi.reportIncall(if(specialCallNumber) 1 else 0).collect{
                         Log.d(TAG, "reportIncall: response=$it")
                     }
-
+                    checkUpdate()
                 }
             }
         } else {

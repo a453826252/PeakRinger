@@ -66,6 +66,7 @@ class MainActivity : BaseActivity() {
                 // you can request to start the update again.
             }
         }
+        checkLaunchPermission()
         proceedIntent()
     }
 
@@ -168,6 +169,62 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    private fun checkLaunchPermission(){
+        val permissions = ArrayList<PermissionItem>()
+        if(CallScreenRoleManager.isRoleAvailable()){
+            if(!CallScreenRoleManager.isRoleHeld()){
+                permissions.add(
+                    PermissionItem(
+                        LaunchPermissionDialog.ROLE_PERMISSION,
+                        getString(R.string.default_caller_id),
+                        R.mipmap.ic_notification,
+                        getString(R.string.default_caller_id_subtitle)
+                    )
+                )
+            }
+        }else{
+            PRDialog.Builder()
+                .setTitle(getString(R.string.important))
+                .setContent(getString(R.string.device_not_support))
+                .setRightBtnName(getString(com.zaz.support.R.string.yes))
+                .show(supportFragmentManager)
+            return
+        }
+
+        if(!isPermissionGranted(android.Manifest.permission.READ_PHONE_STATE)){
+            //取消通知
+            sendBroadcast(
+                Intent(StaticsBroadcast.ACTION_CANCEL_NOTIFICATION).apply {
+                    putExtra(
+                        StaticsBroadcast.Notification_ID,
+                        Constant.NotificationId.NO_READ_PHONE_STATE_PERMISSION
+                    )
+                    setPackage(packageName)
+                })
+            permissions.add(
+                PermissionItem(
+                    LaunchPermissionDialog.READ_PHONE_STATE,
+                    getString(R.string.read_phone_state),
+                    R.mipmap.ic_phone_blue,
+                    getString(R.string.read_phone_state_subtitle)
+                )
+            )
+        }
+        if(permissions.isNotEmpty()){
+            LaunchPermissionDialog.show(this, permissions){
+                for (permission in permissions){
+                    if(permission.permission == LaunchPermissionDialog.ROLE_PERMISSION && !CallScreenRoleManager.isRoleHeld() && !userRejectDefaultCallIdPermission){
+                        showNoDefaultCallIdPermissionDialog()
+                        break
+                    }else if(permission.permission == LaunchPermissionDialog.READ_PHONE_STATE && !isPermissionGranted(android.Manifest.permission.READ_PHONE_STATE) && !userRejectPhoneStatePermission){
+                        showNoPhoneStatePermissionDialog()
+                        break
+                    }
+                }
+            }
+        }
+    }
+
     override fun getBaseViewModel() = null
 
     private fun proceedIntent(){
@@ -185,6 +242,22 @@ class MainActivity : BaseActivity() {
                             UpdateUtils.install(activity)
                         }else{
                             emit(it)
+                        }
+                    }
+                    .transform {
+                        UpdateUtils.checkUpdate(activity){
+                            Log.d(TAG, "checkUpdate: result=$it")
+                            if(it != UpdateCheckResult.NO_UPDATE){
+                                UpdateUtils.startUpdate(it, StartUpdateConfig().apply {
+                                    this.context = this@MainActivity
+                                    callback = ::onUpdateDownloadCallback
+                                    googleUpdateLauncher = gpUpdate
+                                })
+                            }else{
+                                launch {
+                                    emit(it)
+                                }
+                            }
                         }
                     }
                     .transform{
@@ -244,25 +317,7 @@ class MainActivity : BaseActivity() {
                         }else{
                             emit(it)
                         }
-                    }
-                    .transform {
-                        //检查更新
-                        UpdateUtils.checkUpdate(activity){
-                            Log.d(TAG, "checkUpdate: result=$it")
-                            if(it != UpdateCheckResult.NO_UPDATE){
-                                UpdateUtils.startUpdate(it, StartUpdateConfig().apply {
-                                    this.context = this@MainActivity
-                                    callback = ::onUpdateDownloadCallback
-                                    googleUpdateLauncher = gpUpdate
-                                })
-                            }else{
-                                launch {
-                                    emit(it)
-                                }
-                            }
-                        }
-                    }
-                    .collect{
+                    }.collect{
                         Log.d(TAG, "proceedIntent: intent proceed complete!")
                     }
             }
