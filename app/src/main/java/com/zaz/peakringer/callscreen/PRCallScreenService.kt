@@ -23,6 +23,7 @@ import com.zaz.peakringer.utils.isFeatureOpen
 import com.zaz.support.AppGlobal
 import com.zaz.support.config.NotificationChannelConfig
 import com.zaz.support.config.NotificationConfig
+import com.zaz.support.utils.SpUtils
 import com.zaz.support.utils.isPermissionGranted
 import com.zaz.support.utils.showNotification
 import com.zaz.update.UpdateCheckResult
@@ -52,6 +53,9 @@ class PRCallScreenService: CallScreeningService() {
                         val job = scope.async{
                             //将铃声调整到最大
                             RingerSteamManager.maxSteam()
+                            val count = SpUtils.getPrConfigInstance(this@PRCallScreenService).getInt(SpUtils.MAX_VOLUME_COUNT,0)
+                            Log.d(TAG, "onScreenCall: max count = $count")
+                            SpUtils.getPrConfigInstance(this@PRCallScreenService).putInt(SpUtils.MAX_VOLUME_COUNT,count + 1)
                             if(isPermissionGranted(android.Manifest.permission.READ_PHONE_STATE)){
                                 val tm = getSystemService(Service.TELEPHONY_SERVICE) as TelephonyManager
                                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
