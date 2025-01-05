@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,6 +52,7 @@ class PRDialog private constructor(): DialogFragment() {
             }else{
                 it.content
             }
+            binding.prDialogContent.gravity = it.contentGravity
 
             if(it.leftBtnName.isNullOrBlank()){
                 binding.prDialogCancelButton.visibility = View.GONE
@@ -133,6 +135,11 @@ class PRDialog private constructor(): DialogFragment() {
             config.content = content
             return this
         }
+
+        fun setContentGravity(gravity: Int):Builder{
+            config.contentGravity = gravity
+            return this
+        }
         fun setLeftBtnName(left:String): Builder {
             config.leftBtnName = left
             return this
@@ -176,6 +183,7 @@ class PRDialog private constructor(): DialogFragment() {
     class Config() :Parcelable{
         var title:String? = ""
         var content:String? = ""
+        var contentGravity:Int = Gravity.CENTER
         var leftBtnName:String?=""
         var rightBtnName:String? = ""
         var hideNotShowBtn:Boolean=true

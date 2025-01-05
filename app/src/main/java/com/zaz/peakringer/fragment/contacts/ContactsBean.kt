@@ -12,9 +12,6 @@ data class ContactsBean(
     @ColumnInfo(name = "phone_number")
     val phoneNumber:String,
 
-    @ColumnInfo(name = "display_phone_number")
-    val displayPhoneNumber:String,
-
     @ColumnInfo(name = "name")
     val name:String,
 
@@ -25,28 +22,21 @@ data class ContactsBean(
     @ColumnInfo(name = "id")
     var id:Int = 0,
 ):Parcelable{
-    @ColumnInfo(name = "add_time", defaultValue = "CURRENT_TIMESTAMP")
-    var addTime:Long = 0
     constructor(parcel: Parcel) : this(
         parcel.readString() ?:"",
         parcel.readString()?: "",
-        parcel.readString()?: "",
         parcel.readString(),
         parcel.readInt()
-    ){
-        addTime = parcel.readLong()
-    }
+    )
     override fun describeContents(): Int {
        return 0
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeString(phoneNumber)
-        dest.writeString(displayPhoneNumber)
         dest.writeString(name)
         dest.writeString(icon)
         dest.writeInt(id)
-        dest.writeLong(addTime)
     }
 
     companion object CREATOR : Parcelable.Creator<ContactsBean> {

@@ -96,4 +96,7 @@
     <string name="crop_avatar_failed">Failed to select avatar, please report this issue to us in  Settings-Feedback section</string>
     <string name="selected_time_less_then_current">Selected time less than the current time and we has automatically enabled for you</string>
     <string name="disable_permanent">Disabled permanently</string>
+    <string name="contacts_permission">Contacts Permission</string>
+    <string name="to_receive_incoming_call">To obtain incoming call information</string>
+    <string name="above_11_need_contacts_permission">Due to the limitations of Android 11 and above.When the contact you added is in your phone book, &appname; can not obtain the incoming call information without the contacts permission.</string>
 </resources>

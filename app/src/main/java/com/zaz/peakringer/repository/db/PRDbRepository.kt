@@ -11,7 +11,6 @@ object PRDbRepository {
 
     fun addContact(contact: ContactsBean):Long{
        return db.runInTransaction(Callable {
-            contact.addTime = System.currentTimeMillis() / 1000
             db.contactsDao().addContact(contact)
         })
     }
@@ -22,7 +21,6 @@ object PRDbRepository {
 
     fun addContacts(contacts: List<ContactsBean>){
         db.runInTransaction{
-            contacts.forEach { it.addTime = System.currentTimeMillis() / 1000 }
             db.contactsDao().addContacts(contacts)
         }
     }

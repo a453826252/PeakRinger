@@ -36,55 +36,78 @@ class ContactsFragmentVM: BaseViewModel() {
                     if (cursor.moveToNext()){
                         val nameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
                         //获取联系人姓名
-                        val displayName = cursor.getString(nameIndex)
-                        var phoneNumber = ""
+                        var displayName = cursor.getString(nameIndex)
+                        if(displayName.isEmpty()){
+                            displayName = "No Name"
+                        }
                         //获取id
                         val idIndex = cursor.getColumnIndex(ContactsContract.Contacts._ID)
                         val id = cursor.getLong(idIndex)
                         //判断是否有手机号
                         val hasPhoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.HAS_PHONE_NUMBER)
                         val hasPhone = cursor.getString(hasPhoneIndex) //等于1就是有手机号
+                        val phoneNumbers = mutableListOf<String>()
                         if(hasPhone == "1"){
                             //重新查询手机号
                             context.contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,"${ContactsContract.CommonDataKinds.Phone.CONTACT_ID} = $id",null,null)?.use { phonesCursor->
                                 while (phonesCursor.moveToNext()){
                                     val phoneIndex = phonesCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
-                                    phoneNumber = phonesCursor.getString(phoneIndex)
+                                    val phoneNumber = phonesCursor.getString(phoneIndex)
+                                    if(phoneNumber.isBlank() || phoneNumber.formatToPhoneNumber.isBlank()){
+                                        continue
+                                    }
+                                    if(phoneNumber.isNotBlank()){
+                                        phoneNumbers.add(phoneNumber)
+                                    }
                                 }
                             }?:Log.e(TAG, "get contacts phoneNum from uri($uri) failed")
                         }
-                        if(phoneNumber.isBlank() || phoneNumber.formatToPhoneNumber.isBlank()){
+                        if(phoneNumbers.isEmpty()){
                             Log.e(TAG, "addContacts: failed to get phone number")
                             PRToast.show(context,context.getString(R.string.get_contact_phone_number_failed))
                             return@launch
                         }
-                        val realPhoneNumber = phoneNumber.formatToPhoneNumber
-                        if(PRPhoneNumberUtil.match(realPhoneNumber)){
-                            Log.e(TAG, "addContacts:  phone number $realPhoneNumber already exists")
+                        var existIconPath:String? = ""
+                        val iterator = phoneNumbers.iterator()
+                        while (iterator.hasNext()){
+                            val phoneNumber = iterator.next()
+                            val dbContact = PRPhoneNumberUtil.getContact(phoneNumber)
+                            if(dbContact != null){
+                                existIconPath = dbContact.icon
+                                Log.d(TAG, "addContacts: phoneNumber already exists in db")
+                                iterator.remove()
+                                continue
+                            }
+                        }
+
+                        if(phoneNumbers.isEmpty()){
                             PRToast.show(context,context.getString(R.string.contact_phone_exist_yet))
                             return@launch
                         }
-                        val avatarUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id)
-                        val input = ContactsContract.Contacts.openContactPhotoInputStream(context.contentResolver, avatarUri)
-                        var avatarPath = Config.getAvatarDefaultPath(context,displayName,phoneNumber,MimeTypeMap.getSingleton().getExtensionFromMimeType(context.contentResolver.getType(avatarUri))?:"")
-                        val avatarFile = File(avatarPath)
-                        if(avatarFile.exists()){
-                            avatarFile.delete()
-                        }
-                        input?.use {
-                            val mkdir = avatarFile.parentFile?.mkdirs()
-                            Log.d(TAG, "addContacts: mkdir result=$mkdir,path=${avatarFile.parentFile?.absolutePath}")
-                            avatarFile.outputStream().use { target->
-                                input.copyTo(target)
+                        if(existIconPath.isNullOrEmpty()){
+                            val avatarUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id)
+                            val input = ContactsContract.Contacts.openContactPhotoInputStream(context.contentResolver, avatarUri)
+                            var avatarPath = Config.getAvatarDefaultPath(context,displayName,phoneNumbers[0],MimeTypeMap.getSingleton().getExtensionFromMimeType(context.contentResolver.getType(avatarUri))?:"")
+                            val avatarFile = File(avatarPath)
+                            if(avatarFile.exists()){
+                                avatarFile.delete()
+                            }
+                            input?.use {
+                                val mkdir = avatarFile.parentFile?.mkdirs()
+                                Log.d(TAG, "addContacts: mkdir result=$mkdir,path=${avatarFile.parentFile?.absolutePath}")
+                                avatarFile.outputStream().use { target->
+                                    input.copyTo(target)
+                                }
+                            }
+                            if(avatarFile.exists() && avatarFile.length() > 0){
+                                existIconPath = avatarFile.absolutePath
                             }
                         }
-                        if(!TextUtils.isEmpty(phoneNumber) && !TextUtils.isEmpty(displayName)){
-                            if(!avatarFile.exists() || avatarFile.length() == 0L){
-                                Log.d(TAG, "addContacts: avatar not exist")
-                                avatarPath = ""
-                            }
-                            PRDbRepository.addContact(ContactsBean(phoneNumber.formatToPhoneNumber,phoneNumber, displayName,avatarPath))
+                        val contacts = mutableListOf<ContactsBean>()
+                        for (phoneNumber in phoneNumbers){
+                            contacts.add(ContactsBean(phoneNumber, displayName,existIconPath))
                         }
+                        PRDbRepository.addContacts(contacts)
                         if(!isActive) return@launch
                         PRDbRepository.getContactsFlow().collect{
                             _contacts.postValue(it)

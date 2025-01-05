@@ -147,31 +147,12 @@ class EditOrAddContactFragment : BaseFragment(), View.OnClickListener {
             }
             binding.editOrAddContactInputName.setText(it.name)
             with(binding.editOrAddContactInputPhone) {
-                setText(it.phoneNumber.formatToPhoneNumber)
+                setText(it.phoneNumber)
             }
         }
         binding.editOrAddContactCancel.setOnClickListener(this)
         binding.editOrAddContactDo.setOnClickListener(this)
         binding.editOrAddContactExistAvatar.setOnClickListener(this)
-        binding.editOrAddContactInputPhone.addTextChangedListener (object :TextWatcher{
-            var lastStr = binding.editOrAddContactInputPhone.text.toString()
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                s?.let {
-                    val currentStr = s.toString()
-                    if(!TextUtils.equals(currentStr,lastStr)){
-                        lastStr = currentStr.formatToPhoneNumber
-                        binding.editOrAddContactInputPhone.setText(lastStr)
-                        binding.editOrAddContactInputPhone.setSelection(lastStr.length)
-                    }
-                }
-            }
-        })
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -253,7 +234,7 @@ class EditOrAddContactFragment : BaseFragment(), View.OnClickListener {
 
         val addResult = viewModel.addContact(
             requireContext(),
-            ContactsBean(phoneNum, phoneNum, name, icon = contact?.icon, id=contact?.id ?: 0),
+            ContactsBean(phoneNum, name, icon = contact?.icon, id=contact?.id ?: 0),
             cropAvatarUri
         )
         Log.d(TAG, "addContact:phone=$phoneNum,name=$name,avatar=$cropAvatarUri succeed=$addResult")

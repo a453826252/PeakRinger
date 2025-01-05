@@ -97,4 +97,7 @@
     <string name="crop_avatar_failed">选择头像失败，请在设置-反馈中向我们报告这个问题</string>
     <string name="selected_time_less_then_current">选择时间小于当前时间，已自动为您开启</string>
     <string name="disable_permanent">永久关闭</string>
+    <string name="contacts_permission">通讯录权限</string>
+    <string name="to_receive_incoming_call">为了能获取到来电通知</string>
+    <string name="above_11_need_contacts_permission">由于Android 11及以上版本系统的限制，当您添加的联系人在您的通讯录中时，&appname;需要拥有通讯录权限才能获取到来电信息</string>
 </resources>

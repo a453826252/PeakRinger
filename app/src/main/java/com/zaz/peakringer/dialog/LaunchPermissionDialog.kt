@@ -18,6 +18,9 @@ class LaunchPermissionDialog:PermissionDialog() {
             READ_PHONE_STATE -> {
                 requireContext().isPermissionGranted(android.Manifest.permission.READ_PHONE_STATE)
             }
+            READ_CONTACTS->{
+                requireContext().isPermissionGranted(android.Manifest.permission.READ_CONTACTS)
+            }
             else -> {
                 false
             }
@@ -43,12 +46,19 @@ class LaunchPermissionDialog:PermissionDialog() {
             READ_PHONE_STATE -> {
                 requireActivity().requestPermissions(arrayOf(android.Manifest.permission.READ_PHONE_STATE),MainActivity.REQUEST_PERMISSION_READ_PHONE_STATE)
             }
+            READ_CONTACTS->{
+                ContactsPermissionDialog.authorizeContactsPermission(
+                    requireContext(),
+                    childFragmentManager
+                )
+            }
         }
     }
 
     companion object{
         const val ROLE_PERMISSION = "role_manager_permission"
         const val READ_PHONE_STATE = "read_phone_state"
+        const val READ_CONTACTS = "read_contacts"
         fun show(activity: FragmentActivity, permissions:ArrayList<PermissionItem>,onCancel:(LaunchPermissionDialog)->Unit){
             val dialog = LaunchPermissionDialog().apply {
                 arguments = Bundle().apply {

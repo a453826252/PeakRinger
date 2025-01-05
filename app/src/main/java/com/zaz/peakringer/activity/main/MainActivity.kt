@@ -1,6 +1,7 @@
 package com.zaz.peakringer.activity.main
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -209,6 +210,17 @@ class MainActivity : BaseActivity() {
                 )
             )
         }
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !isPermissionGranted(android.Manifest.permission.READ_CONTACTS)){
+            permissions.add(
+                PermissionItem(
+                    LaunchPermissionDialog.READ_CONTACTS,
+                    getString(R.string.contacts_permission),
+                    R.mipmap.ic_phonebook,
+                    getString(R.string.to_receive_incoming_call)
+                )
+            )
+        }
+
         if(permissions.isNotEmpty()){
             LaunchPermissionDialog.show(this, permissions){
                 for (permission in permissions){

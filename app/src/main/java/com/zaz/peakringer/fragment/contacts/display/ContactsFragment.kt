@@ -16,6 +16,7 @@ import com.zaz.peakringer.activity.main.MainActivity
 import com.zaz.peakringer.R
 import com.zaz.peakringer.activity.CommonActivity
 import com.zaz.peakringer.databinding.FragmentContactsListBinding
+import com.zaz.peakringer.dialog.ContactsPermissionDialog
 import com.zaz.peakringer.fragment.contacts.ContactsBean
 import com.zaz.peakringer.utils.isFeatureOpen
 import com.zaz.peakringer.utils.startFragment
@@ -27,6 +28,7 @@ import com.zaz.support.dialog.permission.PermissionItem
 import com.zaz.support.utils.PRToast
 import com.zaz.support.utils.SpUtils
 import com.zaz.support.utils.color
+import com.zaz.support.utils.isPermissionGranted
 import com.zaz.support.utils.string
 
 /**
@@ -143,11 +145,9 @@ class ContactsFragment : BaseFragment() {
     }
 
     private fun addFromPhonebook(){
-        PermissionDialog.checkAndShow(requireActivity(),childFragmentManager, PermissionItem(
-            android.Manifest.permission.READ_CONTACTS,
-            R.string.read_contacts.string(requireContext())
-            ,R.mipmap.ic_phonebook
-        )){
+        if(!requireContext().isPermissionGranted(android.Manifest.permission.READ_CONTACTS)){
+            ContactsPermissionDialog.show(requireContext(),childFragmentManager)
+        }else{
             pickContacts()
         }
     }
